@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "Footer",
   "type": "footer",
@@ -18,21 +9,21 @@
           "type": "link_list",
           "settings": {
             "heading": "Shop",
-            "menu": "footer-menu-1"
+            "menu": ""
           }
         },
         "link_list_ewYgtr": {
           "type": "link_list",
           "settings": {
             "heading": "Eyecare",
-            "menu": "footer-menu-2"
+            "menu": ""
           }
         },
         "link_list_8n3WTh": {
           "type": "link_list",
           "settings": {
             "heading": "Company",
-            "menu": "footer-menu-3"
+            "menu": ""
           }
         }
       },
@@ -42,7 +33,10 @@
         "link_list_8n3WTh"
       ],
       "settings": {
+        "footer_logo_width": 108,
         "footer_help_icon_color": "#c32032",
+        "footer_background_color": "#ffffff",
+        "footer_social_color": "#000000",
         "portal_id": "49380860",
         "form_id": "798cd61e-8f76-4364-aff8-69308fc3307d",
         "newsletter_title": "Join our newsletter to enjoy more exclusive offers and the latest updates.",
@@ -52,23 +46,24 @@
         "success_message": "<p>Thankyou for Subscribing</p>",
         "success_message_timeout": 10,
         "error_message": "There seems to be an error while submitting, please try again.",
-        "chat_title": "Chat",
-        "chat_subtext": "Mon-Sat: 8am-7pm ET",
-        "email_title": "Email",
-        "email_subtext": "We usually reply within 24 hours",
-        "email_link": "mailto:customerservice@svsvision.com",
-        "call_title": "Call us",
-        "call_subtext": "Mon-Sat: 8am-7pm ET",
-        "call_link": "tel:12858546833",
+        "footer_tag_link": "",
+        "chat_title": "",
+        "chat_subtext": "",
+        "email_title": "",
+        "email_subtext": "",
+        "email_link": "",
+        "call_title": "",
+        "call_subtext": "",
+        "call_link": "",
         "feedback_title": "",
         "feedback_subtext": "",
         "feedback_link": "",
-        "url1": "Terms and Conditions",
+        "url1": "",
         "url1_link": "shopify://pages/terms-of-use",
-        "url2": "Privacy Policy",
+        "url2": "",
         "url2_link": "shopify://pages/policies",
-        "url3": "Accessibility",
-        "url3_link": "#",
+        "url3": "",
+        "url3_link": "",
         "visa": true,
         "mastercard": true,
         "paypal": true,
