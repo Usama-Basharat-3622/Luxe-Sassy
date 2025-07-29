@@ -1,0 +1,6 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation"
+  class="icon icon-search" fill="none">
+  <circle cx="11" cy="11" r="5.45" stroke="currentColor" stroke-width="1.1" />
+  <path fill="currentColor"
+    d="m15.763 15.097-.395-.383-.765.79.395.383.765-.79Zm2.854 4.298a.55.55 0 0 0 .766-.79l-.766.79Zm-3.62-3.508 3.62 3.508.766-.79-3.62-3.508-.765.79Z" />
+</svg>

@@ -1,0 +1,585 @@
+{% style %}
+  .gs-banner-{{ section.id }} .banner-overlay {
+      background-color: rgba(0,0,0,0.{{ section.settings.overlay_opacity }});
+  }
+  .banner-wrapper-{{ section.id }} {
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+
+  .gs-banner-{{ section.id }} .banner-title, .gs-banner-{{ section.id }} .banner-paragraph, .gs-banner-{{ section.id }} .banner-subheading {
+      color: {{ section.settings.text_color }};
+  }
+  .gs-banner-{{ section.id }} .banner-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+  }
+
+  @media screen and (min-width: 1025px) {
+      .gs-banner .banner-overlay {
+          padding: 4rem 2.4rem;
+      }
+      .banner-wrapper-{{ section.id }} {
+          padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+          width: 100%;
+      }
+      .gs-banner-{{ section.id }} .banner-cta-wrapper {
+          display: flex;
+          flex-direction: row;
+          gap: 1.6rem;
+          margin-top: .8rem;
+      }
+      .gs-banner-{{ section.id }} .banner-subheading{
+          margin-bottom: .4rem;
+      }
+  }
+
+  @media screen and (max-width: 1024px) {
+      .gs-banner .banner-overlay {
+          padding: 3.2rem 1.6rem;
+      }
+      .banner-wrapper-{{ section.id }} {
+          padding: {{ section.settings.padding_top_alter }}px 1.6rem {{ section.settings.padding_bottom_alter }}px;
+          width: 100%;
+      }
+      .gs-banner-{{ section.id }} .banner-cta-wrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
+          margin-top: 2rem;
+      }
+  }
+
+  @media screen and (min-width: 1025px) {
+  .gs-banner-{{ section.id }} .banner-content-overlay{
+      display: grid;
+      justify-content: {{ section.settings.text_placement_hor }};
+      align-content: {{ section.settings.text_placement_vert }};
+      justify-items: {{ section.settings.text_alignment }};
+      text-align: {{ section.settings.text_alignment }};
+  }
+  .gs-banner-{{ section.id }} .banner-content-overlay .banner-text-overlay{
+      display: flex;
+      flex-direction: column;
+      justify-content: {{ section.settings.text_placement_hor }};
+      align-content: {{ section.settings.text_placement_vert }};
+      justify-items: {{ section.settings.text_alignment }};
+      text-align: {{ section.settings.text_alignment }};
+      {% if section.settings.text_alignment == 'center' %}
+      align-items: center;
+      {% elsif section.settings.text_alignment == 'start' %}
+          align-items: flex-start;
+      {% elsif section.settings.text_alignment == 'end' %}
+          align-items: flex-end;
+      {% endif %}
+      max-width: {{ section.settings.text_max_width }}px;
+      width: 100%;
+      gap: 1.6rem;
+  }
+  .gs-banner-{{ section.id }} .banner-cta-line {
+      justify-content: {{ section.settings.text_placement_hor }};
+  }
+  }
+  @media screen and (max-width: 1024px) {
+  .gs-banner-{{ section.id }} .banner-content-overlay{
+      display: grid;
+      justify-content: {{ section.settings.text_placement_hor_alter }};
+      align-content: {{ section.settings.text_placement_vert_alter }};
+      justify-items: {{ section.settings.text_alignment_alter }};
+      text-align: {{ section.settings.text_alignment_alter }};
+  }
+  .gs-banner-{{ section.id }} .banner-content-overlay .banner-text-overlay{
+      display: flex;
+      flex-direction: column;
+      justify-content: {{ section.settings.text_placement_hor_alter }};
+      align-content: {{ section.settings.text_placement_vert_alter }};
+      justify-items: {{ section.settings.text_alignment_alter }};
+      text-align: {{ section.settings.text_alignment_alter }};
+      {% if section.settings.text_alignment_alter == 'center' %}
+          align-items: center;
+      {% elsif section.settings.text_alignment_alter == 'start' %}
+          align-items: flex-start;
+      {% elsif section.settings.text_alignment_alter == 'end' %}
+          align-items: flex-end;
+      {% endif %}
+      gap: 1.2rem;
+  }
+  .gs-banner-{{ section.id }} .banner-cta-line {
+      justify-content: {{ section.settings.text_placement_hor_alter }};
+  }
+  }
+{% endstyle %}
+
+<global-banner role="region">
+  <div class="banner-wrapper banner-wrapper-{{ section.id }}">
+    <div class="gs-banner-{{ section.id }} gs-banner banner">
+      {%- case section.settings.media_type -%}
+        {%- when 'image' -%}
+          <img
+            srcset="{% render 'image-srcset', image: section.settings.image %}"
+            sizes="100vw"
+            src="{{ section.settings.image | image_url: width: 2048 }}"
+            loading="eager"
+            fetchpriority="high"
+            alt="{{ section.settings.image.alt | escape }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+            class="media hidden≤767"
+          >
+
+          {%- if section.settings.image_alter -%}
+            <img
+              srcset="{% render 'image-srcset', image: section.settings.image_alter %}"
+              sizes="100vw"
+              src="{{ section.settings.image_alter | image_url: width: 2048 }}"
+              loading="eager"
+              fetchpriority="high"
+              alt="{{ section.settings.image_alter.alt | escape }}"
+              width="{{ section.settings.image_alter.width }}"
+              height="{{ section.settings.image_alter.height }}"
+              class="media hidden≥768"
+            >
+
+          {%- else -%}
+            <img
+              srcset="{% render 'image-srcset', image: section.settings.image %}"
+              sizes="100vw"
+              src="{{ section.settings.image | image_url: width: 2048 }}"
+              loading="eager"
+              fetchpriority="high"
+              alt="{{ section.settings.image.alt | escape }}"
+              width="{{ section.settings.image.width }}"
+              height="{{ section.settings.image.height }}"
+              class="media hidden≥768"
+            >
+          {%- endif -%}
+
+        {%- when 'video' -%}
+          <video
+            alt="{{ section.settings.video.alt | escape }}"
+            width="{{ section.settings.video.preview_image.width }}"
+            height="{{ section.settings.video.preview_image.height }}"
+            autoplay
+            playsinline
+            muted
+            loop
+            preload="auto"
+            loading="eager"
+            class="media hidden≤767"
+          >
+            {% for source in section.settings.video.sources %}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+          </video>
+
+          {%- if section.settings.video_alter -%}
+            <video
+              alt="{{ section.settings.video_alter.alt | escape }}"
+              width="{{ section.settings.video_alter.preview_image.width }}"
+              height="{{ section.settings.video_alter.preview_image.height }}"
+              autoplay
+              playsinline
+              muted
+              loop
+              preload="auto"
+              loading="eager"
+              class="media hidden≥768"
+            >
+              {% for source in section.settings.video_alter.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+            </video>
+
+          {%- else -%}
+            <video
+              alt="{{ section.settings.video.alt | escape }}"
+              width="{{ section.settings.video.preview_image.width }}"
+              height="{{ section.settings.video.preview_image.height }}"
+              autoplay
+              playsinline
+              muted
+              loop
+              preload="auto"
+              loading="eager"
+              class="media hidden≥768"
+            >
+              {% for source in section.settings.video.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+            </video>
+          {%- endif -%}
+      {%- endcase -%}
+
+      <div class="banner-content banner-overlay banner-content-overlay">
+        <div class="banner-text-overlay">
+          {%- if section.settings.subheading != blank -%}
+            <h2 class="banner-subheading typography--tag">
+              {{ section.settings.subheading }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="banner-heading typography--heading-1">
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.paragraph != blank -%}
+            <div class="banner-paragraph typography--body-regular">
+              {{
+                section.settings.paragraph
+                | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+              }}
+            </div>
+          {%- endif -%}
+
+          <div class="banner-cta-wrapper">
+            {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+              <a
+                href="{{ section.settings.cta_link }}"
+                class="banner-cta link button button--secondary typography--cta"
+                aria-label="{{ section.settings.cta_text }}"
+                {%- if section.settings.cta_link contains 'http' -%}
+                  target="_blank"
+                {%- endif -%}
+              >
+                {{- section.settings.cta_text -}}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.cta_text2 != blank and section.settings.cta_link2 != blank -%}
+              <a
+                href="{{ section.settings.cta_link2 }}"
+                class="banner-cta link button button--secondary typography--cta"
+                aria-label="{{ section.settings.cta_text2 }}"
+                {%- if section.settings.cta_link contains 'http' -%}
+                  target="_blank"
+                {%- endif -%}
+              >
+                {{- section.settings.cta_text2 -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</global-banner>
+
+{% schema %}
+{
+  "name": "Image Video Banner",
+  "tag": "section",
+  "class": "section--gs-banner",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "radio",
+      "id": "media_type",
+      "label": "Media Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_alter",
+      "label": "Image (Mobile)"
+    },
+
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+
+    {
+      "type": "video",
+      "id": "video_alter",
+      "label": "Video Mobile"
+    },
+
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Overlay Opacity",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_text2",
+      "label": "CTA Text 2"
+    },
+    {
+      "type": "url",
+      "id": "cta_link2",
+      "label": "CTA Link 2"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Text Max Width",
+      "default": 400
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor",
+      "label": "Text Placement Horizontal",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_placement_vert",
+      "label": "Text Placement Vertical",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_placement_hor_alter",
+      "label": "Text Placement Horizontal Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_placement_vert_alter",
+      "label": "Text Placement Vertical Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Video Banner"
+    }
+  ]
+}
+{% endschema %}

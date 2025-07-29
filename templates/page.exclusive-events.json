@@ -1,0 +1,132 @@
+{
+"layout": "theme",
+"sections": {
+    "global_editorial_50_50_YExiYy": {
+    "type": "global-editorial-50-50",
+    "name": "Editorial 50-50",
+    "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_00ab5a79-0465-4bdf-8c8d-efd872374df0.png",
+        "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_0f133f6d-7bc4-4827-95ab-4d6c18bd4092.png",
+        "flex_direction": "row-reverse",
+        "flex_direction_alter": "column",
+        "title": "Exclusive Events",
+        "paragraph": "<p>Ready for a career with greater purpose, possibility and a whole lot of fun? As one of the largest optical companies in the midwest, we’re always looking for inspiring people to join our team.</p>",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 600,
+        "text_color": "#201F1E",
+        "background_color": "#F8F8F8",
+        "text_placement_hor": "start",
+        "text_placement_vert": "end",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+    }
+    },
+    "global_text_module_h4qTnC": {
+    "type": "global-text-module",
+    "name": "Text Container",
+    "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Designer Trunk Shows",
+        "title_paragraph_spacing": 20,
+        "title_paragraph_spacing_mob": 20,
+        "paragraph": "<p>Two-day only special events Trunk shows are back! Check the list below of upcoming of VIP events for premier access to the hottest designer eyewear. Attend one of our Trunk Shows to discover:  </p><p>Free EyeDef lenses with the purchase of frames. <br/>VIP offers, prizes, and refreshments.<br/>Fashion, fashion, fashion!</p>",
+        "cta_text": "",
+        "cta_link": "",
+        "content_width": 724,
+        "text_placement_hor": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+    }
+    },
+    "global_4_column_grid_diF4Xe": {
+    "type": "global-4-column-grid",
+    "blocks": {
+        "text_Ueji9c": {
+        "type": "text",
+        "settings": {
+            "title": "<h6>Wednesday - Thursday  <br/>04/16 - 04/17</h6><p>Detroit</p>",
+            "paragraph": "<p>Featuring Designer Brands: <br/>Gucci, Balenciaga, Saint Laurent  </p><p>21427 Grand River Ave / Detroit, MI 48219<br/><a href=\"tel:3136764020\" target=\"_blank\" title=\"tel:3136764020\">313-676-4020</a></p>",
+            "paragraph_size": "small",
+            "cta_text": "Sign up now",
+            "cta_link": "#"
+        }
+        },
+        "text_KPmkQ4": {
+        "type": "text",
+        "settings": {
+            "title": "<h6>Wednesday - Thursday  <br/>04/16 - 04/17</h6><p>Detroit</p>",
+            "paragraph": "<p>Featuring Designer Brands: <br/>Gucci, Balenciaga, Saint Laurent  </p><p>21427 Grand River Ave / Detroit, MI 48219<br/><a href=\"tel:3136764020\" target=\"_blank\" title=\"tel:3136764020\">313-676-4020</a></p>",
+            "paragraph_size": "small",
+            "cta_text": "Sign up now",
+            "cta_link": "#"
+        }
+        },
+        "text_6jfaaz": {
+        "type": "text",
+        "settings": {
+            "title": "<h6>Wednesday - Thursday  <br/>04/16 - 04/17</h6><p>Detroit</p>",
+            "paragraph": "<p>Featuring Designer Brands: <br/>Gucci, Balenciaga, Saint Laurent  </p><p>21427 Grand River Ave / Detroit, MI 48219<br/><a href=\"tel:3136764020\" target=\"_blank\" title=\"tel:3136764020\">313-676-4020</a></p>",
+            "paragraph_size": "small",
+            "cta_text": "Sign up now",
+            "cta_link": "#"
+        }
+        },
+        "text_JddEcw": {
+        "type": "text",
+        "settings": {
+            "title": "<h6>Wednesday - Thursday  <br/>04/16 - 04/17</h6><p>Detroit</p>",
+            "paragraph": "<p>Featuring Designer Brands: <br/>Gucci, Balenciaga, Saint Laurent  </p><p>21427 Grand River Ave / Detroit, MI 48219<br/><a href=\"tel:3136764020\" target=\"_blank\" title=\"tel:3136764020\">313-676-4020</a></p>",
+            "paragraph_size": "small",
+            "cta_text": "Sign up now",
+            "cta_link": "#"
+        }
+        }
+    },
+    "block_order": [
+        "text_Ueji9c",
+        "text_KPmkQ4",
+        "text_6jfaaz",
+        "text_JddEcw"
+    ],
+    "name": "Content Grid Layout",
+    "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": true,
+        "show_border_bottom": false,
+        "title": "April Trunk Shows",
+        "cta_text": "",
+        "cta_link": "",
+        "text_alignment": "start",
+        "text_alignment_alter": "start",
+        "carousel_mobile": true,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+    }
+    }
+},
+"order": [
+    "global_editorial_50_50_YExiYy",
+    "global_text_module_h4qTnC",
+    "global_4_column_grid_diF4Xe"
+]
+}

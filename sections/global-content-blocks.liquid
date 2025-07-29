@@ -1,0 +1,373 @@
+{{ 'section-content-blocks.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .content-blocks-carousel-{{ section.id }}{
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      display: block;
+  }
+  @media screen and (min-width: 1025px) {
+      .content-blocks-carousel-{{ section.id }}{
+          padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+      }
+  }
+
+  @media only screen and (max-width: 1024px) {
+      .content-blocks-carousel-{{ section.id }}{
+          padding: {{ section.settings.padding_top_alter }}px 0rem {{ section.settings.padding_bottom_alter }}px;
+      }
+      .cb-slider-scrollbar.swiper-scrollbar{
+          background: rgb(var(--color-grey-medium));
+          height: 0.1rem;
+          transition: height 0.3s ease;
+          cursor: pointer;
+      }
+  }
+
+  {% for block in section.blocks %}
+      @media screen and (min-width: 768px){
+          .content-block-item-{{ block.id }} .content-block-info{
+              text-align: {{ block.settings.text_alignment }};
+              align-items: {{ block.settings.text_alignment }};
+          }
+      }
+      @media screen and (max-width: 767px){
+          .content-block-item-{{ block.id }} .content-block-info{
+              text-align: {{ block.settings.text_alignment_alter }};
+              align-items: {{ block.settings.text_alignment_alter }};
+          }
+      }
+  {% endfor %}
+{% endstyle %}
+
+<content-blocks
+  id="content-blocks-carousel-{{ section.id }}"
+  class="content-blocks-carousel-{{ section.id }} content-blocks-carousel isolate"
+  role="region"
+  data-block-count="{{ section.blocks.size }}"
+>
+  {%- if section.settings.title != blank or section.settings.paragraph != blank -%}
+    <div class="header-content">
+      {%- if section.settings.title != blank -%}
+        <h2 class="content-blocks-carousel-title typography--heading-1">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.paragraph != blank -%}
+        <div class="content-blocks-carousel-paragraph typography--body-regular">
+          {{
+            section.settings.paragraph
+            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="swiper isolate">
+    <div class="swiper-wrapper content-block-wrapper">
+      {%- for block in section.blocks -%}
+        <div class="swiper-slide content-block-item content-block-item-{{ block.id }}">
+          <div class="content-block">
+            <div class="content-block-top">
+              {% if block.settings.image != blank %}
+                <img
+                  srcset="{% render 'image-srcset', image: block.settings.image %}"
+                  sizes="(min-width: 992px) calc( 100vw / {{ section.blocks.size }} ), 50vw"
+                  src="{{ block.settings.image | image_url: width: 2048 }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy"
+                  class="media hidden≤767"
+                  style="--focal-point-x: {{ block.settings.image.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image.presentation.focal_point.y }}%"
+                >
+              {% endif %}
+              {%- if block.settings.image_alter -%}
+                <img
+                  srcset="{% render 'image-srcset', image: block.settings.image_alter %}"
+                  sizes="(min-width: 992px) calc( 100vw / {{ section.blocks.size }} ), 50vw"
+                  src="{{ block.settings.image_alter | image_url: width: 2048 }}"
+                  alt="{{ block.settings.image_alter.alt | escape }}"
+                  width="{{ block.settings.image_alter.width }}"
+                  height="{{ block.settings.image_alter.height }}"
+                  loading="lazy"
+                  class="media hidden≥768"
+                  style="--focal-point-x: {{ block.settings.image_alter.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image_alter.presentation.focal_point.y }}%"
+                >
+
+              {%- elsif block.settings.image != blank -%}
+                <img
+                  srcset="{% render 'image-srcset', image: block.settings.image %}"
+                  sizes="(min-width: 992px) calc( 100vw / {{ section.blocks.size }} ), 50vw"
+                  src="{{ block.settings.image | image_url: width: 2048 }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy"
+                  class="media hidden≥768"
+                  style="--focal-point-x: {{ block.settings.image.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image.presentation.focal_point.y }}%"
+                >
+              {%- endif -%}
+            </div>
+
+            <div class="content-block-info">
+              {%- if block.settings.title != blank -%}
+                <div class="content-block-title typography--body-regular">
+                  {{ block.settings.title }}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.paragraph != blank -%}
+                <div class="content-wrapper typography--body-small">
+                  <div class="content-block-excerpt">
+                    {{ block.settings.paragraph }}
+                  </div>
+                  {%- if block.settings.cta_link == blank and block.settings.cta_text == blank -%}
+                    <button
+                      class="view-more-button link link--underline link--hover-color-change typography--navigation"
+                      style="display: none;"
+                    >
+                      View more
+                    </button>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.cta_link != blank and block.settings.cta_text != blank -%}
+                <a
+                  href="{{ block.settings.cta_link }}"
+                  class="content-block-link link link--underline link--hover-color-change typography--navigation"
+                  aria-label="{{ block.settings.cta_text }}"
+                  {%- if block.settings.cta_link contains 'http' -%}
+                    target="_blank"
+                  {%- endif -%}
+                >
+                  {{ block.settings.cta_text }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="cb-slider-scrollbar swiper-scrollbar"></div>
+  </div>
+</content-blocks>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.content-wrapper').forEach((wrapper) => {
+      const content = wrapper.querySelector('.content-block-excerpt');
+      const button = wrapper.querySelector('.view-more-button');
+
+      // Check if content overflows
+      if (content.scrollHeight > content.clientHeight + 1) {
+        button.style.display = 'inline-block';
+
+        button.addEventListener('click', function () {
+          content.classList.toggle('expanded');
+          button.textContent = content.classList.contains('expanded') ? 'View less' : 'View more';
+        });
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Content Blocks",
+  "tag": "section",
+  "max_blocks": 4,
+  "class": "section--article-related-grid",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Career opportunities"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Content Blocks",
+      "type": "content-blocks",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_alter",
+          "label": "Image (Mobile)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Retail"
+        },
+        {
+          "type": "textarea",
+          "id": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment_alter",
+          "label": "Text Alignment Mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content Blocks"
+    }
+  ]
+}
+{% endschema %}

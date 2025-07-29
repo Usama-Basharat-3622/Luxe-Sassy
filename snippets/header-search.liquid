@@ -1,0 +1,81 @@
+{{ 'header-search.css' | asset_url | stylesheet_tag }}
+
+<details-modal class="header-search">
+  <details>
+    <summary
+      class="header-side-menu-link link link--block link--hover-color-change typography--navigation"
+      role="button"
+      tabindex="0"
+      aria-haspopup="dialog"
+      aria-label="{{ 'header.search_toggle_label' | t }}"
+    >
+      {{- 'icon-search.svg' | inline_asset_content -}}
+      <span class="visually-hidden">{{ 'header.search_toggle_label' | t }}</span>
+    </summary>
+
+    <div
+      class="header-search-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'search.search' | t }}"
+    >
+      <div class="header-search-modal-overlay modal-overlay"></div>
+      <div
+        class="header-search-modal-content"
+        tabindex="-1"
+      >
+        <button
+          type="button"
+          class="header-search-modal-close icon-only-button"
+          aria-expanded="true"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
+
+        <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
+          <form class="header-search-form" action="{{ routes.search_url }}" method="get" role="search">
+            <label class="visually-hidden" for="Search-In-Modal">
+              {{- 'search.search' | t -}}
+            </label>
+            {{- 'icon-search.svg' | inline_asset_content -}}
+            <input
+              class="header-search-input typography--body-regular"
+              id="Search-In-Modal"
+              type="search"
+              name="q"
+              value="{{ predictive_search.terms | escape }}"
+              placeholder="{{ 'search.search' | t }}"
+              role="combobox"
+              aria-expanded="false"
+              aria-owns="predictive-search-results"
+              aria-controls="predictive-search-results"
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+              autocorrect="off"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            >
+            <input type="hidden" name="options[prefix]" value="last">
+            <button
+              type="reset"
+              class="header-search-reset icon-only-button {% if predictive_search.terms == blank %} hidden{% endif %} hidden≤1024"
+              aria-label="{{ 'search.reset' | t }}"
+            >
+              {{- 'icon-close.svg' | inline_asset_content -}}
+            </button>
+
+            <div class="predictive-search" tabindex="-1">
+              <div class="predictive-search-result-target" data-predictive-search>
+                {%- render 'loading-spinner', class: 'predictive-search__loading-state hidden' -%}
+              </div>
+              {% render 'predictive-search-landing' %}
+            </div>
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+          </form>
+        </predictive-search>
+      </div>
+    </div>
+  </details>
+</details-modal>

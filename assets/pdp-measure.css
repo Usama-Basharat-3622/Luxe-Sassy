@@ -1,0 +1,61 @@
+@media screen and (min-width: 992px) {
+  .pdp-measure {
+    padding-left: 2.4rem;
+  }
+  .pdp-measure-title {
+    padding: 1.6rem 0;
+  }
+  .pdp-measure-list {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1.6rem;
+    overflow: auto;
+    padding-bottom: 1.6rem;
+  }
+  .pdp-measure summary {
+    pointer-events: none;
+  }
+  .pdp-measure summary .icon {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .pdp-measure {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+  .pdp-measure-title {
+    padding: 1.6rem 0;
+  }
+  .pdp-measure-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.6rem;
+  }
+}
+
+.pdp-measure-list-item {
+  flex: 0 0 17rem;
+}
+
+.pdp-measure-card {
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 2.8rem 3rem 1.6rem;
+  background-color: rgb(var(--color-background));
+}
+
+.pdp-measure-card > * + * {
+  margin-top: 1.6rem;
+}
+
+.pdp-measure-card-bottom {
+  text-align: center;
+}
+.pdp-measure-card-content {
+  white-space: nowrap;
+}
+.pdp-measure-card-title {
+  white-space: nowrap;
+}

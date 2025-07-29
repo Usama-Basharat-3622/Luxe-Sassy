@@ -1,0 +1,10 @@
+{{- 'icon-bag.svg' | inline_asset_content -}}
+<span class="visually-hidden">{{ 'header.bag_toggle_label' | t }}</span>
+{%- if cart != empty -%}
+  <div class="cart-count-bubble">
+    {%- if cart.item_count < 100 -%}
+      <span aria-hidden="true">{{ cart.item_count }}</span>
+    {%- endif -%}
+    <span class="visually-hidden">{{ 'header.bag_toggle_cart_count' | t: count: cart.item_count }}</span>
+  </div>
+{%- endif -%}

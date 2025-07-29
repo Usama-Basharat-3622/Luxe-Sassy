@@ -1,0 +1,243 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "theme",
+  "sections": {
+    "global_editorial_50_50_9PyTgy": {
+      "type": "global-editorial-50-50",
+      "name": "Editorial 50-50",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_fd055a96-74ba-4b1d-80d9-3f949eb403be.png",
+        "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_f46563a4-4c03-482c-8b48-66d804468dd1.png",
+        "flex_direction": "row-reverse",
+        "flex_direction_alter": "column",
+        "title": "About Us",
+        "paragraph": "<p>Discover more about how we serve you.</p>",
+        "paragraph_size": "regular",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 600,
+        "text_color": "#201f1e",
+        "background_color": "#f8f8f8",
+        "text_placement_hor": "start",
+        "text_placement_vert": "end",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
+    "global_text_module_gxFqhw": {
+      "type": "global-text-module",
+      "name": "Text Container",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201f1e",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Our Story",
+        "title_paragraph_spacing": 20,
+        "title_paragraph_spacing_mob": 20,
+        "paragraph": "<p>Since 1974, we’ve helped our customers lead better lives through better vision. As a Michigan-based company with over 70+ locations in nine states, SVS Vision has one of the largest selections of the latest designer frames and contact lenses, and utilizes the most advanced technology to offer the most experienced eye care in the industry. With our laboratory and corporate headquarters located in Mt. Clemens, Michigan, SVS Vision proudly supports the local economy, crafts quality lenses and is known for affordable prices.  SVS Vision.  Look / Forward®.</p>",
+        "cta_text": "",
+        "cta_link": "",
+        "content_width": 724,
+        "text_placement_hor": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+      }
+    },
+    "global_content_blocks_pF6cg8": {
+      "type": "global-content-blocks",
+      "blocks": {
+        "content_blocks_xNxjE8": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_dcf9a157-86f3-4982-8a7f-317f550add2b.png",
+            "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_dcf9a157-86f3-4982-8a7f-317f550add2b.png",
+            "title": "Our Mission",
+            "paragraph": "Since people are at the heart of everything we do, our mission is to passionately deliver leading eye care solutions to every customer through transparency, innovation and expertise. Through the power of better vision, we hope to inspire our customers, associates, and partners within the communities we serve to be anything but ordinary.",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_Pd8eGA": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_e198b760-3018-41fc-b47b-bd8b9db31867.png",
+            "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_e198b760-3018-41fc-b47b-bd8b9db31867.png",
+            "title": "Our Promise",
+            "paragraph": "In the nearly 50 years since we opened our first retail office and laboratory in Sterling Heights, Michigan, we’ve continuously improved our eyewear to better serve you, while exceeding expectations. But what has remained constant is our dedication to providing outstanding eye care, quality products and reasonable prices. Growth should only come from satisfied customers, and we’re proud to say our expansion has always complimented our first-class service. It’s the continued commitment to our customers that has allowed us to maintain our exceptional standards without compromise. ",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_DmwHtA": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_d8e209b8-1cb5-4476-9884-97b2c6de7665.png",
+            "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_d8e209b8-1cb5-4476-9884-97b2c6de7665.png",
+            "title": "Our History of Quality People",
+            "paragraph": "At SVS Vision, we view our people as our greatest strength. We believe that employee retention is a cornerstone of our success and a testament to our work culture. Over half of the 600+ committed employees who make up the SVS Vision team have been with us for more than fifteen years – and many have been here for twenty and even thirty years – allowing us to better serve our communities. As a result, we really get to know the eye care needs of the families we serve year after year, and generation after generation.",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_drxENB": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_165c3cee-60aa-449e-b6f7-e03b56ca1219.png",
+            "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_165c3cee-60aa-449e-b6f7-e03b56ca1219.png",
+            "title": "Our Optical Lab",
+            "paragraph": "At SVS Vision, we have an enduring legacy of assembling and inspecting our eyewear by hand with the utmost care by our expert technicians. Our laboratory boasts the latest technology and industry-leading professionals who manufacture approximately half a million glasses each year.  Positive Side Effects of Good Glasses®.  SVS Vision.",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        }
+      },
+      "block_order": [
+        "content_blocks_xNxjE8",
+        "content_blocks_Pd8eGA",
+        "content_blocks_DmwHtA",
+        "content_blocks_drxENB"
+      ],
+      "name": "Content Blocks",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201f1e",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "",
+        "paragraph": "",
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 54
+      }
+    },
+    "global_multi_column_text_LJhyDH": {
+      "type": "global-multi-column-text",
+      "blocks": {
+        "text_container_XhYMe6": {
+          "type": "text-container",
+          "settings": {
+            "title": "<p>Racquet Up Detroit</p>",
+            "paragraph": "<p>SVS Vision believes in Detroit. Racquet Up Detroit is an out-of-school youth development program that uses the sport of squash – in combination with fitness, academic support, community service, college exposure, summer opportunities, and mentoring – to make a difference in the lives of Detroit youth. Since 2010, we have helped Racquet Up Detroit to enable over 500 students to receive eye exams, protective eyewear, and to support their academic success on and off the court.</p>",
+            "paragraph_size": "small",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "text_container_VJfVjk": {
+          "type": "text-container",
+          "settings": {
+            "title": "<p>Kids See Free Promotion</p>",
+            "paragraph": "<p>SVS Vision believes in kids. In 2019, SVS Vision locations in the Grand Rapids and Ohio communities provided essential eye exams and glasses to children 18 years of age and younger for free.</p>",
+            "paragraph_size": "small",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "text_container_RpgfzV": {
+          "type": "text-container",
+          "settings": {
+            "title": "<p>Toys for Tots</p>",
+            "paragraph": "<p>The employees of SVS Vision believe the success of children starts at home. That’s why each holiday season SVS Vision employees team up with Toys for Tots to provide toys to children in our local communities.</p>",
+            "paragraph_size": "small",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        }
+      },
+      "block_order": [
+        "text_container_XhYMe6",
+        "text_container_VJfVjk",
+        "text_container_RpgfzV"
+      ],
+      "name": "Multicolumn Text Grid",
+      "settings": {
+        "bg_color": "#f5f5f5",
+        "text_color": "#201f1e",
+        "show_border_top": true,
+        "show_border_bottom": true,
+        "title": "Giving Back",
+        "paragraph": "<h2>We partner with various organizations, charities, and social programs, including:</h2>",
+        "text_alignment": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+      }
+    },
+    "global_editorial_50_50_rg3H3e": {
+      "type": "global-editorial-50-50",
+      "name": "Editorial 50-50",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/Rectangle_6_bdef1dc3-2cb9-4852-a5ec-fc185e95d40a.png",
+        "image_alter": "shopify://shop_images/Rectangle_6_b3b79a54-5606-400d-ac8a-62d6b6adbd9a.png",
+        "flex_direction": "row-reverse",
+        "flex_direction_alter": "column",
+        "title": "Our Guarantee",
+        "paragraph": "<p>Your satisfaction is our ultimate goal. That’s why we offer our exclusive 45-Day Gotta Love ‘Em Guarantee. If for some reason you feel you really wanted something different, don’t worry! Just return your glasses in original condition within 45 days. We’ll help you find the perfect pair or refund your purchase.</p>",
+        "paragraph_size": "regular",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 360,
+        "text_color": "#201f1e",
+        "background_color": "#ffffff",
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 22
+      }
+    }
+  },
+  "order": [
+    "global_editorial_50_50_9PyTgy",
+    "global_text_module_gxFqhw",
+    "global_content_blocks_pF6cg8",
+    "global_multi_column_text_LJhyDH",
+    "global_editorial_50_50_rg3H3e"
+  ]
+}

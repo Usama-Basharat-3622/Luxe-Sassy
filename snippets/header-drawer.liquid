@@ -1,0 +1,260 @@
+{{ 'header-drawer.css' | asset_url | stylesheet_tag }}
+<header-drawer>
+  <details class="header-drawer-container">
+    <summary
+      class="header-drawer-toggle"
+      role="button"
+      aria-label="{{ 'header.drawer_toggle_label' | t }}"
+      aria-expanded="false"
+    >
+      {{- 'icon-hamburger.svg' | inline_asset_content -}}
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </summary>
+
+    <div
+      class="header-drawer"
+    >
+      <!-- Side Menu (Top) -->
+      {% render 'header-drawer-side-menu',
+        linklist: section.settings.side_menu_top_mobile,
+        class: 'header-drawer-side-menu--top'
+      %}
+
+      <ul class="header-drawer-level1-menu header-drawer-menu" role="navigation">
+        {%- for link in section.settings.main_menu_mobile.links -%}
+          {%- if link.links != blank -%}
+            <li class="header-drawer-level1-menu-item header-drawer-menu-item">
+              <details
+                class="header-child-drawer-container"
+              >
+                <summary
+                  class="header-child-drawer-toggle header-drawer-level1-menu-link link link--block typography--body-regular-bold {% if link.child_active %} active{% endif %}"
+                >
+                  <span>{{ link.title | escape }}</span>
+                  {{- 'icon-arrow_right.svg' | inline_asset_content -}}
+                </summary>
+                <div
+                  class="header-child-drawer"
+                  tabindex="-1"
+                >
+                  <div class="header-child-drawer-heading">
+                    <button
+                      type="button"
+                      class="header-child-drawer-close unstyled-button typography--body-regular-bold"
+                      aria-expanded="true"
+                      aria-label="{{ 'accessibility.close' | t }}"
+                    >
+                      {{- 'icon-arrow_left.svg' | inline_asset_content -}}
+                      <span>{{ link.title | escape }}</span>
+                    </button>
+                  </div>
+
+                  <ul
+                    class="header-drawer-level2-menu header-child-drawer-menu scrollbar-hidden"
+                    role="navigation"
+                    tabindex="-1"
+                  >
+                    {%- for childlink in link.links -%}
+                      {%- if childlink.title contains '(list)' -%}
+                        <!-- List -->
+                        <li class="header-drawer-level2-menu-item header-child-drawer-menu-item header-drawer-block header-drawer-block--list">
+                          <h3 class="header-level2-menu-link header-drawer-block-title typography--body-regular-bold">
+                            {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                              <a
+                                href="{{ childlink.url }}"
+                                class="link"
+                              >
+                            {%- endunless -%}
+                            {{ childlink.title | remove: '(list)' | escape }}
+                            {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                              </a>
+                            {%- endunless -%}
+                          </h3>
+                          <ul class="header-level3-menu header-drawer-block-menu" role="navigation">
+                            {%- for grandchildlink in childlink.links -%}
+                              {%- if grandchildlink.title contains '(button)' -%}{%- continue -%}{%- endif -%}
+                              <li class="header-level3-menu-item header-drawer-block-menu-item">
+                                {%- unless grandchildlink.url.size <= 5 and grandchildlink.url contains '#' -%}
+                                  <a
+                                    href="{{ grandchildlink.url }}"
+                                    class="header-level3-menu-link header-drawer-block-menu-link link link--block typography--body-regular {% if grandchildlink.current %} active{% endif %}"
+                                    {% if grandchildlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                {%- endunless -%}
+                                {{ grandchildlink.title | escape }}
+                                {%- unless grandchildlink.url.size <= 5 and grandchildlink.url contains '#' -%}
+                                  </a>
+                                {%- endunless -%}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                          {%- for grandchildlink in childlink.links -%}
+                            {%- if grandchildlink.title contains '(button)' -%}
+                              <a
+                                href="{{ grandchildlink.url }}"
+                                class="link button button--tertiary typography--body-regular"
+                              >
+                                {{- grandchildlink.title | remove: '(button)' -}}
+                                {{- 'icon-arrow-full_upright.svg' | inline_asset_content -}}
+                              </a>
+                              {%- break -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </li>
+                      {%- elsif childlink.title contains '(grid)' -%}
+                        <!-- Grid -->
+                        <li class="header-drawer-level2-menu-item header-child-drawer-menu-item header-drawer-block header-drawer-block--grid">
+                          <h3 class="header-level2-menu-link header-drawer-block-title typography--body-regular-bold">
+                            {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                              <a
+                                href="{{ childlink.url }}"
+                                class="link"
+                              >
+                            {%- endunless -%}
+                            {{ childlink.title | remove: '(grid)' | escape }}
+                            {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                              </a>
+                            {%- endunless -%}
+                          </h3>
+                          <ul class="header-drawer-brand-grid" role="navigation">
+                            {%- for grandchildlink in childlink.links -%}
+                              {%- if grandchildlink.title contains '(button)' -%}{%- continue -%}{%- endif -%}
+                              {%- assign brand_handle = grandchildlink.title | handle -%}
+                              {%- assign brand = metaobjects.brands[brand_handle] -%}
+                              <li class="header-drawer-brand-grid-item">
+                                <div class="header-drawer-brand-card">
+                                  <div class="ratio ratio--inline">
+                                    <img
+                                      src="{{ brand.brand_logo_file.value | image_url }}"
+                                      alt="{{ brand.brand_logo_file.value.alt | escape }}"
+                                      width="{{ brand.brand_logo_file.value.width }}"
+                                      height="{{ brand.brand_logo_file.value.height }}"
+                                      loading="lazy"
+                                      class="media"
+                                    >
+                                  </div>
+                                  <a
+                                    class="link link--covering"
+                                    href="{{ grandchildlink.url }}"
+                                  >
+                                    <span class="visually-hidden">
+                                      {{- 'accessibility.link_to_item' | t: item: grandchildlink.title -}}
+                                    </span>
+                                  </a>
+                                </div>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                          {%- for grandchildlink in childlink.links -%}
+                            {%- if grandchildlink.title contains '(button)' -%}
+                              <a
+                                href="{{ grandchildlink.url }}"
+                                class="header-drawer-block-cta link button button--tertiary typography--body-regular"
+                              >
+                                {{- grandchildlink.title | remove: '(button)' -}}
+                                {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+                              </a>
+                              {%- break -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </li>
+                      {%- elsif childlink.title contains '(card)' -%}
+                        <!-- Card -->
+                        <li class="header-drawer-level2-menu-item header-child-drawer-menu-item header-drawer-block header-drawer-block--card">
+                          <div class="header-drawer-card">
+                            {% if childlink.object.metafields.custom.card_image_mega_menu %}
+                              <div class="header-drawer-card-media">
+                                <div class="ratio ratio--1-1">
+                                  <img
+                                    src="{{ childlink.object.metafields.custom.card_image_mega_menu | image_url: width: 512 }}"
+                                    alt="{{ childlink.object.metafields.custom.card_image_mega_menu.alt | escape }}"
+                                    width="{{ childlink.object.metafields.custom.card_image_mega_menu.value.width }}"
+                                    height="{{ childlink.object.metafields.custom.card_image_mega_menu.value.height }}"
+                                    loading="eager"
+                                    class="media"
+                                  >
+                                </div>
+                                <a
+                                  class="link link--covering focus-none"
+                                  href="{{ childlink.url }}"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                >
+                                  <span class="visually-hidden">
+                                    {{-
+                                      'accessibility.link_to_item'
+                                      | t: item: childlink.title
+                                      | remove: '(card)'
+                                      | escape
+                                    -}}
+                                  </span>
+                                </a>
+                              </div>
+                            {% endif %}
+                            <h3 class="header-level2-menu-link header-drawer-card-title typography--body-regular">
+                              <a
+                                href="{{ childlink.url }}"
+                                class="header-level3-menu-link header-drawer-card-link link link--block text-ellipsis {% if childlink.current %} active{% endif %}"
+                                {% if childlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{ childlink.title | remove: '(card)' | escape }}
+                              </a>
+                            </h3>
+                          </div>
+                        </li>
+                      {%- elsif childlink.title contains '(page)' -%}
+                        <!-- Page -->
+                        <li class="header-drawer-level2-menu-item header-child-drawer-menu-item header-drawer-block header-drawer-block--page">
+                          <h3 class="header-level2-menu-link header-drawer-block-title typography--body-regular-bold">
+                            {{ childlink.title | remove: '(page)' | escape }}
+                          </h3>
+                          <div class="header-drawer-page-content">
+                            {{ childlink.object.content }}
+                          </div>
+                        </li>
+                      {% else %}
+                        <!-- Link -->
+                        <li class="header-drawer-level2-menu-item header-child-drawer-menu-item header-drawer-block header-drawer-block--link">
+                          <h3 class="header-level2-menu-link header-drawer-block-title typography--body-regular-bold">
+                            <a
+                              href="{{ childlink.url }}"
+                              class="link"
+                            >
+                              {{ childlink.title | escape }}
+                            </a>
+                          </h3>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </details>
+            </li>
+          {%- else -%}
+            <li class="header-drawer-level1-menu-item header-drawer-menu-item">
+              <a
+                href="{{ link.url }}"
+                class="header-drawer-level1-menu-link link link--block typography--body-regular-bold {% if link.current %} active{% endif %}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      <!-- Side Menu (Bottom) -->
+      {% render 'header-drawer-side-menu',
+        linklist: section.settings.side_menu_bottom_mobile,
+        class: 'header-drawer-side-menu--bottom'
+      %}
+    </div>
+  </details>
+</header-drawer>

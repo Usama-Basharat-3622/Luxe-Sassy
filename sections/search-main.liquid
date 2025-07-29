@@ -1,0 +1,184 @@
+{{ 'search-main.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign sort_by = search.sort_by | default: search.default_sort_by
+  assign terms = search.terms | escape
+  assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+-%}
+
+{%- style -%}
+
+
+  @media screen and (max-width: 1024px) {
+    .small-hide {
+      display: none !important;
+    }
+
+    .section-{{ section.id }} {
+      padding: 0 1.6rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 749px) {
+    .medium-hide {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .large-up-hide {
+      display: none !important;
+    }
+  }
+{%- endstyle -%}
+
+
+
+
+<div class="section-{{ section.id }} gradient {{ template.suffix }} {{ collection.all_products_count }}-products">
+
+<div class="template-search__header">
+  <div class="template-search__header-inner">
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p role="status" class="typography--heading-1-bold">
+          {{ 'search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}
+        </p>
+      {%- endif -%}
+      {%- if search.results_count == 0 and search.filters == empty -%}
+        <p role="status" class="typography--heading-1-bold">{{ 'search.no_results' | t: terms: search.terms }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+
+  {% if search.performed %}
+    {%- paginate search.results by section.settings.products_per_page -%}
+      <div>
+        {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+        <aside
+          class="facets-wrapper {% if search.filters == empty %} hidden {% endif %}"
+          id="main-collection-filters"
+          data-id="{{ section.id }}"
+        >
+          {% render 'facets',
+            results: search,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting,
+            enable_breadcrumbs: section.settings.enable_breadcrumbs,
+            enable_grid_switcher: section.settings.enable_grid_switcher,
+            alternate_cta: section.settings.alternate_cta,
+            alternate_cta_color: section.settings.alternate_cta_color,
+            context: 'collection',
+            paginate: paginate
+          %}
+        </aside>
+
+        <div class="product-grid-container">
+          <div
+            class="{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            id="ProductGridContainer"
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+            {% endif %}
+          >
+          {%- if search.results.size == 0 and search.filters != empty -%}
+            <div
+              class="template-search__results collection collection--empty"
+              id="product-grid"
+              data-id="{{ section.id }}"
+            >
+              <div class="loading-overlay gradient"></div>
+              <div class="title-wrapper center">
+                <h2 class="typography-body--2 ">
+                  {{ 'collection.empty' | t -}}
+                  <br>
+                  {{
+                    'collection.use_fewer_filters_html'
+                    | t: link: search_url, class: 'underlined-link link'
+                  }}
+                </h2>
+              </div>
+            </div>
+            {%- else -%}
+              {% comment %} Check if filters are active or not {% endcomment %}
+              {% assign filter_active = false %}
+              {%- for filter in collection.filters -%}
+                {%- for value in filter.active_values -%}
+                  {% assign filter_active = true %}
+                  {% break %}
+                {%- endfor -%}
+              {%- endfor -%}
+
+              <div
+                class="collection"
+              >
+                <ul
+                  id="product-grid"
+                  data-id="{{ section.id }}"
+                  class=" product-grid {{ filter_active }}"
+                >
+
+
+                  {%- for product in search.results-%}
+                    <li
+                      class="grid__item product-{{ forloop.index }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ forloop.index }};"
+                      {% endif %}
+                    >
+                      {% render 'product-card',
+                        card_product: product,
+                        card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+                        scope_id: section.id
+                      %}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+
+                {%- if paginate.pages > 1 -%}
+                  {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endpaginate -%}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "search Main",
+  "tag": "section",
+  "class": "section--search-main",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 3,
+      "max": 50,
+      "step": 1,
+      "default": 50,
+      "label": "Products per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_cta",
+      "default": true,
+      "label": "Use alternate CTA style"
+    },
+    {
+      "type": "color",
+      "id": "alternate_cta_color",
+      "default": "#000000",
+      "label": "Alternate CTA color"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none"
+  class="icon icon-footer-chat">
+  <circle opacity="0.2" cx="22" cy="22" r="21.5" stroke="currentColor" />
+  <g clip-path="url(#clip0_1368_19678)">
+    <path
+      d="M13 13H31C31.2652 13 31.5196 13.1054 31.7071 13.2929C31.8946 13.4804 32 13.7348 32 14V30C32 30.2652 31.8946 30.5196 31.7071 30.7071C31.5196 30.8946 31.2652 31 31 31H13C12.7348 31 12.4804 30.8946 12.2929 30.7071C12.1054 30.5196 12 30.2652 12 30V14C12 13.7348 12.1054 13.4804 12.2929 13.2929C12.4804 13.1054 12.7348 13 13 13ZM30 17.238L22.072 24.338L14 17.216V29H30V17.238ZM14.511 15L22.061 21.662L29.502 15H14.511Z"
+      fill="currentColor" />
+  </g>
+  <defs>
+    <clipPath id="clip0_1368_19678">
+      <rect width="24" height="24" fill="currentColor" transform="translate(10 10)" />
+    </clipPath>
+  </defs>
+</svg>

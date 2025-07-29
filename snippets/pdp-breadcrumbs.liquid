@@ -1,0 +1,37 @@
+<ul
+  class="pdp-breadcrumbs breadcrumbs typography--body-small"
+  aria-label="{{ 'breadcrumbs.title' | t }}"
+  role="navigation"
+>
+  <li class="breadcrumbs-item">
+    <a href="{{ routes.root_url }}" class="link link--block link--hover-color-change">
+      {{- 'breadcrumbs.home' | t -}}
+    </a>
+  </li>
+  {%- if collection -%}
+    <li class="breadcrumbs-item breadcrumbs-item--delimiter" aria-hidden="true">
+      <span>&gt;</span>
+    </li>
+    <li class="breadcrumbs-item">
+      <a href="{{ collection.url }}" class="link link--block link--hover-color-change">
+        {{- collection.title -}}
+      </a>
+    </li>
+  {%- endif -%}
+  <li class="breadcrumbs-item breadcrumbs-item--delimiter" aria-hidden="true">
+    <span>&gt;</span>
+  </li>
+  <li class="breadcrumbs-item">
+    <a href="{{ product.url }}" class="link link--block link--hover-color-change">{{ product.title }}</a>
+  </li>
+</ul>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    if (window.matchMedia('(max-width: 991px)').matches) {
+      const target = document.querySelector('.pdp-main');
+      const element = document.querySelector('.pdp-breadcrumbs');
+      target.prepend(element);
+    }
+  });
+</script>

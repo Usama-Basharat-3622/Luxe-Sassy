@@ -1,0 +1,215 @@
+{{ 'header-main.css' | asset_url | stylesheet_tag }}
+
+<!-- Header Main -->
+<div id="header-main" class="header-main isolate" data-id="{{ section.id }}">
+  <div id="header-main-line" class="header-main-line">
+    <!-- Logo -->
+    {%- if request.page_type == 'index' -%}
+      <h1 class="header-logo">
+    {%- else -%}
+      <div class="header-logo">
+    {%- endif -%}
+    <a href="{{ routes.root_url }}" class="header-logo-link link link--block">
+      {{- settings.logo_svg -}}
+      <span class="visually-hidden">{{ shop.name }}</span>
+    </a>
+    {%- if request.page_type == 'index' -%}
+      </h1>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Mega Menu -->
+    {% render 'header-mega' %}
+
+    <!-- Side Menu -->
+    <ul class="header-side-menu" role="navigation">
+      <!-- Cta -->
+      <li class="header-side-menu-item hidden≤1024">
+        <a
+          href="{{ section.settings.cta_link }}"
+          class="header-side-menu-button link button button--small hidden≤1024"
+        >
+          {% render 'label_text_icon', label: section.settings.cta_text, style_class: 'typography--navigation' %}
+        </a>
+      </li>
+      <!-- Search -->
+      <li class="header-side-menu-item hidden-header-drawer-open">
+        {% render 'header-search' %}
+      </li>
+      <!-- Wishlist -->
+      <li class="header-side-menu-item hidden-header-drawer-open" data-wk-header-target>
+        {{- 'icon-heart.svg' | inline_asset_content -}}
+      </li>
+      <!-- Cart -->
+      <li class="header-side-menu-item hidden-header-drawer-open">
+        <a
+          id="cart-icon-bubble"
+          class="header-side-menu-link cart-icon-bubble link link--block link--hover-color-change"
+          href="{{ routes.cart_url }}"
+        >
+          {{- 'icon-bag.svg' | inline_asset_content -}}
+          <span class="visually-hidden">{{ 'header.bag_toggle_label' | t }}</span>
+          {%- if cart != empty -%}
+            <div class="cart-count-bubble">
+              {%- if cart.item_count < 100 -%}
+                <span aria-hidden="true">{{ cart.item_count }}</span>
+              {%- endif -%}
+              <span class="visually-hidden">{{ 'header.bag_toggle_cart_count' | t: count: cart.item_count }}</span>
+            </div>
+          {%- endif -%}
+        </a>
+      </li>
+      <!-- Menu -->
+      <li class="header-side-menu-item hidden≥1025">
+        {% render 'header-drawer' %}
+      </li>
+    </ul>
+  </div>
+  <!-- Mini Menu -->
+  <ul class="header-mini-menu scrollbar-hidden hidden≥1025" role="navigation">
+    {%- for link in section.settings.mini_menu_mobile.links -%}
+      <li class="header-mini-menu-item">
+        <a
+          href="{{ link.url }}"
+          class="header-mini-menu-link link link--block link--hover-color-change typography--navigation"
+        >
+          {{ link.title | escape }}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "logo": {{ settings.logo_png | image_url: width: 500 | prepend: "https:" | json }},
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "section",
+  "class": "section--header",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu_desktop",
+      "default": "main-menu",
+      "label": "Main Menu Desktop"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu_mobile",
+      "label": "Main Menu Mobile"
+    },
+    {
+      "type": "header",
+      "content": "Side Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "side_menu_top_mobile",
+      "label": "Side Menu Top Mobile"
+    },
+    {
+      "type": "link_list",
+      "id": "side_menu_bottom_mobile",
+      "label": "Side Menu Bottom Mobile"
+    },
+    {
+      "type": "header",
+      "content": "Mini Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "mini_menu_mobile",
+      "label": "Mini Menu Mobile"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_title",
+      "label": "Menu 1 Title"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_title",
+      "label": "Menu 2 Title"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "richtext",
+      "id": "richtext",
+      "label": "Richtext"
+    },
+    {
+      "type": "text",
+      "id": "product_list_title",
+      "label": "Products Title"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "limit": 2
+    }
+  ]
+}
+{% endschema %}

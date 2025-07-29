@@ -1,0 +1,304 @@
+{% liquid
+  assign banner_image = content_banner.banner_image
+  assign banner_image_mobile = content_banner.banner_image_mobile
+
+  assign content_position_desktop = content_banner.content_position_desktop
+  assign content_position_mobile = content_banner.content_position_mobile
+  assign position_desktop = content_banner.position_desktop
+  assign position_mobile = content_banner.position_mobile
+
+  assign title = content_banner.title
+  assign description = content_banner.description
+
+  assign button_label = content_banner.button_label
+  assign button_url = content_banner.button_url
+
+  assign background_color = content_banner.background_color
+
+  assign inverse_desktop = content_banner.inverse_desktop
+  assign inverse_mobile = content_banner.inverse_mobile
+
+  assign cover_link = content_banner.cover_link
+
+  assign text_color = content_banner.text_color
+%}
+
+{% style %}
+  .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+      background: {{ background_color }};
+      /* border-radius: 0.5rem; */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+  }
+
+  .clp-promo-fifty-container-{{ index }}{
+      display: flex;
+
+  }
+
+  .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+      color: {{ text_color }};
+  }
+
+  .clp-promo-fifty__media{
+      position: relative;
+  }
+
+
+  .clp-promo-fifty__title{
+      margin-bottom: 1.6rem;
+  }
+
+  .clp-promo-fifty__button{
+      margin-top: 2rem;
+  }
+
+  .clp-promo-fifty__media img, .clp-promo-fifty__media video{
+      height: 100%;
+  }
+
+  .clp-promo-fifty__media svg{
+      width: 100%;
+      height: 100%;
+  }
+
+
+
+  @media screen and (min-width: 1025px) {
+      .clp-promo-fifty-container-{{ index }}{
+          grid-column: 1 / 5;
+          grid-row: {{ position_desktop }} / span 2;
+          height: 50.6rem;
+          margin-left: -2.4rem;
+          margin-right: -2.4rem;
+      }
+
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          padding: 4rem 2.4rem;
+      }
+
+
+      {% if content_position_desktop == 'Top Left' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-start;
+          justify-content: flex-start;
+      }
+      {% elsif content_position_desktop == 'Top Right' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-end;
+          justify-content: flex-start;
+          text-align: right;
+      }
+      {% elsif content_position_desktop == 'Top Center' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: center;
+          justify-content: flex-start;
+          text-align: center;
+      }
+      {% elsif content_position_desktop == 'Middle Left' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-start;
+          justify-content: center;
+      }
+      {% elsif content_position_desktop == 'Middle Center' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+      }
+      {% elsif content_position_desktop == 'Middle Right' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-end;
+          justify-content: center;
+          text-align: right;
+      }
+      {% elsif content_position_desktop == 'Bottom Left' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-start;
+          justify-content: flex-end;
+      }
+      {% elsif content_position_desktop == 'Bottom Center' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: center;
+          justify-content: flex-end;
+          text-align: center;
+      }
+      {% elsif content_position_desktop == 'Bottom Right' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-end;
+          justify-content: flex-end;
+          text-align: right;
+      }
+      {% endif %}
+
+
+
+      {% if inverse_desktop == true %}
+      .clp-promo-fifty-container-{{ index }}{
+          flex-direction: row-reverse;
+      }
+
+      {% endif %}
+
+
+
+      .clp-promo-fifty__content, .clp-promo-fifty__media{
+          flex: 0 0 50%;
+      }
+  }
+
+  @media screen and (max-width: 1024px) {
+      .clp-promo-fifty-container-{{ index }}{
+          grid-row: {{ position_mobile }};
+          flex-direction: column-reverse;
+          margin-left: -1.6rem;
+          margin-right: -1.6rem;
+
+      }
+
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          padding: 3.2rem 1.6rem;
+      }
+
+      .clp-promo-fifty__title{
+          margin-bottom: 1.2rem;
+      }
+
+      .clp-promo-fifty__button{
+          margin-top: 1.6rem;
+      }
+
+      {% if content_position_mobile == 'Left' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-start;
+      }
+      {% elsif content_position_mobile == 'Right' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: flex-end;
+          text-align: right;
+      }
+      {% elsif content_position_mobile == 'Center' %}
+      .clp-promo-fifty-container-{{ index }} .clp-promo-fifty__content{
+          align-items: center;
+          text-align: center;
+      }
+      {% endif %}
+
+
+      {% if inverse_mobile == true %}
+      .clp-promo-fifty-container-{{ index }}{
+          flex-direction: column;
+      }
+
+      {% endif %}
+
+
+  }
+{% endstyle %}
+
+<div class="clp-promo-fifty-container-{{ index }}">
+  <div class="clp-promo-fifty__content">
+    {% if title != blank %}
+      <h2 class="clp-promo-fifty__title typography--heading-1">{{ title }}</h2>
+    {% endif %}
+    {% if description != blank %}
+      <p class="clp-promo-fifty__description typography--body-regular">{{ description }}</p>
+    {% endif %}
+
+    {% if button_label != blank %}
+      <a href="{{ button_url }}" class="clp-promo-fifty__button button button--tertiary typography--body-regular link">
+        {{ button_label }}
+        {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="clp-promo-fifty__media">
+    {% assign media_url = banner_image | file_url %}
+    {% assign media_url_mobile = banner_image_mobile | file_url %}
+
+    {% if media_url contains '.mp4' %}
+      {% if banner_image %}
+        <video
+          alt="{{ banner_image.alt | escape }}"
+          width="{{ banner_image.width }}"
+          height="{{ banner_image.height }}"
+          autoplay
+          playsinline
+          muted
+          loop
+          preload="false"
+          loading="lazy"
+          class="media hidden≤1024"
+        >
+          <source src="{{ banner_image | file_url }}">
+        </video>
+      {% else %}
+        {{ 'collection-3' | placeholder_svg_tag: 'hidden≤1024' }}
+      {% endif %}
+    {% else %}
+      {% if banner_image %}
+        {{-
+          banner_image
+          | image_url: width: banner_image.width
+          | image_tag:
+            loading: 'lazy',
+            widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+            class: 'media clp-promotional-banner-image-text__media hidden≤1024',
+            alt: shop.name
+        -}}
+      {% else %}
+        {{ 'collection-3' | placeholder_svg_tag: 'hidden≤1024' }}
+      {% endif %}
+    {% endif %}
+
+    {% if media_url_mobile contains '.mp4' %}
+      {% if banner_image_mobile %}
+        <video
+          alt="{{ banner_image_mobile.alt | escape }}"
+          width="{{ banner_image_mobile.width }}"
+          height="{{ banner_image_mobile.height }}"
+          autoplay
+          playsinline
+          muted
+          loop
+          preload="false"
+          loading="lazy"
+          class="media hidden≥1025"
+        >
+          <source src="{{ banner_image_mobile| file_url }}">
+        </video>
+      {% else %}
+        {{ 'collection-3' | placeholder_svg_tag: 'hidden≥1025' }}
+      {% endif %}
+
+    {% else %}
+      {% if banner_image_mobile %}
+        {{-
+          banner_image_mobile
+          | image_url: width: banner_image_mobile.width
+          | image_tag:
+            loading: 'lazy',
+            widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+            class: 'media clp-promotional-banner-image-text__media hidden≥1025 ',
+            alt: shop.name
+        -}}
+      {% else %}
+        {{ 'collection-3' | placeholder_svg_tag: 'hidden≥1025' }}
+      {% endif %}
+    {% endif %}
+
+    {% if cover_link != blank %}
+      <a
+        class="link link--covering focus-none"
+        href="{{ cover_link }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <span class="visually-hidden">{{ 'accessibility.link_to_item' | t: item: button_label }}</span>
+      </a>
+    {% endif %}
+  </div>
+</div>

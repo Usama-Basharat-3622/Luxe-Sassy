@@ -1,0 +1,33 @@
+@media screen and (min-width: 992px) {
+  .hp-editorial-100 .banner-content {
+    padding: 4rem 2.4rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .hp-editorial-100 .banner-content {
+    padding: 3.2rem 1.6rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .hp-editorial-100 .banner-cta-line {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1.6rem;
+    margin-top: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .hp-editorial-100 .banner-cta-line {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1.6rem;
+    margin-top: 0.8rem;
+  }
+}
+
+.hp-editorial-100 .banner-cta {
+  padding: 1.4rem 4.5rem;
+}

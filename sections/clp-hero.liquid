@@ -1,0 +1,109 @@
+{{ 'clp-hero.css' | asset_url | stylesheet_tag }}
+
+<div id="clp-hero-{{ section.id }}" class="clp-hero-{{ section.id }} clp-hero isolate">
+  <div class="clp-hero-media">
+    {%- if collection.metafields.custom.hero_image_desktop.value != blank -%}
+      {{-
+        collection.metafields.custom.hero_image_desktop.value
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy', class: 'media hidden≤1024', alt: shop.name
+      -}}
+    {%- endif -%}
+    {%- if collection.metafields.custom.hero_image_mobile.value != blank -%}
+      {{-
+        collection.metafields.custom.hero_image_mobile.value
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy', class: 'media hidden≥1025', alt: shop.name
+      -}}
+    {%- endif -%}
+  </div>
+
+  <div class="clp-hero-overlay {% if collection.metafields.custom.hero_image_desktop.value != blank %} clp-hero-overlay--has-image {% endif %}">
+    <div class="clp-hero-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+      <div class="clp-hero-breadcrumbs-inner">
+        <a href="{{ routes.root_url }}" class="link link--inline-block typography--body-small link--hover-color-change" >
+          Home
+        </a>
+        <span class="clp-hero-breadcrumbs-separator typography--body-small">></span>
+        <a href="{{ collection.url }}" class="link link--inline-block typography--body-small link--hover-color-change">
+          {{ collection.title | escape }}
+        </a>
+      </div>
+    </div>
+    <div class="clp-hero-content">
+      <div class="clp-hero-text">
+        <h1 class="clp-hero-title typography--heading-2">
+          {{ collection.title | escape }}
+        </h1>
+        {%- if collection.description != blank -%}
+          <div class="clp-hero-description typography--body-regular">
+            {{ collection.description | strip_newlines | remove: '<br>' }}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if collection.metafields.custom.hero_link_blocks.value.count > 0 -%}
+        <collection-nav-carousel
+          id="collection-nav-carousel-{{ section.id }}"
+          class="collection-nav-carousel-{{ section.id }} collection-nav-carousel isolate"
+          role="region"
+        >
+          <div class="swiper isolate">
+            <div class="swiper-wrapper">
+              {%- for related_collection in collection.metafields.custom.hero_link_blocks.value -%}
+                <div class="swiper-slide">
+                  <a
+                    href="{{ related_collection.link }}"
+                    class="clp-hero-menu-link link typography--body-small"
+                  >
+                    {%- if related_collection.image != blank -%}
+                      {{-
+                        related_collection.image
+                        | image_url: width: related_collection.image.width
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+                          class: 'media',
+                          alt: shop.name
+                      -}}
+                    {%- endif -%}
+
+                    <span class="clp-hero-menu-link-text typography--navigation">
+                      {{ related_collection.title }}
+                    </span>
+                  </a>
+                </div>
+              {%- endfor -%}
+            </div>
+            <button
+              class="swiper-nav-button swiper-nav-button--prev"
+              type="button"
+              name="previous"
+              aria-label="{{ 'accessibility.previous' | t }}"
+              aria-controls="collection-nav-carousel-{{ section.id }}"
+            >
+              {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
+            </button>
+            <button
+              class="swiper-nav-button swiper-nav-button--next"
+              type="button"
+              name="next"
+              aria-label="{{ 'accessibility.next' | t }}"
+              aria-controls="collection-nav-carousel-{{ section.id }}"
+            >
+              {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
+            </button>
+          </div>
+        </collection-nav-carousel>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CLP Hero",
+  "tag": "section",
+  "class": "section--clp-hero",
+  "settings": []
+}
+{% endschema %}

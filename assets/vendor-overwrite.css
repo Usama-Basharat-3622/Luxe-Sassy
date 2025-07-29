@@ -1,0 +1,234 @@
+/********************************
+  Vendor override
+  Fittingbox
+********************************/
+
+.vto-badge-large {
+  position: absolute !important;
+  top: 2rem !important;
+  right: 2.4rem !important;
+  margin-top: 0 !important;
+  border: 0.1rem solid rgb(var(--color-white)) !important;
+  border-radius: 0.5rem !important;
+  height: auto !important;
+  padding: 0.8rem 1.6rem !important;
+
+  font-size: 1.2rem !important;
+  line-height: 1.4 !important;
+  color: rgb(var(--color-black)) !important;
+  background-color: rgb(var(--color-white)) !important;
+
+  transition-property: color, background-color, border-color;
+  transition-timing-function: ease;
+  transition-duration: 300ms;
+}
+
+@media screen and (max-width: 991px) {
+  .vto-badge-large {
+    top: 1.2rem !important;
+    right: 1.6rem !important;
+  }
+}
+
+.vto-badge-large div:first-child {
+  position: static !important;
+  float: none !important;
+  line-height: normal !important;
+  color: rgb(var(--color-black)) !important;
+}
+
+.vto-badge-large img {
+  display: none !important;
+}
+
+@media (any-hover: hover) {
+  .vto-badge-large:hover {
+    border: 0.1rem solid rgb(var(--color-black)) !important;
+  }
+}
+
+.vto-badge-small {
+  position: absolute !important;
+  top: 1.2rem !important;
+  right: 1.2rem !important;
+  border: 0.1rem solid rgb(var(--color-white)) !important;
+  border-radius: 0.5rem !important;
+  height: auto !important;
+  padding: 0.4rem 0.6rem !important;
+
+  font-size: 1.2rem !important;
+  line-height: 1.4 !important;
+  color: rgb(var(--color-black)) !important;
+  background-color: rgb(var(--color-white)) !important;
+
+  transition-property: color, background-color, border-color;
+  transition-timing-function: ease;
+  transition-duration: 300ms;
+}
+
+.vto-badge-small div:first-child {
+  display: none !important;
+}
+
+.vto-badge-small img {
+  display: none !important;
+}
+
+.vto-badge-small div:last-child {
+  position: static !important;
+  display: block !important;
+  line-height: normal !important;
+  color: rgb(var(--color-black)) !important;
+}
+
+@media (any-hover: hover) {
+  .vto-badge-small:hover {
+    border: 0.1rem solid rgb(var(--color-black)) !important;
+  }
+}
+
+#fbx_product_button_embed {
+  display: none !important;
+}
+
+.vto-button-target #fbx_product_button_embed {
+  display: block !important;
+}
+
+.vto-button-target {
+  width: 100%;
+}
+
+.vto-button {
+  position: relative !important;
+
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.2rem !important;
+
+  margin: 0 !important;
+
+  height: auto !important;
+  padding: 1.4rem 4.5rem !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+
+  color: rgb(var(--color-text-button-primary)) !important;
+  background-color: rgb(var(--color-background-button-primary)) !important;
+
+  font-family: var(--font-family-cta) !important;
+  font-weight: var(--font-weight-cta) !important;
+  font-style: var(--font-style-cta) !important;
+  font-size: var(--font-size-cta-desktop) !important;
+  line-height: var(--line-height-cta-desktop) !important;
+  letter-spacing: var(--letter-spacing-cta-desktop) !important;
+
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+
+  transition-property: color, background-color, border-color !important;
+  transition-timing-function: ease !important;
+  transition-duration: 300ms !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .vto-button {
+    padding: 1.2rem 4.5rem !important;
+
+    font-size: var(--font-size-cta-mobile) !important;
+    line-height: var(--line-height-cta-mobile) !important;
+    letter-spacing: var(--letter-spacing-cta-mobile) !important;
+  }
+}
+
+@media (any-hover: hover) {
+  .vto-button:hover {
+    color: rgb(var(--color-text-button-primary-hover)) !important;
+    background-color: rgb(
+      var(--color-background-button-primary-hover)
+    ) !important;
+  }
+}
+
+/********************************
+  Vendor override
+  Swiper
+********************************/
+
+.swiper {
+  --swiper-theme-color: rgb(var(--color-black));
+}
+
+.swiper-slide {
+  height: auto;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  display: none !important;
+}
+
+.swiper-button-next .icon,
+.swiper-button-prev .icon {
+  width: 2.4rem;
+}
+
+/********************************
+  Vendor override
+  Captcha challenge
+********************************/
+
+.shopify-challenge__container {
+  min-height: calc(100vh - var(--header-bottom-position));
+  padding-top: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.shopify-challenge__container .shopify-challenge__button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 2.4rem auto 0 !important;
+  min-height: 4.8rem;
+  --color-button-text: var(--color-white);
+  --color-button-background: var(--color-grey-medium);
+  --alpha-button-background: 1;
+  --alpha-button-border: 0;
+  border: var(--buttons-border-width) solid
+    rgba(var(--color-button-border), var(--alpha-button-border));
+  border-radius: var(--buttons-border-radius);
+  padding: 0.6rem 3.2rem;
+  white-space: nowrap;
+  color: rgb(var(--color-button-text));
+  background-color: rgba(
+    var(--color-button-background),
+    var(--alpha-button-background)
+  );
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition-property: color, background-color, border-color;
+  transition-timing-function: ease;
+  transition-duration: 0.3s;
+}
+
+.shopify-challenge__container form {
+  text-align: center;
+}
+
+@media (any-hover: hover) {
+  .shopify-challenge__container .shopify-challenge__button:hover {
+    --color-button-background: var(--color-grey-medium);
+  }
+}

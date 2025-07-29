@@ -1,0 +1,278 @@
+{% assign max_annual_box = product.metafields.custom.cl_annual_supply_boxes | divided_by: 2 %}
+
+<quantity-selector-cl class="quantity-selector__cl_container">
+  <div class="quantity-selector-label typography--body-regular">
+    {{ 'product.contact_lens.quantity.label' | t }}
+  </div>
+
+  <div class="quantity-selector__cl">
+    <div class="quantity-selector__cl-checkbox field--checkbox">
+      <input type="checkbox" id="quantity-checkbox-left" class="quantity-selector__cl-checkbox-input" checked>
+      <label for="quantity-selector__cl-checkbox" class="quantity-selector__cl-checkbox-label typography--body-regular">
+        {{ 'product.contact_lens.quantity.left_eye_label' | t }}
+      </label>
+    </div>
+    <div class="quantity-selector__cl-checkbox field--checkbox">
+      <input type="checkbox" id="quantity-checkbox-right" class="quantity-selector__cl-checkbox-input" checked>
+      <label for="quantity-selector__cl-checkbox" class="quantity-selector__cl-checkbox-label typography--body-regular">
+        {{ 'product.contact_lens.quantity.right_eye_label' | t }}
+      </label>
+    </div>
+
+    <div class="quantity_cl quantity_cl_left">
+      <button class="quantity__button" name="minus" type="button">
+        <span class="visually-hidden">
+          {{- 'product.quantity.decrease' | t: product: product.title | escape -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-minus.svg' | inline_asset_content -}}
+        </span>
+      </button>
+      <input
+        class="quantity__input_cl"
+        type="number"
+        name="quantity"
+        id="Quantity-CL-R-{{ section.id }}"
+        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+        data-max="{{ max_annual_box }}"
+        max="{{ max_annual_box }}"
+        step="1"
+        value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+      >
+      <button class="quantity__button" name="plus" type="button">
+        <span class="visually-hidden">
+          {{- 'product.quantity.increase' | t: product: product.title | escape -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-plus.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+
+    <div class="quantity_cl quantity_cl_right">
+      <button class="quantity__button" name="minus" type="button">
+        <span class="visually-hidden">
+          {{- 'product.quantity.decrease' | t: product: product.title | escape -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-minus.svg' | inline_asset_content -}}
+        </span>
+      </button>
+      <input
+        class="quantity__input_cl"
+        type="number"
+        name="quantity"
+        id="Quantity-CL-R-{{ section.id }}"
+        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+        data-max="{{ max_annual_box }}"
+        max="{{ max_annual_box }}"
+        step="1"
+        value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+      >
+      <button class="quantity__button" name="plus" type="button">
+        <span class="visually-hidden">
+          {{- 'product.quantity.increase' | t: product: product.title | escape -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-plus.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  {% if product.metafields.custom.cl_additional_info %}
+    <div class="cl_additional_info">
+      <p class="typography--body-small">
+        {% if product.metafields.custom.cl_additional_info contains '|' %}
+          {{ product.metafields.custom.cl_additional_info | split: '|' | first }}
+          <span style="color: rgb(var(--color-primary));">
+            {{- product.metafields.custom.cl_additional_info | split: '|' | slice: 1, 1 -}}
+          </span>
+          {{ product.metafields.custom.cl_additional_info | split: '|' | last }}
+        {% else %}
+          {{ product.metafields.custom.cl_additional_info }}
+        {% endif %}
+      </p>
+    </div>
+  {% endif %}
+
+  {% liquid
+    assign original_price = product.selected_or_first_available_variant.price
+    assign discount_value = product.metafields.custom.cl_annual_supply_discount | divided_by: 100.00
+    assign discount_off = original_price | times: discount_value
+    assign discounted_price = original_price | minus: discount_off
+  %}
+
+  <div
+    class="pricing-module__cl"
+    data-discounted-price="{{ discounted_price }}"
+    data-box-price="{{ product.selected_or_first_available_variant.price }}"
+    data-cl-discount="{{ product.metafields.custom.cl_annual_supply_discount }}"
+    data-cl-annual-supply="{{ product.metafields.custom.cl_annual_supply_boxes }}"
+  >
+    <div class="cl_price_per_box typography--body-regular">
+      <span class="cl_price_per_box_text">Price per box</span>
+      <div class="cl_price_per_box_value_container">
+        <span class="cl_price_per_box_value">
+          {{ product.selected_or_first_available_variant.price | money }}
+        </span>
+        <span class="cl_price_per_box_value_discounted hidden">
+          <span class="cl_original_price">
+            {{ product.selected_or_first_available_variant.price | money }}
+          </span>
+          <span class="cl_discounted_price">
+            {{ discounted_price | money }}
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="cl_box_total typography--body-regular">
+      <span class="cl_box_total_text"><span class="js-cl-total-boxes">8</span> boxes total</span>
+      <span class="cl_box_total_value js-cl-total-boxes-value">
+        {{- product.selected_or_first_available_variant.price | money -}}
+      </span>
+    </div>
+    <div class="cl_annual_price typography--body-regular hidden">
+      <span class="cl_annual_price_text">Annual Supply Savings</span>
+      <span class="cl_annual_price_value">{{ product.selected_or_first_available_variant.price | money }}</span>
+    </div>
+    <div class="cl_subtotal typography--heading-2">
+      <span class="cl_subtotal_text">Subtotal</span>
+      <span class="cl_subtotal_value">{{ product.selected_or_first_available_variant.price | money }}</span>
+    </div>
+  </div>
+</quantity-selector-cl>
+
+<script>
+
+
+
+// Function to run a callback when an element with the given selector exists in the DOM
+function runWhenElementExists(selector, callback) {
+  const element = document.querySelector(selector);
+  if (element) {
+    callback(element);
+    return; // already present
+  }
+
+  const observer = new MutationObserver(() => {
+    const el = document.querySelector(selector);
+    if (el) {
+      callback(el);
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+}
+
+
+
+// Add custom line item properties when LensAdvizor modal is opened
+document.addEventListener('LensAdvizor:selectLensModal:open', function() {
+
+  const discountValue = document.querySelector('.pricing-module__cl').dataset.clDiscount;
+  const annualSupplyValue = document.querySelector('.pricing-module__cl').dataset.clAnnualSupply;
+
+  // generate random anumerical string 5 characters long
+  const randomString = Math.random().toString(36).substring(2, 7);
+
+  // add custom line item properties
+  hiddenInputText = `
+          <input id="hiddenPairProperty" type="hidden" name='la-properties[_contact_pair]' value=${randomString} >
+          <input id="hiddenDiscountProperty" type="hidden" name='la-properties[_cl_discount]' value="${discountValue}" >
+          <input id="hiddenAnnualSupplyProperty" type="hidden" name='la-properties[_annual_supply]' value="${annualSupplyValue}" >
+      `;
+
+  runWhenElementExists('.la-prescription-modal-wrapper', (el) => {
+    wrapper = document.querySelector('.la-prescription-modal-wrapper');
+    wrapper.insertAdjacentHTML('beforeend', hiddenInputText);
+  });
+
+})
+
+
+
+  // Change Quantity if Prescription Method was chosen Email Later or Upload File
+  document.addEventListener('LensAdvizor:review:rendered', function() { 
+
+    const inputLeft = document.querySelector('.quantity_cl_left input');
+    const inputRight = document.querySelector('.quantity_cl_right input');
+
+    const quantityLeft = inputLeft.disabled ? 0 : inputLeft.value;
+    const quantityRight = inputRight.disabled ? 0 : inputRight.value;
+
+    document.querySelector('#la-osLeft-quantity').value = quantityLeft;
+    document.querySelector('#la-odRight-quantity').value = quantityRight;
+
+    document.querySelector('#la-osLeft-quantity')?.setAttribute('min', 0);
+    document.querySelector('#la-odRight-quantity')?.setAttribute('min', 0);
+
+    if (quantityLeft == 0) {
+      document
+        .querySelector('#la-osLeft-quantity')
+        .closest('.la-form-flex')
+        .querySelectorAll('.la-form-item select')
+        .forEach(function (select) {
+          select.removeAttribute('required');
+        });
+    } else if (quantityRight == 0) {
+      document
+        .querySelector('#la-odRight-quantity')
+        .closest('.la-form-flex')
+        .querySelectorAll('.la-form-item select')
+        .forEach(function (select) {
+          select.removeAttribute('required');
+        });
+    }
+
+    document.querySelector('#la-osLeft-quantity').setAttribute('tabindex', '-1');
+    document.querySelector('#la-odRight-quantity').setAttribute('tabindex', '-1');
+
+    console.log(`LensAdvizor rendered: Left - ${quantityLeft}, Right - ${quantityRight}`);
+
+
+
+  });
+
+  // Change Quantity if Prescription Method was chosen Entered Manually
+  document.addEventListener('LensAdvizor:render:contactLens', function () {
+    const inputLeft = document.querySelector('.quantity_cl_left input');
+    const inputRight = document.querySelector('.quantity_cl_right input');
+
+    const quantityLeft = inputLeft.disabled ? 0 : inputLeft.value;
+    const quantityRight = inputRight.disabled ? 0 : inputRight.value;
+
+    document.querySelector('#la-osleft-quantity').value = quantityLeft;
+    document.querySelector('#la-odright-quantity').value = quantityRight;
+
+    if (quantityLeft == 0) {
+      document
+        .querySelector('#la-osleft-quantity')
+        .closest('.la-form-flex')
+        .querySelectorAll('.la-form-item select')
+        .forEach(function (select) {
+          select.removeAttribute('required');
+        });
+    } else if (quantityRight == 0) {
+      document
+        .querySelector('#la-odright-quantity')
+        .closest('.la-form-flex')
+        .querySelectorAll('.la-form-item select')
+        .forEach(function (select) {
+          select.removeAttribute('required');
+        });
+    }
+
+    document.querySelector('#la-osleft-quantity').setAttribute('tabindex', '-1');
+    document.querySelector('#la-odright-quantity').setAttribute('tabindex', '-1');
+
+    console.log(`LensAdvizor rendered: Left - ${quantityLeft}, Right - ${quantityRight}`);
+
+  });
+</script>

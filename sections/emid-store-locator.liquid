@@ -1,0 +1,76 @@
+<iframe
+    src="{{ section.settings.iframe_url }}/userLocator"
+    title="Exam scheduler"
+    height="1000px"
+    width="100%"
+    aria-label="Exam scheduler"
+    allow="geolocation"
+    id="store-locator-iframe"
+></iframe>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const address = urlParams.get("address");
+        const storeReference = urlParams.get("storeReference");
+        const userLocator = urlParams.get("userLocator");
+
+        if (address) {
+        const iframe = document.querySelector("#store-locator-iframe");
+            if (iframe) {
+                iframe.src = `{{ section.settings.iframe_url }}/store?address=${encodeURIComponent(address)}`;
+            }
+        } else if (storeReference) {
+            const iframe = document.querySelector("#store-locator-iframe");
+            if (iframe) {
+                iframe.src = `{{ section.settings.iframe_url }}/slotBook?storeReference=${encodeURIComponent(storeReference)}`;
+            }
+        } else if (userLocator) {
+            const iframe = document.querySelector("#store-locator-iframe");
+            if (iframe) {
+                iframe.src = `{{ section.settings.iframe_url }}/userLocator`;
+                
+            }
+        }
+        
+    });
+
+    window.addEventListener("load", function () {
+        setTimeout(function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+            console.log("shopify manual scroll to top");
+        }, 1000);
+    });
+
+    const handleScrollToTop = (event) => {
+        // add scheduler app domain name which passed in iframe
+        const domain = "https://web-stage.scheduler.fielmannusa.com";
+
+        if (event.origin !== domain) {
+            return;
+        }
+
+        if (event.data?.type === "SCROLL_TO_TOP") {
+            console.log("Received SCROLL_TO_TOP message from iframe");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    };
+
+    window.addEventListener("message", handleScrollToTop);
+
+</script>
+{% schema %}
+{
+    "name": "Emid Store Locator",
+    "settings": [
+        {
+            "type": "text",
+            "id": "iframe_url",
+            "label": "Iframe Environment URL",
+            "default": "https://web-stage.scheduler.fielmannusa.com"
+        }
+    ]
+}
+{% endschema %}

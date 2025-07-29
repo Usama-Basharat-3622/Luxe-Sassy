@@ -1,0 +1,163 @@
+{% layout none %}
+
+{%- case settings.style_config -%}
+  {%- when 'svs' -%}
+    {% render 'style-settings-svs' %}
+  {%- when 'shopko' -%}
+    {% render 'style-settings-shopko' %}
+  {%- when 'befitting' -%}
+    {% render 'style-settings-befitting' %}
+  {%- else -%}
+{%- endcase -%}
+<link href="{{ 'global.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
+
+<style>
+  body {
+    background-color: #eee;
+  }
+
+  .dev-sg-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 50px 15px;
+  }
+
+  .dev-sg-list + .dev-sg-list {
+    margin-top: 80px;
+  }
+
+  .dev-sg-list > * + * {
+    margin-top: 5rem;
+  }
+
+  .dev-sg-list-item > * {
+    //width: 100%;
+  }
+
+  .dev-sg-list-item > * + * {
+    margin-top: 1rem;
+  }
+
+  .dev-sg-list-item-title {
+    font-size: 1.6rem;
+    color: #aaa;
+  }
+</style>
+
+<div class="dev-sg-container">
+  <!-- Typography Heading -->
+
+  <section class="dev-sg-typography-list dev-sg-list">
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Heading 1 Bold</h2>
+      <h3 class="typography--heading-1-bold">Heading 1 Bold</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Heading 1</h2>
+      <h3 class="typography--heading-1">Heading 1</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Heading 2 Bold</h2>
+      <h3 class="typography--heading-2-bold">Heading 2 Bold</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Heading 2</h2>
+      <h3 class="typography--heading-2">Heading 2</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Body Regular Bold</h2>
+      <h3 class="typography--body-regular-bold">Body Regular Bold</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Body Regular</h2>
+      <h3 class="typography--body-regular">Body Regular</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Body Small</h2>
+      <h3 class="typography--body-small">Body Small</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Navigation</h2>
+      <h3 class="typography--navigation">Navigation</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">CTA</h2>
+      <h3 class="typography--cta">CTA</h3>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Tag</h2>
+      <h3 class="typography--tag">Tag</h3>
+    </div>
+  </section>
+
+  <!-- Button -->
+
+  <section class="dev-sg-button-list dev-sg-list">
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Small CTA</h2>
+      <button class="button button--small typography--navigation">Book an eye exam</button>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Primary CTA</h2>
+      <button class="button button--primary typography--cta">Select lenses and buy</button>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Secondary CTA</h2>
+      <button class="button button--secondary typography--cta">Buy only frame</button>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Tertiary CTA</h2>
+      <button class="button button--tertiary typography--body-regular">
+        View All {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+      </button>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Tag Big</h2>
+      <button class="button button--tag-big typography--body-regular">Eyeglasses</button>
+    </div>
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Tag Small</h2>
+      <button class="button button--tag-small typography--body-small">Youth</button>
+    </div>
+  </section>
+
+  <!-- Input & Select & Textarea -->
+
+  <section class="dev-sg-input-list dev-sg-list">
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Input Text</h2>
+      <div class="field field--input">
+        <label for="input1" class="typography--body-small">Label</label>
+        <input type="text" name="input1" id="input1" placeholder="Placeholder" class="typography--body-regular">
+        <p class="field-caption typography--body-small">
+          <span>Caption</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Input Text</h2>
+      <div class="field field--input field--error">
+        <label for="input1" class="typography--body-small">Label</label>
+        <input type="text" name="input1" id="input1" placeholder="Placeholder" class="typography--body-regular">
+        <p class="field-caption typography--body-small">
+          <span>Error Message</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="dev-sg-list-item">
+      <h2 class="dev-sg-list-item-title">Input Text</h2>
+      <div class="field field--input">
+        <label for="input1" class="typography--body-small">Label</label>
+        <div class="field-line">
+          <input type="text" name="input1" id="input1" placeholder="Placeholder" class="typography--body-regular">
+          <button class="button button--primary typography--navigation">Schedule</button>
+        </div>
+        <p class="field-caption typography--body-small">
+          <span>Caption</span>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,28 @@
+{
+  "layout": "theme",
+  "sections": {
+    "404-main": {
+      "type": "404-main",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201f1e",
+        "title": "404",
+        "paragraph": "<p>This page does not exist.</p>",
+        "cta_text": "Continue Shopping",
+        "cta_link": "shopify://collections/all-contacts",
+        "content_width": 800,
+        "text_placement_hor": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 150,
+        "padding_bottom": 150,
+        "padding_top_mobile": 150,
+        "padding_bottom_mobile": 150
+      }
+    }
+  },
+  "order": [
+    "404-main"
+  ]
+}

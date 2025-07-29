@@ -1,0 +1,20 @@
+{
+  "layout": "theme",
+  "sections": {
+    "meta-redirect": {
+      "type": "meta-redirect",
+      "settings": {
+        "redirect_link": "/"
+      }
+    },
+    "list-collections-main": {
+      "type": "list-collections-main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "meta-redirect",
+    "list-collections-main"
+  ]
+}

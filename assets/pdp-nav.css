@@ -1,0 +1,28 @@
+@media screen and (min-width: 992px) {
+  .pdp-nav {
+    padding-left: 2.4rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .pdp-nav {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+}
+
+.pdp-nav-menu {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2.4rem;
+  padding: 0.4rem;
+  border-bottom: 0.1rem solid rgb(var(--color-grey));
+  overflow: auto;
+}
+
+.pdp-nav-menu-link {
+  padding: 1.2rem 0;
+  white-space: nowrap;
+}

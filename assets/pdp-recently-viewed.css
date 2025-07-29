@@ -1,0 +1,33 @@
+.pdp-recently-viewed {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .pdp-recently-viewed-title {
+    padding: 3.2rem 2.4rem;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .pdp-recently-viewed-title {
+    padding: 3.2rem 1.6rem;
+  }
+}
+
+.pdp-recently-viewed .swiper {
+  --swiper-scrollbar-sides-offset: 2.4rem;
+  --swiper-scrollbar-bottom: 0;
+  --swiper-scrollbar-size: 1px;
+
+  --swiper-scrollbar-bg-color: rgb(var(--color-grey));
+  --swiper-scrollbar-drag-bg-color: rgb(var(--color-black));
+
+  padding-bottom: 3.2rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .pdp-recently-viewed .swiper {
+    --swiper-scrollbar-sides-offset: 1.6rem;
+    padding-bottom: 3.2rem;
+  }
+}

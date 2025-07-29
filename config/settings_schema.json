@@ -1,0 +1,246 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Black & Black Creative",
+    "theme_version": "0.0.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "html",
+        "id": "logo_svg",
+        "label": "Logo SVG"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_png",
+        "label": "Logo PNG"
+      },
+      {
+        "type": "header",
+        "content": "Favicon Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "radio",
+        "id": "style_config",
+        "label": "Style Configuration",
+        "options": [
+          {
+            "value": "svs",
+            "label": "SVS"
+          },
+          {
+            "value": "shopko",
+            "label": "Shopko"
+          },
+          {
+            "value": "befitting",
+            "label": "Befitting"
+          }
+        ],
+        "default": "svs"
+      }
+    ]
+  },
+  {
+    "name": "Ecommerce Features",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Eyeglasses"
+      },
+      {
+        "type": "checkbox",
+        "id": "eyeglasses_price_enabled",
+        "label": "Enable Eyeglasses Price",
+        "default": true
+      },
+      {
+        "type": "radio",
+        "id": "eyeglasses_pdp_primary_cta",
+        "label": "Eyeglasses PDP Primary CTA",
+        "options": [
+          {
+            "value": "add-to-cart",
+            "label": "Add to Cart"
+          },
+          {
+            "value": "virtual-try-on",
+            "label": "Virtual Try-On"
+          },
+          {
+            "value": "custom",
+            "label": "Custom"
+          }
+        ],
+        "default": "add-to-cart"
+      },
+      {
+        "type": "text",
+        "id": "eyeglasses_custom_cta_text",
+        "label": "Eyeglasses Custom CTA Text"
+      },
+      {
+        "type": "url",
+        "id": "eyeglasses_custom_cta_link",
+        "label": "Eyeglasses Custom CTA Link"
+      },
+      {
+        "type": "header",
+        "content": "Sunglasses"
+      },
+      {
+        "type": "checkbox",
+        "id": "sunglasses_price_enabled",
+        "label": "Enable Sunglasses Price",
+        "default": true
+      },
+      {
+        "type": "radio",
+        "id": "sunglasses_pdp_primary_cta",
+        "label": "Sunglasses PDP Primary CTA",
+        "options": [
+          {
+            "value": "add-to-cart",
+            "label": "Add to Cart"
+          },
+          {
+            "value": "virtual-try-on",
+            "label": "Virtual Try-On"
+          },
+          {
+            "value": "custom",
+            "label": "Custom"
+          }
+        ],
+        "default": "add-to-cart"
+      },
+      {
+        "type": "text",
+        "id": "sunglasses_custom_cta_text",
+        "label": "Sunglasses Custom CTA Text"
+      },
+      {
+        "type": "url",
+        "id": "sunglasses_custom_cta_link",
+        "label": "Sunglasses Custom CTA Link"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "placeholder": "https://facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "placeholder": "https://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X / Twitter",
+        "placeholder": "https://x.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "Linkedin",
+        "placeholder": "https://wwwlinkedin.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "placeholder": "https://www.youtube.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "placeholder": "https://pinterest.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "placeholder": "https://www.snapchat.com/add/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "placeholder": "https://shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "placeholder": "https://vimeo.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "placeholder": "https://tiktok.com/@shopify"
+      }
+    ]
+  },
+  {
+    "name": "3rd Party Services",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Google"
+      },
+      {
+        "type": "text",
+        "id": "google_site_verification",
+        "label": "Google Site Verification"
+      },
+      {
+        "type": "text",
+        "id": "gtm_id",
+        "label": "GTM ID"
+      },
+      {
+        "type": "header",
+        "content": "Medchat",
+      },
+      {
+        "type": "text",
+        "id": "medchat_url",
+        "label": "Medchat Script URL",
+        "default": "https://medchatapp.com/widget/widget.js?api-key=MNXcgSSWzkmdbJfOMZQ1tA&hide-launcher=1"
+      }
+    ]
+  }
+]

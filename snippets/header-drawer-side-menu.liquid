@@ -1,0 +1,21 @@
+<ul class="header-drawer-side-menu {{ class }}" role="navigation">
+  {%- for link in linklist.links -%}
+    <li class="header-drawer-side-menu-item">
+      {% if link.url == '#' and link.title contains 'chat' %}
+        <button
+          class="header-drawer-side-menu-link link link--inline-block"
+          onclick="MedChatApp.expand()"
+        >
+          {% render 'label_text_icon', label: link.title, style_class: 'typography--navigation' %}
+        </button>
+      {%- else -%}
+        <a
+          class="header-drawer-side-menu-link link link--inline-block"
+          href="{{ link.url }}"
+        >
+          {% render 'label_text_icon', label: link.title, style_class: 'typography--navigation' %}
+        </a>
+      {% endif %}
+    </li>
+  {%- endfor -%}
+</ul>

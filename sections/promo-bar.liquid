@@ -1,0 +1,147 @@
+{{ 'promo-bar.css' | asset_url | stylesheet_tag }}
+
+<div id="promo-bar" class="promo-bar" data-id="{{ section.id }}">
+  <!-- Side Menu (Left) -->
+  {% render 'promo-bar-menu',
+    linklist: section.settings.promo_bar_side_menu_left_desktop,
+    class: 'promo-bar-menu--left'
+  %}
+
+  <!-- Slider -->
+  <promo-bar-slider
+    id="promo-bar-slider-{{ section.id }}"
+    class="promo-bar-slider"
+    role="region"
+  >
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.text != blank -%}
+            <div
+              class="promo-bar-slide swiper-slide"
+              data-swiper-autoplay="{{ block.settings.promo_bar_slider_interval | times: 1000 }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.link != blank -%}
+                <a class="link link--inline-block" href="{{ block.settings.link }}">
+              {%- endif -%}
+
+              <span class="typography--navigation link--hover-color-change">
+                {{ block.settings.text }}
+              </span>
+
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <button
+        class="swiper-button-prev hidden"
+        type="button"
+        name="previous"
+        aria-label="{{ 'accessibility.previous' | t }}"
+        aria-controls="promo-bar-slider-{{ section.id }}"
+      >
+        {{- 'icon-caret_left.svg' | inline_asset_content -}}
+      </button>
+
+      <button
+        class="swiper-button-next hidden"
+        type="button"
+        name="next"
+        aria-label="{{ 'accessibility.next' | t }}"
+        aria-controls="promo-bar-slider-{{ section.id }}"
+      >
+        {{- 'icon-caret_right.svg' | inline_asset_content -}}
+      </button>
+    </div>
+  </promo-bar-slider>
+
+  <!-- Side Menu (Right) -->
+  {% render 'promo-bar-menu',
+    linklist: section.settings.promo_bar_side_menu_right_desktop,
+    class: 'promo-bar-menu--right'
+  %}
+</div>
+
+{% style %}
+  .promo-bar {
+    color: {{ section.settings.promo_bar_text_color }};
+    background-color: {{ section.settings.promo_bar_background_color }};
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Promo Bar",
+  "tag": "section",
+  "class": "section--promo-bar",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "promo_bar_text_color",
+      "label": "Promo Bar Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "color",
+      "id": "promo_bar_background_color",
+      "label": "Promo Bar Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "header",
+      "content": "Promo Bar Side Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "promo_bar_side_menu_left_desktop",
+      "label": "Promo Bar Side Menu Left Desktop"
+    },
+    {
+      "type": "link_list",
+      "id": "promo_bar_side_menu_right_desktop",
+      "label": "Promo Bar Side Menu Right Desktop"
+    },
+    {
+      "type": "header",
+      "content": "Promo Bar Slider"
+    },
+    {
+      "type": "range",
+      "id": "promo_bar_slider_interval",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Promo Bar Slider Interval",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promo-bar-slide",
+      "name": "Promo Bar Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Promo Bar Slide Text",
+          "label": "Promo Bar Slide Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Promo Bar Slide link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

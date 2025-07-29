@@ -1,0 +1,65 @@
+<div class="price-range-wrapper">
+  <!-- New radio buttons UI -->
+  <div class="price-radio-options">
+    {% assign step = 50 %}
+    {% assign max_price = filter.range_max | divided_by: 100 %} 
+    {% assign intervals = max_price | divided_by: step | ceil %}
+    {% assign min_price = filter.min_value.value |  divided_by: 100 %}
+  
+    {% for i in (1..intervals) %}
+      {% assign price = i | times: step %}
+      <label class="mobile-facets__item  typography--body-small {{ price }} {{ min_price }} {% if price == min_price %} active {% endif %}" >
+        <input type="radio" name="price_radio" value="{{ price }}"  {% if price == min_price %} checked="true" {% endif %} />
+        {{ cart.currency.symbol }}{{ price }}+ 
+      </label>
+    {% endfor %}
+  </div>
+
+  <!-- Original price range UI (hidden but still functional) -->
+  <div class="original-price-inputs" style="display: none;" >
+    <span class="field-currency">{{ cart.currency.symbol }}</span>
+    <div class="field field--input typography--body-bold">
+      <div class="field-line">
+        <input
+          class="field__input filter-gte"
+          name="{{ filter.min_value.param_name }}"
+          id="{{ id_prefix }}{{ filter.label | escape }}-GTE"
+          {%- if filter.min_value.value -%}
+            value="{{ filter.min_value.value | money }}"
+          {%- endif -%}
+          type="text"
+          inputmode="decimal"
+          placeholder="0"
+          data-pattern="\d| |,|\."
+          data-min="0"
+          data-max="{{ filter.range_max | money }}"
+        >
+        <label class="field__label" for="{{ id_prefix }}{{ filter.label | escape }}-GTE">
+          {{- 'facets.from' | t -}}
+        </label>
+      </div>
+    </div>
+    <span class="field-currency">{{ cart.currency.symbol }}</span>
+    <div class="field field--input typography--body-bold">
+      <div class="field-line">
+        <input
+          class="field__input filter-lte"
+          name="{{ filter.max_value.param_name }}"
+          id="{{ id_prefix }}{{ filter.label | escape }}-LTE"
+          {%- if filter.max_value.value -%}
+            value="{{ filter.max_value.value | money }}"
+          {%- endif -%}
+          type="text"
+          inputmode="decimal"
+          placeholder="{{ filter.range_max | money }}"
+          data-pattern="\d| |,|\."
+          data-min="0"
+          data-max="{{ filter.range_max | money }}"
+        >
+        <label class="field__label" for="{{ id_prefix }}{{ filter.label | escape }}-LTE">
+          {{- 'facets.to' | t -}}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

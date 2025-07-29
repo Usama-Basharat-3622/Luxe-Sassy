@@ -1,0 +1,194 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+
+
+  @media screen and (max-width: 1024px) {
+    .small-hide {
+      display: none !important;
+    }
+
+    .section-{{ section.id }} {
+      padding: 0 1.6rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 749px) {
+    .medium-hide {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .large-up-hide {
+      display: none !important;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} gradient {{ template.suffix }} {{ collection.all_products_count }}-products">
+  {%- assign product_count = section.settings.product_per_page -%}
+
+  {%- paginate collection.products by product_count -%}
+    <div>
+      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+      <aside
+        class="facets-wrapper"
+        id="main-collection-filters"
+        data-id="{{ section.id }}"
+      >
+        {% render 'facets',
+          results: collection,
+          enable_filtering: section.settings.enable_filtering,
+          enable_sorting: section.settings.enable_sorting,
+          enable_breadcrumbs: section.settings.enable_breadcrumbs,
+          enable_grid_switcher: section.settings.enable_grid_switcher,
+          alternate_cta: section.settings.alternate_cta,
+          alternate_cta_color: section.settings.alternate_cta_color,
+          context: 'collection',
+          paginate: paginate
+        %}
+      </aside>
+
+      <div class="product-grid-container">
+        <div
+          class="{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          id="ProductGridContainer"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+          {% endif %}
+        >
+          {%- if collection.products.size == 0 -%}
+            <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+              {% comment %} <div class="loading-overlay gradient"></div> {% endcomment %}
+              <div class="title-wrapper center">
+                <h2 class="typography-body--2 ">
+                  {{ 'collection.empty' | t -}}
+                  <br>
+                  {{
+                    'collection.use_fewer_filters_html'
+                    | t: link: collection.url, class: 'underlined-link link'
+                  }}
+                </h2>
+              </div>
+            </div>
+          {%- else -%}
+            {% comment %} Check if filters are active or not {% endcomment %}
+            {% assign filter_active = false %}
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                {% assign filter_active = true %}
+                {% break %}
+              {%- endfor -%}
+            {%- endfor -%}
+
+            {%- for filter in collection.filters -%}
+              {% if filter.type == 'price_range' %}
+                {% assign min = filter.min_value.value %}
+                {% assign max = filter.max_value.value %}
+                {%- if min != null or max != null -%}
+                  {% assign filter_active = true %}
+                {% endif %}
+                {% break %}
+              {% endif %}
+            {%- endfor -%}
+
+
+            <div
+              class="collection"
+            >
+
+              <ul
+                id="product-grid"
+                data-id="{{ section.id }}"
+                class=" product-grid {{ filter_active }}"
+              >
+                {% if paginate.current_page == 1 and filter_active == false %}
+                  {% for banner in collection.metafields.custom.clp_promo_banners.value %}
+                    {%- case banner.system.type -%}
+                      {%- when 'clp_promo_banner_wide' -%}
+                        {% render 'clp-promotional-banner-wide',
+                          content_banner: banner,
+                          index: forloop.index,
+                          product_count: collection.products.size
+                        %}
+                      {%- when 'clp_promo_banner_products' -%}
+                        {% render 'clp-promotional-banner-products',
+                          content_banner: banner,
+                          index: forloop.index,
+                          product_count: collection.products.size
+                        %}
+                      {%- when 'clp_promo_banner_image_text' -%}
+                        {% render 'clp-promotional-banner-image-text',
+                          content_banner: banner,
+                          index: forloop.index,
+                          product_count: collection.products.size
+                        %}
+                      {%- when 'clp_promo_banner_fifty_fifty' -%}
+                        {% render 'clp-promotional-banner-fifty-fifty',
+                          content_banner: banner,
+                          index: forloop.index,
+                          product_count: collection.products.size
+                        %}
+                    {%- endcase -%}
+                  {% endfor %}
+                {% endif %}
+
+                {%- for product in collection.products -%}
+                  <li
+                    class="grid__item product-{{ forloop.index }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {% render 'product-card',
+                      card_product: product,
+                      card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+                      scope_id: section.id
+                    %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {%- if paginate.pages > 1 -%}
+                {% render 'pagination', paginate: paginate, anchor: '' %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "CLP",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "product_per_page",
+      "label": "Products per page",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 48
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_cta",
+      "default": true,
+      "label": "Use alternate CTA style"
+    },
+    {
+      "type": "color",
+      "id": "alternate_cta_color",
+      "default": "#000000",
+      "label": "Alternate CTA color"
+    }
+  ]
+}
+{% endschema %}

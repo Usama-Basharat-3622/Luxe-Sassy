@@ -1,0 +1,67 @@
+<div class="predictive-search-landing">
+  <div class="predictive-search-landing-section--menu-1 predictive-search-landing-section">
+    {%- if section.settings.menu_1_title != blank -%}
+      <h3 class="predictive-search-landing-section-title typography--body-regular-bold">
+        {{ section.settings.menu_1_title }}
+      </h3>
+    {%- endif -%}
+    {%- if section.settings.menu_1 -%}
+      <ul class="predictive-search-landing-menu-1" role="list">
+        {%- for link in section.settings.menu_1.links -%}
+          <li class="predictive-search-landing-menu-item">
+            <a
+              href="{{ link.url }}"
+              class="predictive-search-landing-menu-link--tag predictive-search-landing-menu-link link button button--tag-big typography--body-small"
+            >
+              {{- link.title | escape -}}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+  <div class="predictive-search-landing-section--menu-2 predictive-search-landing-section">
+    {%- if section.settings.menu_2_title != blank -%}
+      <h3 class="predictive-search-landing-section-title typography--body-regular-bold">
+        {{ section.settings.menu_2_title }}
+      </h3>
+    {%- endif -%}
+    {%- if section.settings.menu_2 -%}
+      <ul class="predictive-search-landing-menu-2" role="list">
+        {%- for link in section.settings.menu_2.links -%}
+          <li class="predictive-search-landing-menu-item">
+            <a
+              href="{{ link.url }}"
+              class="predictive-search-landing-menu-link link link--block link--underline link--hover-color-change typography--body-regular"
+            >
+              {{- link.title | escape -}}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+  <div class="predictive-search-landing-section--richtext predictive-search-landing-section">
+    <div class="richtext">{{ section.settings.richtext }}</div>
+  </div>
+  <div class="predictive-search-landing-section--products predictive-search-landing-section">
+    {%- if section.settings.product_list_title != blank -%}
+      <h3 class="predictive-search-landing-section-title typography--body-regular-bold">
+        {{ section.settings.product_list_title }}
+      </h3>
+    {%- endif -%}
+    {%- if section.settings.product_list -%}
+      <ul class="predictive-search-landing-product-list" role="list">
+        {%- for product in section.settings.product_list limit: 2 -%}
+          <li class="predictive-search-landing-product-list-item">
+            {% render 'product-card',
+              card_product: product,
+              card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+              scope_id: section.id
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>

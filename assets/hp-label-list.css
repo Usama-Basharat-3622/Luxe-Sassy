@@ -1,0 +1,110 @@
+@media screen and (min-width: 1200px) {
+  .hp-label-list {
+    position: relative;
+  }
+  .hp-label-list:after {
+    content: "";
+    display: block;
+    height: 8rem;
+  }
+  .hp-label-list-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    gap: 1.6rem;
+
+    position: absolute;
+    top: 0;
+    left: 2.4rem;
+    right: 2.4rem;
+  }
+  .hp-label-list-wrapper > * {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .hp-label-list-wrapper {
+    padding: 0 1.6rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    gap: 1.2rem;
+    overflow: auto;
+  }
+  .hp-label-list-wrapper > * {
+    flex: 1 0 31.5%;
+    min-width: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .hp-label-list-wrapper > * {
+    flex: 1 0 48%;
+    min-width: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .hp-label-list-wrapper > * {
+    flex: 1 0 95%;
+    min-width: 0;
+  }
+}
+
+.hp-label {
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 2.8rem 1.6rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.hp-label-top {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.hp-label-icon {
+  width: 2.4rem;
+}
+
+.hp-label-title {
+  white-space: nowrap;
+}
+
+.hp-label-bottom {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.hp-label:focus-within .hp-label-bottom {
+  max-height: 3.5rem;
+  overflow: visible;
+}
+
+@media (any-hover: hover) {
+  .hp-label-bottom {
+    transition: max-height 200ms ease;
+  }
+  .hp-label:hover .hp-label-bottom {
+    max-height: 3.5rem;
+    overflow: visible;
+  }
+}
+
+.hp-label-cta {
+  padding-top: 0.8rem;
+}
+
+@media (any-hover: hover) {
+  .hp-label .link--covering {
+    display: none !important;
+  }
+}

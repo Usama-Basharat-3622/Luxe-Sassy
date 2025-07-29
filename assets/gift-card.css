@@ -1,0 +1,33 @@
+.gift-card-top {
+  position: relative;
+  overflow: hidden;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 3rem 3rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.gift-card_bottom {
+  padding: 3rem 3rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.gift-card__buttons {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.gift-card__copy-button-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 0.4rem;
+}

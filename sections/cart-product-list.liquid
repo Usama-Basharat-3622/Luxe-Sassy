@@ -1,0 +1,142 @@
+{{ 'cart-product-list.css' | asset_url | stylesheet_tag }}
+
+<div
+  id="cart-product-list-{{ section.id }}"
+  class="cart-product-list-{{ section.id }} cart-product-list isolate"
+>
+  <div class="cart-product-list-header">
+    {%- if section.settings.title != blank -%}
+      <h2 class="cart-product-list-title typography--heading-1">
+        {{ section.settings.title }}
+      </h2>
+    {%- endif -%}
+  </div>
+
+  {%- case section.settings.source_type -%}
+    {%- when 'product_list' -%}
+      {%- assign product_list = section.settings.product_list -%}
+    {%- when 'collection' -%}
+      {%- assign product_list = section.settings.collection.products -%}
+  {%- endcase -%}
+
+  <hp-product-carousel class="cart-product-carousel" role="region">
+    <div class="swiper isolate">
+      <div class="swiper-wrapper">
+        {%- for product in product_list -%}
+          <div class="swiper-slide">
+            {% render 'product-card',
+              card_product: product,
+              card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+              scope_id: section.id
+            %}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  </hp-product-carousel>
+</div>
+
+{% style %}
+  @media screen and (min-width: 768px) {
+    .cart-product-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+    .cart-product-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Cart Product List",
+  "tag": "section",
+  "class": "section--cart-product-list",
+  "enabled_on": {
+    "templates": ["cart"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "radio",
+      "id": "source_type",
+      "label": "Source Type",
+      "options": [
+        {
+          "value": "product_list",
+          "label": "Product List"
+        },
+        {
+          "value": "collection",
+          "label": "Collection"
+        }
+      ],
+      "default": "product_list"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "limit": 12
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

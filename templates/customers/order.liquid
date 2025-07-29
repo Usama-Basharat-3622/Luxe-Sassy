@@ -1,0 +1,160 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'customer.js' | asset_url }}" defer="defer"></script>
+{% render 'account-nav' %}
+<div class="order-detail">
+  <div class="order-page-header">
+    <div class="order-number">
+      <p class="">
+        {{ 'customer.order.order_number' | t -}}
+        {{- order.name }}
+      </p>
+    </div>
+    <div class="order-page-header-nav">
+      <a
+        class="link link--hover-underline typography--body"
+        href="{{ routes.account_url }}?orders"
+      >
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.3335 10.6666L1.10997 5.99996L6.3335 1.33329" stroke="black"/>
+        </svg>
+
+        {{ 'customer.order.back_to_orders' | t }}
+      </a>
+      <p>{{ order.created_at | date: '%B %d, %Y at %l:%M%p' }}</p>
+    </div>
+  </div>
+  <div class="order-detail-inner">
+    <div class="order-detail-left order-items">
+      <div class="order-items-header">
+        <span class="typography--body-bold">{{ 'customer.order.product' | t }}</span>
+        <span class="typography--body-bold">{{ 'customer.order.quantity' | t }}</span>
+        <span class="typography--body-bold">{{ 'customer.order.total' | t }}</span>
+      </div>
+      <div class="order-item-wrapper">
+        {% for line_item in order.line_items %}
+          {%- assign is_gwp_item = false -%}
+          {%- if line_item.product.type == 'GWP' -%}
+            {%- assign is_gwp_item = true -%}
+          {%- endif -%}
+
+          <div class="order-item">
+            <div class="item-image">
+              <img
+                src="{{ line_item.image | image_url: width: 480 }}"
+                width="{{ line_item.image.width }}"
+                height="{{ line_item.image.height }}"
+                loading="eager"
+              >
+            </div>
+            <div class="item-detail">
+              {% assign card_product = line_item.product %}
+              <h3 class="item-title typography--body-bold">{{ line_item.product.title }}</h3>
+              <div class="item-variants">
+                {% if line_item.variant %}
+                  <span class="typography--body-bold">
+                    {{- line_item.variant.title | remove: 'Default Title' }}
+                  </span>
+                {% endif %}
+              </div>
+              <div class="line-item-quantity">
+                <span class="typography--body-bold">{{ 'customer.order.quantity' | t }}: {{ line_item.quantity }}</span>
+              </div>
+            </div>
+            <div class="item-quantity">
+              <span class="typography--body-bold">{{ line_item.quantity }}</span>
+            </div>
+            <div class="item-actions">
+              <span class="item-total">
+                {%- if settings.money_trailing_zeros_enable -%}
+                  {{- line_item.final_price | money -}}
+                {%- else -%}
+                  {{- line_item.final_price | money_without_trailing_zeros -}}
+                {%- endif -%}
+              </span>
+            </div>
+            {%- unless is_gwp_item -%}
+              <a class="product-link" href="{{ line_item.url }}"></a>
+            {%- endunless -%}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="order-amount-grid">
+        <div class="subtotal">
+          <label> {{ 'customer.order.subtotal' | t }} </label>
+          <span>
+            {%- if settings.money_trailing_zeros_enable -%}
+              {{- order.subtotal_price | money -}}
+            {%- else -%}
+              {{- order.subtotal_price | money_without_trailing_zeros -}}
+            {%- endif -%}
+          </span>
+        </div>
+        <div class="shipping">
+          <label> {{ 'customer.order.shipping' | t }} </label>
+          <span>
+            {%- if settings.money_trailing_zeros_enable -%}
+              {{- order.shipping_price | money -}}
+            {%- else -%}
+              {{- order.shipping_price | money_without_trailing_zeros -}}
+            {%- endif -%}
+          </span>
+        </div>
+        <div class="total">
+          <label> {{ 'customer.order.total' | t }} </label>
+          <span>
+            {%- if settings.money_trailing_zeros_enable -%}
+              {{- order.total_price | money -}}
+            {%- else -%}
+              {{- order.total_price | money_without_trailing_zeros -}}
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="order-detail-right order-payment-detail">
+      <div class="shipping-address addresses">
+        <label class="typography--body-bold">
+          {{ 'customer.order.shipping_address' | t }}
+        </label>
+        <p>
+          {{ order.shipping_address.name }}
+          <br>
+          {{ order.shipping_address.street }}
+          <br>
+          {{ order.shipping_address.city }}, {{ order.shipping_address.province }}
+          <br>
+          {{ order.shipping_address.zip }}, {{ order.shipping_address.country }}
+        </p>
+      </div>
+      <div class="billing-address addresses">
+        <label class="typography--body-bold"> {{ 'customer.order.billing_address' | t }} </label>
+        <p>
+          {{ order.billing_address.name }}
+          <br>
+          {{ order.billing_address.street }}
+          <br>
+          {{ order.billing_address.city }}, {{ order.billing_address.province }}
+          <br>
+          {{ order.billing_address.zip }}, {{ order.billing_address.country }}
+        </p>
+      </div>
+      <div class="order-again">
+        <p class="typography--heading-4 order-again-title">{{ 'customer.order.order_again.title' | t }}</p>
+        <p class="typography--body-large">{{ 'customer.order.order_again.text' | t }}</p>
+
+        {% assign reorder_url = '' %}
+        {% for line_item in order.line_items %}
+          {% capture reorder_url %}{{ reorder_url | append: line_item.variant_id | append: ':' | append: line_item.quantity | append: ',' }}{% endcapture %}
+        {% endfor %}
+
+        <a href="{{ '/cart/' | append: reorder_url }}" class="button button--solid-black typography--button">
+          {{- 'customer.order.order_again.button' | t -}}
+        </a>
+      </div>
+      <div class="need-help">
+        <p class="typography--heading-4 order-again-title">{{ 'customer.order.need_help.title' | t }}</p>
+        <p class="typography--body-large">{{ 'customer.order.need_help.text' | t }}</p>
+      </div>
+    </div>
+  </div>
+</div>

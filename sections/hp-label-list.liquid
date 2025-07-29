@@ -1,0 +1,180 @@
+{{ 'hp-label-list.css' | asset_url | stylesheet_tag }}
+
+<div
+  id="hp-label-list-{{ section.id }}"
+  class="hp-label-list-{{ section.id }} hp-label-list isolate"
+>
+  <div class="hp-label-list-wrapper scrollbar-hidden">
+    {%- for block in section.blocks -%}
+      <div class="hp-label-{{ block.id }} hp-label" {{ block.shopify_attributes }}>
+        <div class="hp-label-top">
+          {%- if block.settings.icon -%}
+            <img
+              srcset="{% render 'image-srcset', image: block.settings.icon %}"
+              sizes="24px"
+              src="{{ block.settings.icon | image_url }}"
+              loading="eager"
+              alt="{{ block.settings.icon.alt | escape }}"
+              width="{{ block.settings.icon.width }}"
+              height="{{ block.settings.icon.height }}"
+              class="hp-label-icon"
+            >
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <h2 class="hp-label-title typography--body-regular">
+              {{ block.settings.text }}
+            </h2>
+          {%- endif -%}
+        </div>
+        {%- if block.settings.cta_link -%}
+          <div class="hp-label-bottom">
+            <a
+              href="{{ block.settings.cta_link }}"
+              class="hp-label-cta link link--block link--underline link--hover-color-change typography--body-regular"
+            >
+              {{ block.settings.cta_text }}
+            </a>
+          </div>
+        {%- endif -%}
+        {%- if block.settings.cta_link -%}
+          <a
+            class="link link--covering"
+            href="{{ block.settings.cta_link }}"
+            aria-hidden="true"
+          >
+            <span class="visually-hidden">{{ block.settings.cta_text }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% style %}
+  {%- for block in section.blocks -%}
+
+  .hp-label-list-{{ section.id }} .hp-label-{{ block.id }} {
+    color: {{ block.settings.text_color }};
+    background-color: {{ block.settings.background_color }};
+  }
+
+  {%- endfor -%}
+
+  @media screen and (min-width: 768px) {
+    .hp-label-list-{{ section.id }}{
+      margin-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+    .hp-label-list-{{ section.id }}{
+      margin-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "HP Label List",
+  "tag": "section",
+  "class": "section--hp-label-list",
+  "max_blocks": 4,
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Block Text Color",
+          "default": "#201F1E"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Block Background Color",
+          "default": "#D0E9F7"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP Label List"
+    }
+  ]
+}
+{% endschema %}

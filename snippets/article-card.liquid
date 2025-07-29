@@ -1,0 +1,63 @@
+<div class="article-card">
+  {%- assign media = card_article.metafields.custom.cover_image.value -%}
+  {%- assign custom_publish_date = card_article.metafields.custom.custom_publish_date -%}
+  {%- assign custom_link = card_article.metafields.custom.custom_article_link.value -%}
+  {%- assign final_link = custom_link | default: card_article.url -%}
+  {% if media != blank %}
+    <div class="article-card-top">
+      <img
+        srcset="{% render 'image-srcset', image: media %}"
+        sizes="{{ card_image_sizes }}"
+        src="{{ media | image_url: width: 2048 }}"
+        alt="{{ media.alt | escape }}"
+        width="{{ media.width }}"
+        height="{{ media.height }}"
+        loading="lazy"
+        class="media"
+        style="--focal-point-x: {{ media.presentation.focal_point.x }}%; --focal-point-y: {{ media.presentation.focal_point.y }}%"
+      >
+      <a
+        class="link link--covering"
+        href="{{ final_link }}"
+        tabindex="-1"
+        aria-hidden="true"
+        {% if final_link contains 'http' %}
+          target="_blank" rel="noopener"
+        {% endif %}
+      >
+        <span class="visually-hidden">{{ 'accessibility.link_to_item' | t: item: card_article.title }}</span>
+      </a>
+    </div>
+  {% endif %}
+  <div class="article-card-info">
+    <div class="article-card-type">
+      <p class="article-card-created-at typography--body-small">
+        {% if custom_publish_date %}
+           {{ custom_publish_date | date: '%m.%d.%Y' }}
+          {% else %}
+          {{ card_article.created_at | date: '%m.%d.%Y' }}
+        {% endif %} 
+      </p>
+      <h2 class="article-card-title typography--body-regular">
+        <p class="truncate-lines-2">{{ card_article.title }}</p>
+      </h2>
+    </div>
+
+    {%- if card_article.excerpt != blank -%}
+      <div class="article-card-excerpt typography--body-small hidden≤767">
+        <div class="truncate-lines-3">{{ card_article.excerpt }}</div>
+      </div>
+    {%- endif -%}
+
+    <a
+      href="{{ final_link }}"
+      class="article-card-link link link--underline link--hover-color-change typography--navigation hidden≤767"
+      aria-label="{{ 'blog.article_card_cta_aria_label' | t }} {{ card_article.title }}"
+      {% if final_link contains 'http' %}
+        target="_blank" rel="noopener"
+      {% endif %}
+    >
+      {{ 'blog.article_card_cta_label' | t }}
+    </a>
+  </div>
+</div>

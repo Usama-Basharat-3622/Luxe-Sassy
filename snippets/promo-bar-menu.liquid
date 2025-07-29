@@ -1,0 +1,115 @@
+<ul class="promo-bar-menu {{ class }} hidden≤1024" role="navigation">
+  {%- for link in linklist.links -%}
+    <li class="promo-bar-menu-item">
+      {%- if link.links != blank -%}
+        <details-disclosure>
+          <details
+            class="promo-bar-dropdown details-disclosure"
+          >
+            <summary
+              class="promo-bar-dropdown-toggle details-disclosure-toggle promo-bar-menu-link link link--hover-color-change"
+              role="button"
+              tabindex="0"
+              aria-expanded="false"
+            >
+              {% render 'label_text_icon', label: link.title, style_class: 'typography--navigation' %}
+              {{- 'icon-caret_down.svg' | inline_asset_content -}}
+              {{- 'icon-caret_up.svg' | inline_asset_content -}}
+            </summary>
+            <ul
+              class="promo-bar-dropdown-menu details-disclosure-menu"
+              role="navigation"
+              tabindex="-1"
+            >
+              {%- for childlink in link.links -%}
+                {%- if childlink.title contains '(list)' -%}
+                  <!-- List -->
+                  <li class="promo-bar-dropdown-menu-item promo-bar-dropdown-block promo-bar-dropdown-block--list">
+                    <h3 class="promo-bar-dropdown-block-title typography--body-regular-bold">
+                      {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                        <a
+                          href="{{ childlink.url }}"
+                          class="link link--hover-color-change"
+                        >
+                      {%- endunless -%}
+                      {{ childlink.title | remove: '(list)' | escape }}
+                      {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
+                        </a>
+                      {%- endunless -%}
+                    </h3>
+                    <ul class="promo-bar-dropdown-block-menu" role="navigation">
+                      {%- for grandchildlink in childlink.links -%}
+                        {%- if grandchildlink.title contains '(button primary)' -%}
+                          <li class="promo-bar-dropdown-block-menu-item">
+                            <a
+                              href="{{ grandchildlink.url }}"
+                              class="promo-bar-dropdown-block-menu-link link button button--primary typography--body-regular {% if grandchildlink.current %} active{% endif %}"
+                              {% if grandchildlink.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{ grandchildlink.title | remove: '(button primary)' | escape }}
+                            </a>
+                          </li>
+                        {%- elsif grandchildlink.title contains '(button secondary)' -%}
+                          <li class="promo-bar-dropdown-block-menu-item">
+                            <a
+                              href="{{ grandchildlink.url }}"
+                              class="promo-bar-dropdown-block-menu-link link button button--secondary typography--body-regular {% if grandchildlink.current %} active{% endif %}"
+                              {% if grandchildlink.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{ grandchildlink.title | remove: '(button secondary)' | escape }}
+                            </a>
+                          </li>
+                        {%- else -%}
+                          <li class="promo-bar-dropdown-block-menu-item">
+                            <a
+                              href="{{ grandchildlink.url }}"
+                              class="promo-bar-dropdown-block-menu-link link link--block link--hover-color-change typography--body-regular {% if grandchildlink.current %} active{% endif %}"
+                              {% if grandchildlink.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{ grandchildlink.title | escape }}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  </li>
+                  <!-- Button -->
+                {%- elsif childlink.title contains '(chat)' -%}
+                  <li class="promo-bar-dropdown-menu-item">
+                    <button
+                      class="promo-bar-dropdown-menu-link link link--inline-block link--hover-color-change"
+                      onclick="MedChatApp.expand()"
+                    >
+                      {%- assign childlink_title = childlink.title | remove: '(chat)' | escape -%}
+                      {% render 'label_text_icon', label: childlink_title, style_class: 'typography--navigation' %}
+                    </button>
+                  </li>
+                {%- else -%}
+                  <li class="promo-bar-dropdown-menu-item">
+                    <a
+                      class="promo-bar-dropdown-menu-link link link--inline-block link--hover-color-change"
+                      href="{{ childlink.url }}"
+                    >
+                      {% render 'label_text_icon', label: childlink.title, style_class: 'typography--navigation' %}
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </details>
+        </details-disclosure>
+
+      {%- else -%}
+        <a class="promo-bar-menu-link link link--inline-block link--hover-color-change" href="{{ link.url }}">
+          {% render 'label_text_icon', label: link.title, style_class: 'typography--navigation' %}
+        </a>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>

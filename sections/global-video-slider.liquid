@@ -1,0 +1,322 @@
+{{ 'section-video-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'videos-slider.js' | asset_url }}" defer></script>
+
+{%- style -%}
+  .section-{{ section.id }}-bg {
+    background-color: {{ section.settings.bg_color  }};
+    color: {{ section.settings.text_color }};
+    {% if section.settings.show_border_top %}
+    border-top: .1rem solid rgb(var(--color-grey));
+    {% endif %}
+    {% if section.settings.show_border_bottom %}
+    border-bottom: .1rem solid rgb(var(--color-grey));
+    {% endif %}
+  }
+  .vs-slider-scrollbar .swiper-scrollbar-drag{
+    background: rgb(var(--color-black));
+  }
+  .section-video-grid button:disabled{
+    opacity: 0.5;
+  }
+  .vs-controls button{
+    padding: 1.3rem;
+  }
+  @media screen and (min-width: 1025px){
+    .section-{{ section.id }}-padding {
+      padding: {{ section.settings.padding_top }}px 0px {{ section.settings.padding_bottom }}px;
+    }
+    .vs-slider-scrollbar.swiper-scrollbar{
+      background: rgb(var(--color-grey-medium));
+      width: 98%;
+      height: 0.1rem;
+      transition: height 0.3s ease;
+      cursor: pointer;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{- section.settings.padding_top_mb -}}px;
+      padding-bottom: {{- section.settings.padding_bottom_mb -}}px;
+    }
+    .vs-slider-scrollbar.swiper-scrollbar{
+      background: rgb(var(--color-grey-medium));
+      height: 0.1rem;
+      transition: height 0.3s ease;
+      cursor: pointer;
+    }
+    .video-gallery-grid{
+        padding-bottom: 3.2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-video-grid section-{{ section.id }}-bg section-{{ section.id }}-padding">
+  <div class="vs-top">
+    <h2 class="vs-title typography--heading-1">{{ section.settings.title }}</h2>
+
+    <div class="vs-top-right">
+      <div class="vs-controls">
+        <button
+          class="vs-prev-btn button button--tertiary typography--body-regular hidden≤767"
+          type="button"
+          name="previous"
+          aria-label="Previous slide"
+        >
+          {% render 'video-icon-arrow_left' %}
+        </button>
+
+        <button
+          class="vs-next-btn button button--tertiary typography--body-regular hidden≤767"
+          type="button"
+          name="next"
+          aria-label="Next slide"
+        >
+          {% render 'video-icon-arrow_right' %}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <page-videos-slider role="region">
+    <div class="swiper">
+      <div class="video-gallery-grid swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="video-grid-item swiper-slide video-grid-item-{{ block.id }}">
+            <div class="VG-media">
+              {%- if block.settings.media_type == 'local_video' -%}
+                <video
+                  id="customVideo-{{forloop.index}}"
+                  muted
+                  playsinline
+                  preload="none"
+                  {% if block.settings.poster != blank %}
+                  poster="{{ block.settings.poster | img_url:''}}"
+                  {% else %}
+                  poster="{{ 'default-video-poster.webp' | file_url }}"
+                  {% endif %}
+                >
+                  {% for source in block.settings.link.sources %}
+                    <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                  {% endfor %}
+                </video>
+                <button id="ScustomVideo-{{forloop.index}}" aria-label="Play Video">
+                  {% render 'video-icon_play' %}
+                </button>
+              {%- elsif block.settings.media_type == 'youtube_video' -%}
+                {% assign youtube_id = block.settings.video_url | split: 'v=' | last | split: '&' | first %}
+                <div
+                  class="video-thumbnail-wrapper"
+                  data-video-type="{{ block.settings.media_type }}"
+                  data-video-id="{{ youtube_id }}"
+                >
+                  <img
+                    class="video-thumbnail-img"
+                    {% if block.settings.poster != blank %}
+                    src="{{ block.settings.poster | img_url:''}}"
+                    {% else %}
+                    src="{{ 'default-video-poster.webp' | file_url }}"
+                    {% endif %}
+                    alt="Video thumbnail"
+                  >
+                  <button class="video-thumbnail-play-btn" aria-label="Play Video">
+                    {% render 'video-icon_play' %}
+                  </button>
+                </div>
+              {%- elsif block.settings.media_type == 'vimeo_video' -%}
+                <div
+                  class="video-thumbnail-wrapper"
+                  data-video-type="{{ block.settings.media_type }}"
+                  data-video-id="{{ block.settings.video_url | escape }}"
+                >
+                  <img
+                    class="video-thumbnail-img"
+                    {% if block.settings.poster != blank %}
+                    src="{{ block.settings.poster | img_url:''}}"
+                    {% else %}
+                    src="{{ 'default-video-poster.webp' | file_url }}"
+                    {% endif %}
+                    alt="Video thumbnail"
+                  >
+                  <button class="video-thumbnail-play-btn" aria-label="Play Video">
+                    {% render 'video-icon_play' %}
+                  </button>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="vs-slider-scrollbar swiper-scrollbar hidden≥1025"></div>
+    </div>
+  </page-videos-slider>
+</div>
+
+<div id="videoModal" class="video-modal">
+  <div class="modal-content">
+    <button id="closeModal" aria-label="Close video popup">&times;</button>
+    <div id="modalMediaContainer"></div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Videos Slider",
+  "max_blocks": 40,
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Header Title",
+      "default": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "options": [
+            {
+              "value": "local_video",
+              "label": "MP4 Video"
+            },
+            {
+              "value": "youtube_video",
+              "label": "Youtube Video"
+            },
+            {
+              "value": "vimeo_video",
+              "label": "Vimeo Video"
+            }
+          ],
+          "default": "youtube_video",
+          "label": "Media Type"
+        },
+        {
+          "type": "video",
+          "id": "link",
+          "label": "MP4 Video"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+          "label": "YouTube or Vimeo URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Video Poster Image",
+          "info": "Upload a thumbnail image that represents your MP4, YouTube, or Vimeo video"
+        },
+        {
+          "type": "paragraph",
+          "content": "If no thumbnail image is selected, a default image ('default-video-poster.webp') from the Files will be used automatically."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Videos Slider",
+      "blocks": [
+        {
+          "type": "Item"
+        },
+        {
+          "type": "Item"
+        },
+        {
+          "type": "Item"
+        },
+        {
+          "type": "Item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

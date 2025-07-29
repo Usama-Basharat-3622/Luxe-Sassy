@@ -1,0 +1,39 @@
+@media screen and (min-width: 992px) {
+  .pdp-content-block-list .banner {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .pdp-content-block-list .banner > * {
+    flex: 0 0 50%;
+    min-width: 0;
+  }
+  .pdp-content-block-list .banner-content {
+    padding: 4rem 2.4rem;
+  }
+
+  .pdp-content-block-list .banner-paragraph {
+    margin-top: 1.6rem;
+  }
+
+  .pdp-content-block-list .banner-cta {
+    margin-top: 2.4rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .pdp-content-block-list .banner {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .pdp-content-block-list .banner-content {
+    padding: 3.2rem 1.6rem;
+  }
+
+  .pdp-content-block-list .banner-paragraph {
+    margin-top: 1.2rem;
+  }
+
+  .pdp-content-block-list .banner-cta {
+    margin-top: 1.6rem;
+  }
+}

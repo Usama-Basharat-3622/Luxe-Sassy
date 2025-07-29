@@ -1,0 +1,573 @@
+{% style %}
+  .pd-banner-{{ section.id }} .banner-overlay {
+      background-color: rgba(0,0,0,0.{{ section.settings.overlay_opacity }});
+  }
+  .banner-wrapper-{{ section.id }} {
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+
+  .pd-banner-{{ section.id }} .banner-title, .pd-banner-{{ section.id }} .banner-paragraph {
+      color: {{ section.settings.text_color }};
+  }
+  .pd-banner-{{ section.id }} .banner-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+      }
+  @media screen and (min-width: 768px) {
+      .pd-banner .banner-overlay {
+          padding: 4rem 2.4rem;
+      }
+      .banner-wrapper-{{ section.id }} {
+          padding: {{ section.settings.padding_top }}px 0px {{ section.settings.padding_bottom }}px;
+          width: 100%;
+      }
+  }
+
+  @media screen and (max-width: 767px) {
+      .pd-banner .banner-overlay {
+          padding: 3.2rem 1.6rem;
+      }
+      .banner-wrapper-{{ section.id }} {
+          padding: {{ section.settings.padding_top_alter }}px 0px {{ section.settings.padding_bottom_alter }}px;
+          width: 100%;
+      }
+  }
+
+  @media screen and (min-width: 768px) {
+  .pd-banner-{{ section.id }} .banner-content-overlay{
+      display: grid;
+      justify-content: {{ section.settings.text_placement_hor }};
+      align-content: {{ section.settings.text_placement_vert }};
+      justify-items: {{ section.settings.text_alignment }};
+      text-align: {{ section.settings.text_alignment }};
+  }
+  .pd-banner-{{ section.id }} .banner-content-overlay .banner-text-overlay{
+      display: flex;
+      flex-direction: column;
+      justify-content: {{ section.settings.text_placement_hor }};
+      align-content: {{ section.settings.text_placement_vert }};
+      justify-items: {{ section.settings.text_alignment }};
+      text-align: {{ section.settings.text_alignment }};
+      {% if section.settings.text_alignment == 'center' %}
+      align-items: center;
+      {% elsif section.settings.text_alignment == 'start' %}
+          align-items: flex-start;
+      {% elsif section.settings.text_alignment == 'end' %}
+          align-items: flex-end;
+      {% endif %}
+      max-width: {{ section.settings.text_max_width }}px;
+      width: 100%;
+      gap: 2rem;
+  }
+  }
+  @media screen and (max-width: 767px) {
+  .pd-banner-{{ section.id }} .banner-content-overlay{
+      display: grid;
+      align-content: {{ section.settings.text_placement_vert_alter }};
+      justify-items: {{ section.settings.text_alignment_alter }};
+      text-align: {{ section.settings.text_alignment_alter }};
+  }
+  .pd-banner-{{ section.id }} .banner-content-overlay .banner-text-overlay{
+      display: flex;
+      flex-direction: column;
+      justify-content: {{ section.settings.text_placement_hor_alter }};
+      align-content: {{ section.settings.text_placement_vert_alter }};
+      justify-items: {{ section.settings.text_alignment_alter }};
+      text-align: {{ section.settings.text_alignment_alter }};
+      {% if section.settings.text_alignment_alter == 'center' %}
+          align-items: center;
+      {% elsif section.settings.text_alignment_alter == 'start' %}
+          align-items: flex-start;
+      {% elsif section.settings.text_alignment_alter == 'end' %}
+          align-items: flex-end;
+      {% endif %}
+      gap: 1.6rem;
+      width: 100%;
+  }
+  .pd-banner-{{ section.id }} .banner-cta-line, .pd-banner-{{ section.id }} .banner-cta-line .banner-cta{
+      width: 100%;
+  }
+  }
+
+  .pd-test {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(var(--color-black),0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .pd-modal-content {
+    background: rgb(var(--color-white));
+    width: 80%;
+    height: 82%;
+    position: relative;
+    padding: 5px 0px 0px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgb(var(--color-black),0.6);
+  }
+
+  .modal-active {
+    display: flex !important;
+  }
+
+  .modal-open {
+    overflow: hidden;
+  }
+
+  .pd-modal-content button.close-btn {
+    margin: 0rem 0rem .3rem 2.4rem;
+  }
+{% endstyle %}
+
+<global-banner role="region">
+  <div class="banner-wrapper banner-wrapper-{{ section.id }}">
+    <div class="pd-banner-{{ section.id }} pd-banner banner">
+      {%- case section.settings.media_type -%}
+        {%- when 'image' -%}
+          <img
+            srcset="{% render 'image-srcset', image: section.settings.image %}"
+            sizes="100vw"
+            src="{{ section.settings.image | image_url: width: 2048 }}"
+            loading="eager"
+            fetchpriority="high"
+            alt="{{ section.settings.image.alt | escape }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+            class="media hidden≤767"
+          >
+
+          {%- if section.settings.image_alter -%}
+            <img
+              srcset="{% render 'image-srcset', image: section.settings.image_alter %}"
+              sizes="100vw"
+              src="{{ section.settings.image_alter | image_url: width: 2048 }}"
+              loading="eager"
+              fetchpriority="high"
+              alt="{{ section.settings.image_alter.alt | escape }}"
+              width="{{ section.settings.image_alter.width }}"
+              height="{{ section.settings.image_alter.height }}"
+              class="media hidden≥768"
+            >
+
+          {%- else -%}
+            <img
+              srcset="{% render 'image-srcset', image: section.settings.image %}"
+              sizes="100vw"
+              src="{{ section.settings.image | image_url: width: 2048 }}"
+              loading="eager"
+              fetchpriority="high"
+              alt="{{ section.settings.image.alt | escape }}"
+              width="{{ section.settings.image.width }}"
+              height="{{ section.settings.image.height }}"
+              class="media hidden≥768"
+            >
+          {%- endif -%}
+
+        {%- when 'video' -%}
+          <video
+            alt="{{ section.settings.video.alt | escape }}"
+            width="{{ section.settings.video.preview_image.width }}"
+            height="{{ section.settings.video.preview_image.height }}"
+            autoplay
+            playsinline
+            muted
+            loop
+            preload="auto"
+            loading="eager"
+            class="media hidden≤767"
+          >
+            {% for source in section.settings.video.sources %}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+          </video>
+
+          {%- if section.settings.video_alter -%}
+            <video
+              alt="{{ section.settings.video_alter.alt | escape }}"
+              width="{{ section.settings.video_alter.preview_image.width }}"
+              height="{{ section.settings.video_alter.preview_image.height }}"
+              autoplay
+              playsinline
+              muted
+              loop
+              preload="auto"
+              loading="eager"
+              class="media hidden≥768"
+            >
+              {% for source in section.settings.video_alter.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+            </video>
+
+          {%- else -%}
+            <video
+              alt="{{ section.settings.video.alt | escape }}"
+              width="{{ section.settings.video.preview_image.width }}"
+              height="{{ section.settings.video.preview_image.height }}"
+              autoplay
+              playsinline
+              muted
+              loop
+              preload="auto"
+              loading="eager"
+              class="media hidden≥768"
+            >
+              {% for source in section.settings.video.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+            </video>
+          {%- endif -%}
+      {%- endcase -%}
+
+      <div class="banner-content banner-overlay banner-content-overlay">
+        <div class="banner-text-overlay">
+          {%- if section.settings.title != blank -%}
+            <h2 class="banner-title typography--heading-1">
+              {{ section.settings.title }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.paragraph != blank -%}
+            <div class="banner-paragraph typography--body-regular">
+              {{
+                section.settings.paragraph
+                | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+              }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.cta_text != blank -%}
+            <div class="banner-cta-line">
+              <button
+                class="banner-cta link button button--primary typography--body-regular"
+                aria-label="{{ section.settings.cta_text }}"
+                onclick="openPdModal()"
+              >
+                {{ section.settings.cta_text }}
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</global-banner>
+
+<!-- Modal Overlay -->
+<div class="pd-test" id="pdModalOverlay" onclick="closePdModal()">
+  <div id="pdModalContent" class="pd-modal-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="closePdModal()">Close</button>
+    <iframe
+      id="pdModalIframe"
+      width="100%"
+      height="100%"
+      allow="camera;microphone"
+      src="{{ section.settings.cta_link }}"
+    >
+    </iframe>
+  </div>
+</div>
+
+<script>
+  function openPdModal() {
+    document.getElementById('pdModalOverlay').classList.add('modal-active');
+    document.body.classList.add('modal-open');
+  }
+
+  function closePdModal() {
+    document.getElementById('pdModalOverlay').classList.remove('modal-active');
+    document.body.classList.remove('modal-open');
+  }
+</script>
+
+{% schema %}
+{
+  "name": "PD measurment Tool",
+  "tag": "section",
+  "limit": 1,
+  "class": "section--pd-banner",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "radio",
+      "id": "media_type",
+      "label": "Media Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_alter",
+      "label": "Image (Mobile)"
+    },
+
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+
+    {
+      "type": "video",
+      "id": "video_alter",
+      "label": "Video Mobile"
+    },
+
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "Overlay Opacity",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link",
+      "info": "Paste the PD Measurment Tool iframe URL here"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Text Max Width",
+      "default": 400
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor",
+      "label": "Text Placement Horizontal",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_placement_vert",
+      "label": "Text Placement Vertical",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_placement_vert_alter",
+      "label": "Text Placement Vertical Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "PD measurment Tool"
+    }
+  ]
+}
+{% endschema %}

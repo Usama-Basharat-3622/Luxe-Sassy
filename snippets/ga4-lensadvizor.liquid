@@ -1,0 +1,250 @@
+
+
+<script>
+
+    
+
+    // 7
+    document.addEventListener('LensAdvizor:selectLensModal:open', function() {
+    
+        console.log('Event: LensAdvizor:selectLensModal:open');
+        const event_name = 'click_select_lenses';
+        const event_data = {
+        'product_name': '{{ product.title }}'
+        };
+        Shopify.analytics.publish(event_name, event_data);
+    });
+
+
+
+    // 8 - Choose Your Prescription Type
+
+    document.addEventListener('LensAdvizor:lens:rendered', function(e) {
+        console.log('Event: LensAdvizor:lens:rendered (with event)', LensAdvizor.response);
+
+        
+        if (LensAdvizor.response.method && LensAdvizor.response.prescriptionType && (!LensAdvizor.response.lensGroupSelected) ){
+            const entered_prescription = LensAdvizor.response.method == 'entered_manually' ? 'yes' : 'no';
+
+            const event_name = 'choose_prescription_type';
+            const event_data = {
+            'product_name': '{{ product.title }}',
+            'prescription_method': LensAdvizor.response.method, // Values: Upload file|Manual|Email...
+            'prescription_type': LensAdvizor.response.prescriptionType, // Values: Single vision|Progressive|Frame only
+            'entered_prescription': entered_prescription
+            };
+            Shopify.analytics.publish(event_name, event_data);
+        }
+
+    });
+
+    // 9 - Choose Lens Group
+
+    document.addEventListener('LensAdvizor:lens:rendered', function(e) {
+        console.log('Event: LensAdvizor:lens:rendered (with event)', LensAdvizor.response);
+
+        if (LensAdvizor.response.lensGroupSelected){
+            const event_name = 'choose_lens_group';
+            const event_data = {
+            'product_name': '{{ product.title }}',
+            'prescription_method': LensAdvizor.response.method, // Values: Upload file|Manual|Email...
+            'prescription_type': LensAdvizor.response.prescriptionType, // Values: Single vision|Progressive|Frame only 
+            'lens_group': LensAdvizor.response.lensGroupSelected, // Values: Standard Single vision|Premium Single Visionc
+            };
+            Shopify.analytics.publish(event_name, event_data);
+        }
+
+    });
+
+
+    // 10 - Choose Your Lenses
+
+    document.addEventListener('LensAdvizor:lensVariant:change', function() {
+        console.log('Event: LensAdvizor:lensVariant:change', LensAdvizor.response);
+
+        if (LensAdvizor.response.lens){
+            const event_name = 'choose_lenses';
+            const event_data = {
+            'product_name': '{{ product.title }}',
+            'prescription_method': LensAdvizor.response.method, // Values: Upload file|Manual|Email...
+            'prescription_type': LensAdvizor.response.prescriptionType, // Values: Single vision|Progressive|Frame only 
+            'lens_group': LensAdvizor.response.lensGroupSelected, // Values: Standard Single vision|Premium Single Vision
+            'lenses_selected': LensAdvizor.response.lens.name, // Values: SELECTED LENSES
+            };
+            Shopify.analytics.publish(event_name, event_data);
+        }
+
+    });
+
+
+
+    // 11 12 - Lens Thickness and Coating // Addons
+
+    {% if template == 'product' %}
+
+    document.addEventListener('LensAdvizor:review:rendered', function () {
+        console.log('Event: LensAdvizor:review:rendered', LensAdvizor.response);
+
+        const event_name = 'choose_lens_addons';
+        const event_data = {
+            'product_name': '{{ product.title }}',
+            'prescription_method': LensAdvizor.response.method, // Values: Upload file|Manual|Email...
+            'prescription_type': LensAdvizor.response.prescriptionType,   // Values: Single vision|Progressive|Frame only 
+            'lens_group': LensAdvizor.response.lensGroupSelected,          // Values: Standard Single vision|Premium Single Vision
+            'lenses_selected': LensAdvizor.response.lens.name,     // Values: SELECTED LENSES
+            'lens_thickness': '',      // Values: SELECTED thickness
+            'lens_coating': '',        // Values: SELECTED coating
+        };
+
+        const addons = LensAdvizor.response.addOns || {};
+
+        Object.values(addons).forEach(addon => {
+            if (addon.step === 'Lens Thickness' && addon.product?.title) {
+            event_data.lens_thickness = addon.product.title;
+            }
+
+            if (addon.step === 'Lens Coating' && addon.product?.title) {
+            event_data.lens_coating = addon.product.title;
+            }
+        });
+
+        Shopify.analytics.publish(event_name, event_data);
+    });
+
+
+    {% endif %}
+
+    {% if template == 'product.contact_lens' %}
+
+        document.addEventListener('LensAdvizor:review:rendered', function () {
+            console.log('Event: LensAdvizor:review:rendered', LensAdvizor.response);
+
+            if (LensAdvizor.response.method){
+                const entered_prescription = LensAdvizor.response.method == 'entered_manually' ? 'yes' : 'no';
+
+                const event_name = 'choose_prescription_type';
+                const event_data = {
+                'product_name': '{{ product.title }}',
+                'prescription_method': LensAdvizor.response.method, // Values: Upload file|Manual|Email...
+                'prescription_type': '', // Values: Single vision|Progressive|Frame only
+                'entered_prescription': entered_prescription
+                };
+                Shopify.analytics.publish(event_name, event_data);
+            }
+        });
+
+    {% endif %}
+
+
+    // 13 - Add to Cart
+    document.addEventListener('LensAdvizor:addToCart:success', function (e) {
+        console.log('Event: LensAdvizor:addToCart:success', e, LensAdvizor.response);
+
+        const variantInput = document.querySelector('.product-variant-id');
+        const selectedVariantId = variantInput ? variantInput.value : null;
+
+        const matchedVariant = LensAdvizor.variantsJSON.find(
+            variant => variant.id === Number(selectedVariantId)
+        );
+
+        const selectedColor = matchedVariant ? matchedVariant.option1 : '';
+        const selectedSize = matchedVariant ? matchedVariant.option2 : '';
+
+        const items = [];
+
+        // Determine quantity
+        let frameQuantity = 1;
+        const quantityFromEvent = e?.detail?.items?.[0]?.quantity;
+        if (!isNaN(quantityFromEvent) && Number(quantityFromEvent) > 0) {
+            frameQuantity = Number(quantityFromEvent);
+        }
+
+
+        // Main Product
+        if (matchedVariant) {
+            items.push({
+            item_id: `${selectedVariantId}`,
+            item_name: "{{ product.title }}",
+            affiliation: "{{ shop.name }}",
+            discount: 0,
+            index: 0,
+            item_brand: "{{ product.vendor }}",
+            item_category: "{{ product.type }}",
+            item_category2: "", // ophthalmic/sun
+            item_category3: "", // SV/PRG etc.
+            item_category4: "{{ product.selected_or_first_available_variant.metafields.custom.f_gender }}",
+            item_category5: `${selectedSize}`,
+            item_variant: `${selectedColor}`,
+            frame_material: "{{ product.selected_or_first_available_variant.metafields.custom.f_frame_material }}",
+            contacts_manufacturer: "{{ product.metafields.custom.cl_manufacturer }}",
+            contacts_modality: "{{ product.metafields.custom.cl_modality }}",
+            contacts_pack_size: "{{ product.metafields.custom.cl_pack_size }}",
+            price: matchedVariant.price / 100,
+            quantity: frameQuantity
+            });
+        }
+
+        // Lens product
+        if (LensAdvizor.response?.lensVariant) {
+            const lens = LensAdvizor.response.lensVariant;
+            items.push({
+            item_id: `${lens.variant_id}`,
+            item_name: LensAdvizor.response.lens.name,
+            item_brand: 'LensAdvizor',
+            item_category: 'Lenses',
+            item_category2: LensAdvizor.response.lens.group_type || '',
+            item_category3: lens.lens_type || '',
+            item_category5: `${lens.option1}`,
+            item_variant: `${lens.option2}`,
+            price: lens.price ? lens.price : 0,
+            quantity: 1
+            });
+        }
+
+        // Add-ons (dynamic)
+        const addOns = LensAdvizor.response?.addOns;
+        if (addOns && typeof addOns === 'object') {
+            Object.values(addOns).forEach(addon => {
+            if (addon?.product && addon?.variantId) {
+                const variant = addon.product.variants?.find(v => v.id === addon.variantId);
+                if (variant) {
+                items.push({
+                    item_id: addon.variantId,
+                    item_name: addon.product.title || 'Add-On',
+                    item_variant: variant.option1 || '',
+                    item_brand: addon.product.vendor || '',
+                    item_category: 'Lens Add-On',
+                    item_category2: addon.step || '',
+                    price: parseFloat(variant.price) || 0,
+                    quantity: 1
+                });
+                }
+            }
+            });
+        }
+
+        // Assign index to each item (GA4 requirement)
+        items.forEach((item, i) => {
+        item.index = i;
+        });
+
+        // Final event object
+        const event_data = {
+        ecommerce: {
+            currency: "{{ shop.currency }}",
+            value: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+            items: items
+        }
+        };
+
+        console.log('custom_add_to_cart event_data:', event_data);
+
+        Shopify.analytics.publish('custom_add_to_cart', event_data);
+    });
+
+
+
+
+
+
+</script>

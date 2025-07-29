@@ -1,0 +1,166 @@
+{
+"layout": "theme",
+"sections": {
+    "global_editorial_50_50_EKrT49": {
+    "type": "global-editorial-50-50",
+    "name": "Editorial 50-50",
+    "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_ed28a466-de37-469d-a108-fb7f08b13f2c.png",
+        "image_alter": "shopify://shop_images/Screenshot_2025-04-08_at_18.35.02_1_fd61d7d5-f860-4ab5-be3c-539b4e37b3eb.png",
+        "flex_direction": "row-reverse",
+        "flex_direction_alter": "column",
+        "title": "Diabetes & Eyes",
+        "paragraph": "<p>Shopko Optical's Erica Nielson and Katie Kuenkel from Morning Connection sit down to discuss the connection between diabetes and your eyes.</p>",
+        "cta_text": "Read more",
+        "cta_link": "#",
+        "text_max_width": 600,
+        "text_color": "#201f1e",
+        "background_color": "#f8f8f8",
+        "text_placement_hor": "start",
+        "text_placement_vert": "end",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+    }
+    },
+    "global_4_column_grid_bbpymF": {
+    "type": "global-4-column-grid",
+    "blocks": {
+        "article_hNnDxE": {
+        "type": "article",
+        "settings": {
+            "article": "seasonal/the-2024-holiday-shopping-guide"
+        }
+        },
+        "article_TwJViW": {
+        "type": "article",
+        "settings": {
+            "article": "eye-health/unveiling-gx-by-gwen-stefani-and-l-a-m-b-eyewear"
+        }
+        },
+        "article_jjB4d6": {
+        "type": "article",
+        "settings": {
+            "article": "contacts/what-is-contact-solution-and-what-s-in-it"
+        }
+        },
+        "article_kJnbn8": {
+        "type": "article",
+        "settings": {
+            "article": "eye-health/virtual-try-on-new-on-befitting-com-8"
+        }
+        }
+    },
+    "block_order": [
+        "article_hNnDxE",
+        "article_TwJViW",
+        "article_jjB4d6",
+        "article_kJnbn8"
+    ],
+    "name": "Content Grid Layout",
+    "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Articles",
+        "cta_text": "View All",
+        "cta_link": "shopify://pages/blog",
+        "text_alignment": "start",
+        "text_alignment_alter": "start",
+        "carousel_mobile": true,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+    }
+    },
+    "global_4_column_grid_UfQR4F": {
+    "type": "global-4-column-grid",
+    "blocks": {
+        "article_m7f9mR": {
+        "type": "article",
+        "settings": {
+            "article": "eye-health/unveiling-gx-by-gwen-stefani-and-l-a-m-b-eyewear"
+        }
+        },
+        "article_B3Vd3i": {
+        "type": "article",
+        "settings": {
+            "article": "contacts/what-is-contact-solution-and-what-s-in-it"
+        }
+        },
+        "article_bHtktr": {
+        "type": "article",
+        "settings": {
+            "article": "eye-health/virtual-try-on-new-on-befitting-com-8"
+        }
+        }
+    },
+    "block_order": [
+        "article_m7f9mR",
+        "article_B3Vd3i",
+        "article_bHtktr"
+    ],
+    "name": "Content Grid Layout",
+    "settings": {
+        "bg_color": "#f5f5f5",
+        "text_color": "#201F1E",
+        "show_border_top": true,
+        "show_border_bottom": true,
+        "title": "Press Releases",
+        "cta_text": "",
+        "cta_link": "",
+        "text_alignment": "center",
+        "text_alignment_alter": "center",
+        "carousel_mobile": false,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 22
+    }
+    },
+    "global_editorial_50_50_KdN6hP": {
+    "type": "global-editorial-50-50",
+    "name": "Editorial 50-50",
+    "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/Rectangle_6_48a98be6-c727-47a6-ab27-83e050bdfa71.png",
+        "image_alter": "shopify://shop_images/Rectangle_6_10a4194e-26b1-42ae-bb77-91be4ec7f5e7.png",
+        "flex_direction": "row",
+        "flex_direction_alter": "column",
+        "title": "Media Contact",
+        "paragraph": "<p>Shopko Optical is available to speak with members of the media on topics related to eye health, vision, optometry, or optical center-specific news. Contact our representative for more information. <br/></p><p><strong>Media Contact</strong> <br/><a href=\"mailto:socialmedia@shopko.com\" target=\"_blank\" title=\"mailto:socialmedia@shopko.com\">socialmedia@shopko.com</a></p>",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 350,
+        "text_color": "#201f1e",
+        "background_color": "#ffffff",
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 22
+    }
+    }
+},
+"order": [
+    "global_editorial_50_50_EKrT49",
+    "global_4_column_grid_bbpymF",
+    "global_4_column_grid_UfQR4F",
+    "global_editorial_50_50_KdN6hP"
+]
+}

@@ -1,0 +1,25 @@
+<div class="price {{ style_class }}">
+  {%- if variant.price < variant.compare_at_price -%}
+    <div class="price-item--compare price-item">
+      <span class="visually-hidden visually-hidden--inline">{{ 'product.price.compare_at_price' | t }}</span>
+      <s>
+        {{- variant.compare_at_price | money -}}
+      </s>
+    </div>
+
+    <div class="price-item--sale price-item">
+      <span class="visually-hidden visually-hidden--inline">{{ 'product.price.sale_price' | t }}</span>
+      <span>
+        {{- variant.price | money -}}
+      </span>
+    </div>
+
+  {%- else -%}
+    <div class="price-item--regular price-item">
+      <span class="visually-hidden visually-hidden--inline">{{ 'product.price.regular_price' | t }}</span>
+      <span>
+        {{- variant.price | money -}}
+      </span>
+    </div>
+  {%- endif -%}
+</div>

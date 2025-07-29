@@ -1,0 +1,88 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'customer.js' | asset_url }}" defer="defer"></script>
+
+<div class="form__wrapper reset_password customer-page">
+  {% render 'account-breadcrumbs' %}
+  <div class="activate_account_wrapper">
+    <div class="activate_account_inner">
+      <h1 class="typography--heading-1">
+        {{ 'customer.activate_account.title' | t }}
+      </h1>
+
+      {%- form 'activate_customer_password' , id: 'activate_account_form'-%}
+        <p>
+          {{ 'customer.activate_account.subtext' | t }}
+        </p>
+        <div class="form-grid__container">
+          <div class="field field--input typography--body-bold">
+                <div class="field-line">
+                  <input
+                    type="password"
+                    name="customer[password]"
+                    id="password"
+                    data-label="{{ 'customer.reset_password.password' | t | replace: 'ENTER', '' | replace: '*', '' }}"
+                    placeholder="{{ 'customer.reset_password.password' | t }}"
+                    {% if form.errors contains 'password' %}
+                      aria-invalid="true"
+                      aria-describedby="password-error"
+                    {% endif %}
+                    required
+                  >
+                  <label for="password" class="typography--button">{{ 'customer.reset_password.password' | t }}</label>
+                </div>
+                <p class="field-caption typography--caption">
+                  <span class="form-message--error  active"></span>
+                </p>
+              </div>
+        </div>
+        <div class="form-grid__container">
+          <div class="field field--input typography--body-bold">
+                <div class="field-line">
+                  <input
+                    type="password"
+                    name="customer[password_confirmation]"
+                    id="password_confirmation"
+                    autocomplete="new-password"
+                    data-label="{{ 'customer.reset_password.password_confirm' | t | replace: 'ENTER', '' | replace: '*', '' }}"
+                    placeholder="{{ 'customer.reset_password.password_confirm' | t }}"
+                    {% if form.errors contains 'password_confirmation' %}
+                      aria-invalid="true"
+                      aria-describedby="password_confirmation-error"
+                    {% endif %}
+                    required
+                  >
+                  <label for="password_confirmation" class="typography--button">{{ 'customer.reset_password.password_confirm' | t }}</label>
+                </div>
+                <p class="field-caption typography--caption">
+                  <span class="form-message--error  active">
+                    {%- if form.errors -%}
+                      {%- for field in form.errors -%}
+                        {%- if field == 'form' -%}
+                          {{ form.errors.messages[field] }}
+                        {%- else -%}
+                          {{ form.errors.translated_fields[field] | capitalize }}
+                          {{ form.errors.messages[field] }}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  </span>
+                </p>
+              </div>
+        </div>
+        <div class="recover-btns-wrapper">
+            <div class="form-grid">
+              <button
+                class="button button--solid-black typography--button">
+                {{ 'customer.activate_account.submit' | t }}
+              </button>
+            </div>
+            <div class="form-grid">
+              <button class="button button--outline-black typography--button">
+                {{ 'customer.activate_account.cancel' | t }}
+              </button>
+            </div>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>

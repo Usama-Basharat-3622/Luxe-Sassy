@@ -1,0 +1,282 @@
+{% style %}
+  #main-404-{{ section.id }}{
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+  .main-404-{{ section.id }} {
+      display: flex;
+      flex-direction: row;
+      justify-content: {{ section.settings.text_placement_hor }};
+      text-align: {{ section.settings.text_alignment }};
+  }
+  .main-404-{{ section.id }} .content-404 {
+      width: 100%;
+      max-width: {{ section.settings.content_width }}px;
+      display: flex;
+      flex-direction: column;
+  }
+  .main-404-{{ section.id }} .content-404 .content-404-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+  }
+  .main-404-{{ section.id }} .content-404 .content-404-cta {
+      max-width: fit-content;
+      margin-top: 2rem;
+  }
+  .main-404-{{ section.id }} .content-404 .content-404-paragraph ol, .main-404-{{ section.id }} .content-404 .content-404-paragraph ul{
+      list-style-position: outside;
+      padding-left: 2.5rem;
+  }
+  .main-404-{{ section.id }} .content-404 .content-404-paragraph ol li, .main-404-{{ section.id }} .content-404 .content-404-paragraph ul li{
+      padding-left: 0.2rem;
+  }
+  @media screen and (min-width: 768px){
+      .main-404-{{ section.id }} .content-404 .content-404-title {
+          margin-bottom: 2rem;
+      }
+      .main-404-{{ section.id }} .content-404 .content-404-paragraph p > strong{
+          padding-top: .2rem;
+          display: inline-block;
+      }
+  }
+  @media screen and (max-width:767px){
+      #main-404-{{ section.id }}{
+          padding: {{ section.settings.padding_top_mobile }}px 1.6rem {{ section.settings.padding_bottom_mobile }}px;
+      }
+      .main-404-{{ section.id }} {
+          justify-content: {{ section.settings.text_placement_hor_alter }};
+          text-align: {{ section.settings.text_alignment_alter }};
+      }
+      .main-404-{{ section.id }} .content-404 .content-404-title {
+          margin-bottom: 2rem;
+      }
+  }
+{% endstyle %}
+
+<div id="main-404-{{ section.id }}">
+  <div class="main-404 main-404-{{ section.id }}">
+    <div class="content-404">
+      {% if section.settings.title != blank %}
+        <div class="content-404-title typography--heading-1" role="heading">{{ section.settings.title }}</div>
+      {% endif %}
+      {% if section.settings.paragraph != blank %}
+        <div class="content-404-paragraph typography--body-regular">
+          {{
+            section.settings.paragraph
+            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+          }}
+        </div>
+      {% endif %}
+      {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+        <div class="content-404-cta-main">
+          <a
+            href="{{ section.settings.cta_link }}"
+            class="content-404-cta link button button--tertiary typography--body-regular"
+            aria-label="{{ section.settings.cta_text }}"
+            {%- if section.settings.cta_link contains 'http' -%}
+              target="_blank"
+            {%- endif -%}
+          >
+            {{- section.settings.cta_text -}}
+            {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Main",
+  "tag": "section",
+  "class": "section--404-main",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 800,
+      "step": 4,
+      "unit": "px",
+      "label": "Content Width",
+      "default": 432
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor",
+      "label": "Text Placement Horizontal",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor_alter",
+      "label": "Text Placement Horizontal Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

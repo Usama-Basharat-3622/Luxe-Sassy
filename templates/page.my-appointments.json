@@ -1,0 +1,12 @@
+{
+    "layout": "theme",
+    "sections": {
+        "my-appointment": {
+            "type": "my-appointment",
+            "settings": {}
+        }
+    },
+    "order": [
+        "my-appointment"
+    ]
+}

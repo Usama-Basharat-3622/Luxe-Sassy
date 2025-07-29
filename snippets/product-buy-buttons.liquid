@@ -1,0 +1,86 @@
+{%- liquid
+  assign gift_card_recipient_feature_active = false
+  if block.settings.show_gift_card_recipient and product.gift_card?
+    assign gift_card_recipient_feature_active = true
+  endif
+-%}
+
+<product-form
+  class="product-form"
+  data-hide-errors="{{ gift_card_recipient_feature_active }}"
+  data-section-id="{{ section.id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="product-form__error-message-wrapper" role="alert" hidden>
+    <span class="svg-wrapper">
+      {{- 'icon-error.svg' | inline_asset_content -}}
+    </span>
+    <span class="product-form__error-message"></span>
+  </div>
+
+  {%- form 'product',
+    product,
+    id: product_form_id,
+    class: 'form',
+    novalidate: 'novalidate',
+    data-type: 'add-to-cart-form'
+  -%}
+    <input
+      type="hidden"
+      name="id"
+      value="{{ product.selected_or_first_available_variant.id }}"
+      {% if product.selected_or_first_available_variant.available == false
+        or quantity_rule_soldout
+        or product.selected_or_first_available_variant == null
+      %}
+        disabled
+      {% endif %}
+      class="product-variant-id"
+    >
+
+    <div id="scroll-trigger--pdp" aria-hidden="true"></div>
+
+    <div class="product-form__buttons">
+      {%- liquid
+        assign check_against_inventory = true
+        if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+          assign check_against_inventory = false
+        endif
+        if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+          assign quantity_rule_soldout = true
+        endif
+      -%}
+      <button
+        id="ProductSubmitButton-{{ section_id }}"
+        type="submit"
+        name="add"
+        class="product-form__submit button button--primary typography--cta"
+        {% if product.selected_or_first_available_variant.available == false
+          or quantity_rule_soldout
+          or product.selected_or_first_available_variant == null
+        %}
+          disabled
+        {% endif %}
+      >
+        <span>
+          {%- if product.selected_or_first_available_variant == null -%}
+            {{ 'product.unavailable' | t }}
+          {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+            {{ 'product.sold_out' | t }}
+          {%- else -%}
+            {{ 'product.add_to_cart' | t }}
+          {%- endif -%}
+        </span>
+        {%- render 'loading-spinner' -%}
+      </button>
+      {%- if block.settings.link_title != blank -%}
+        <a
+          href="{{ block.settings.link_url }}"
+          class="link link--block link--underline link--hover-color-change typography--body-regular"
+        >
+          {{ block.settings.link_title }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endform -%}
+</product-form>

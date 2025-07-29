@@ -1,0 +1,26 @@
+@media screen and (min-width: 992px) {
+  .pdp-desc {
+    padding-left: 2.4rem;
+  }
+
+  .pdp-desc-description + .pdp-desc-tag-list {
+    margin-top: 1.6rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .pdp-desc {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+  .pdp-desc-description + .pdp-desc-tag-list {
+    margin-top: 2.4rem;
+  }
+}
+
+.pdp-desc .anchor-target:target:before {
+  content: "";
+  display: block;
+  height: calc(var(--anchor-target-offset) + 2.4rem);
+  margin-top: calc((var(--anchor-target-offset) + 2.4rem) * -1);
+}

@@ -1,0 +1,17 @@
+<link href="{{ 'customer.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
+<script src="{{ 'customer.js' | asset_url }}" defer></script>
+
+<script src="{{ 'form.js' | asset_url }}" defer="defer"></script>
+<div class="form__wrapper customer-page">
+  {% render 'account-breadcrumbs' %}
+  {% render 'customer-account' %}
+</div>
+
+<script>
+  const appHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--customer-page-height', `${window.innerHeight}px`);
+  };
+  window.addEventListener('resize', appHeight);
+  appHeight();
+</script>

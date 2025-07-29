@@ -1,0 +1,188 @@
+{%- if blog.articles_count > 1 -%}
+<article-related-articles
+    id="related-articles-carousel-{{ section.id }}"
+    class="related-articles-carousel-{{ section.id }} related-articles-carousel isolate"
+    role="region"
+>
+    {%- if section.settings.title != blank -%}
+    <h2 class="related-articles-carousel-title typography--heading-1">
+        {{ section.settings.title }}
+    </h2>
+    {%- endif -%}
+
+    <div class="swiper isolate">
+        <div class="swiper-wrapper blog-article-sort">
+            {% assign article_count = 0 %}
+            {%- for related_article in blog.articles -%}
+            {% if related_article.handle == article.handle %}
+                {%- continue -%}
+            {% endif %}
+            {% assign article_count = article_count | plus: 1 %}
+            {% if article_count <= section.settings.articles_to_show %}
+                {%- assign custom_date = related_article.metafields.custom.custom_publish_date.value -%}
+                {%- assign sort_date = custom_date | default: related_article.published_at -%}
+                <div class="swiper-slide" data-sort="-{{ sort_date | date: "%s" }}">
+                {% render 'article-card', card_article: related_article %}
+                </div>
+            {% else %}
+                {%- break -%}
+            {% endif %}
+            {%- endfor -%}
+        </div>
+        <div class="cb-slider-scrollbar swiper-scrollbar"></div>
+    </div>
+
+</article-related-articles>
+{%- endif -%}
+<style>
+
+.blog-article-sort-desk{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 1.6rem;
+}
+
+.cb-slider-scrollbar .swiper-scrollbar-drag{
+    background: rgb(var(--color-black));
+}
+
+.related-articles-carousel-{{ section.id }}{
+    display: block;
+}
+
+.related-articles-carousel-{{ section.id }} .related-articles-carousel-title {
+    margin-bottom: 2.4rem;
+    text-align: left;
+}
+
+.truncate-lines-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit number of lines */
+    -webkit-box-orient: vertical;
+}
+.truncate-lines-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit number of lines */
+    -webkit-box-orient: vertical;
+}
+</style>
+
+{% style %}
+@media screen and (min-width: 1025px) {
+    .related-articles-carousel-{{ section.id }}{
+        padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+        border-top: 1px solid rgb(var(--color-grey-medium));
+    }
+    .swiper-wrapper.blog-article-sort{
+        padding-bottom: 4.8rem;
+    }
+    .cb-slider-scrollbar.swiper-scrollbar{
+        background: rgb(var(--color-grey-medium));
+        width: 98%;
+        height: 0.1rem;
+        transition: height 0.3s ease;
+        cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .related-articles-carousel-{{ section.id }}{
+        padding: {{ section.settings.padding_top_alter }}px 0rem {{ section.settings.padding_bottom_alter }}px;
+        border-top: 1px solid rgb(var(--color-grey-medium));
+    }
+    .swiper-wrapper.blog-article-sort{
+        padding-bottom: 3.2rem;
+    }
+    .related-articles-carousel-{{ section.id }} .related-articles-carousel-title {
+        margin: 0rem 1.6rem 3.2rem;
+    }
+    .cb-slider-scrollbar.swiper-scrollbar{
+        background: rgb(var(--color-grey-medium));
+        height: 0.1rem;
+        transition: height 0.3s ease;
+        cursor: pointer;
+    }
+}
+{% endstyle %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    let container = document.querySelector('.blog-article-sort');
+    let elements = Array.from(container.children);
+    let sorted = elements.sort(function (a, b) {
+    return +a.dataset.sort - +b.dataset.sort;
+    });
+    container.innerHTML = '';
+    sorted.forEach((elm) => container.append(elm));
+});
+</script>
+{% schema %}
+{
+"name": "Article Related Articles",
+"tag": "section",
+"class": "section--article-related-grid",
+"settings": [
+    {
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "Related Articles"
+    },
+    {
+    "type": "range",
+    "id": "articles_to_show",
+    "min": 4,
+    "max": 12,
+    "step": 1,
+    "default": 12,
+    "label": "Articles to show"
+    },
+    {
+    "type": "header",
+    "content": "Section Padding"
+    },
+    {
+    "type": "range",
+    "id": "padding_top",
+    "min": 0,
+    "max": 200,
+    "step": 2,
+    "unit": "px",
+    "label": "Padding Top",
+    "default": 0
+    },
+    {
+    "type": "range",
+    "id": "padding_bottom",
+    "min": 0,
+    "max": 200,
+    "step": 2,
+    "unit": "px",
+    "label": "Padding bottom",
+    "default": 0
+    },
+    {
+    "type": "range",
+    "id": "padding_top_alter",
+    "min": 0,
+    "max": 200,
+    "step": 2,
+    "unit": "px",
+    "label": "Padding Top (Mobile)",
+    "default": 0
+    },
+    {
+    "type": "range",
+    "id": "padding_bottom_alter",
+    "min": 0,
+    "max": 200,
+    "step": 2,
+    "unit": "px",
+    "label": "Padding bottom (Mobile)",
+    "default": 0
+    }
+]
+}
+{% endschema %}  

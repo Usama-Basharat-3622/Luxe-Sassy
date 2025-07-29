@@ -1,0 +1,14 @@
+{
+  "layout": "theme",
+  "sections": {
+    "meta-redirect": {
+      "type": "meta-redirect",
+      "settings": {
+        "redirect_link": "/"
+      }
+    }
+  },
+  "order": [
+    "meta-redirect"
+  ]
+}

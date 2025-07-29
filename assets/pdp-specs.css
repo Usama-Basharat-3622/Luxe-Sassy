@@ -1,0 +1,43 @@
+@media screen and (min-width: 992px) {
+  .pdp-specs {
+    padding-left: 2.4rem;
+    padding-right: 2.4rem;
+  }
+  .pdp-specs-title {
+    padding: 1.6rem 0;
+  }
+  .pdp-specs summary {
+    pointer-events: none;
+  }
+  .pdp-specs summary .icon {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .pdp-specs {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+  .pdp-specs-title {
+    padding: 1.6rem 0;
+  }
+}
+
+.pdp-specs-list > *:first-child,
+.pdp-specs-list > * + * {
+  border-top: 0.1rem solid rgb(var(--color-grey-medium));
+}
+
+.pdp-spec-item {
+  padding: 1.6rem 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.pdp-spec-item > * {
+  flex: 0 0 50%;
+  min-width: 0;
+}

@@ -1,0 +1,117 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-index-header);
+
+  background-color: rgb(var(--color-white));
+}
+
+body {
+  padding-top: var(--header-bottom-position);
+}
+
+/* header main */
+
+.header-main-line {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid rgb(var(--color-grey));
+}
+
+@media screen and (min-width: 1025px) {
+  .header-main-line {
+    gap: 2.8rem;
+    padding: 2rem 2.4rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .header-main-line {
+    padding: 1.2rem 1.6rem;
+  }
+
+  /* Fix for iPhone bug with SVGs on position sticky/fixed header */
+  .header-main-line svg{
+    transform: translateZ(0) !important; 
+    will-change: transform !important;
+  }
+}
+
+.header-main-line > * {
+  flex: 0 0 auto;
+}
+
+.header-logo {
+  position: relative;
+}
+
+.header-logo .icon {
+  width: 5.5rem;
+}
+
+/* header side menu */
+
+.header-side-menu {
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.header-side-menu-button {
+  padding: 0.5rem 1.2rem 0.5rem 1.8rem;
+}
+
+.header-side-menu-button > .icon {
+  width: 3.2rem;
+}
+
+.header-side-menu-link > .icon {
+  width: 2.4rem;
+}
+
+.cart-icon-bubble {
+  position: relative;
+}
+
+.cart-count-bubble {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: rgb(var(--color-text-badge));
+  background-color: rgb(var(--color-background-badge));
+}
+
+/* header mini menu */
+
+.header-mini-menu {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.2rem;
+  border-bottom: 0.1rem solid rgb(var(--color-grey));
+
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.header-mini-menu-link {
+  padding: 1.2rem 1.6rem;
+  white-space: nowrap;
+}

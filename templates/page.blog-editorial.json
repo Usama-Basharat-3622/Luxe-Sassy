@@ -1,0 +1,29 @@
+{
+  "layout": "theme",
+  "sections": {
+    "blog_breadcrumbs_9Pz6Ar": {
+      "type": "blog-breadcrumbs",
+      "settings": {}
+    },
+    "blog_header_EDrz8K": {
+      "type": "blog-header",
+      "settings": {
+        "show_blog_menu": true
+      }
+    },
+    "page_blog_all_article_grid_YAmXjm": {
+      "type": "page-blog-all-article-grid",
+      "settings": {
+        "padding_top": 30,
+        "padding_bottom": 80,
+        "padding_top_mob": 30,
+        "padding_bottom_mob": 48
+      }
+    }
+  },
+  "order": [
+    "blog_breadcrumbs_9Pz6Ar",
+    "blog_header_EDrz8K",
+    "page_blog_all_article_grid_YAmXjm"
+  ]
+}

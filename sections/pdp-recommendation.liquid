@@ -1,0 +1,133 @@
+{{ 'pdp-recommendation.css' | asset_url | stylesheet_tag }}
+<product-recommendations
+  id="pdp-recommendations-{{ section.id }}"
+  class="pdp-recommendations-{{ section.id }} pdp-recommendations isolate"
+  data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+>
+  <div id="AnchorTarget-{{ section.settings.section_anchor_id }}" class="anchor-target" aria-hidden="true"></div>
+
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="pdp-recommendations-title typography--heading-1">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <div
+      id="pdp-recommendations-carousel-{{ section.id }}"
+      class="pdp-recommendations-carousel-{{ section.id }} pdp-recommendations-carousel swiper isolate"
+      role="region"
+    >
+      <div class="swiper-wrapper">
+        {% for recommendation_product in recommendations.products %}
+          {% unless recommendation_product.template_suffix == 'disabled'
+            or recommendation_product.tags contains 'gwp'
+            or recommendation_product.type == 'GWP'
+          %}
+            <div class="pdp-recommendations-slide-{{ section.id }}-{{ recommendation_product.id }} pdp-recommendations-slide swiper-slide">
+              {% render 'product-card',
+                card_product: recommendation_product,
+                card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+                scope_id: section.id
+              %}
+            </div>
+          {% endunless %}
+        {%- endfor -%}
+      </div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  {%- endif -%}
+</product-recommendations>
+
+{% style %}
+  @media screen and (min-width: 992px) {
+    .pdp-recommendations-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .pdp-recommendations-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "PDP Recommendation",
+  "tag": "section",
+  "class": "section--pdp-recommendation",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_anchor_id",
+      "label": "Section Anchor ID",
+      "default": "recommendation"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 12,
+      "label": "Products to show"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

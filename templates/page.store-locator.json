@@ -1,0 +1,12 @@
+{
+    "layout": "theme",
+    "sections": {
+        "emid-store-locator": {
+            "type": "emid-store-locator",
+            "settings": {}
+        }
+    },
+    "order": [
+        "emid-store-locator"
+    ]
+}

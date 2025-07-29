@@ -1,0 +1,149 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- assign formatted_balance = gift_card.balance | money_without_trailing_zeros | strip_html -%}
+
+    <title>{{ 'gift_cards.issued.title' | t: value: formatted_balance, shop: shop.name }}</title>
+
+    <meta name="description" content="{{ 'gift_cards.issued.subtext' | t }}">
+
+    {% render 'meta-tags' %}
+    {% render 'preload-tags' %}
+
+    {%- case settings.style_config -%}
+      {%- when 'svs' -%}
+        {% render 'style-settings-svs' %}
+      {%- when 'shopko' -%}
+        {% render 'style-settings-shopko' %}
+      {%- when 'befitting' -%}
+        {% render 'style-settings-befitting' %}
+      {%- else -%}
+    {%- endcase -%}
+    <link href="{{ 'vendor.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ 'vendor-overwrite.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ 'global.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
+    <script src="{{ 'vendor.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer></script>
+    <script src="{{ 'shop.js' | asset_url }}" defer></script>
+
+    {% render 'script-external-head' %}
+
+    {{ 'gift-card.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body
+    class="typography--body"
+    data-template="{{ template }}"
+    data-template-name="{{ template.name }}"
+    {% if template.suffix %}
+      data-template-suffix="{{ template.suffix }}"
+    {% endif %}
+    {% if template.directory %}
+      data-template-directory="{{ template.directory }}"
+    {% endif %}
+  >
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      <div class="gift-card">
+        <div class="gift-card-top">
+          <h1 class="gift-card__title typography--heading-3">
+            {{ 'gift_cards.issued.gift_card_title' | t }}
+          </h1>
+          <h2 class="gift-card__balance typography--heading-5">
+            {{ gift_card.balance | money_with_currency }}
+          </h2>
+          {%- if gift_card.enabled == false or gift_card.expired -%}
+            <p class="gift-card__expired typography--body-bold">{{ 'gift_cards.issued.expired' | t }}</p>
+          {%- endif -%}
+          {% if gift_card.expires_on %}
+            {%- assign gift_card_expiration_date = gift_card.expires_on | date: '%B %e, %Y' -%}
+            <p class="gift-card__date typography--body-bold">
+              {{ 'gift_cards.issued.expiration_date' | t: expires_on: gift_card_expiration_date }}
+            </p>
+          {% endif %}
+          <img
+            class="gift-card__image media"
+            src="{{ 'gift-card/card.svg' | shopify_asset_url }}"
+            alt=""
+            height="{{ 570 | divided_by: 1.5 }}"
+            width="570"
+            loading="eager"
+          >
+        </div>
+
+        <div class="gift-card_bottom">
+          {% comment %} <h2>{{ shop.name }}</h2> {% endcomment %}
+          {% comment %}
+            <p class="gift-card__use">
+              {{ 'gift_cards.issued.how_to_use_gift_card' | t: shop: shop.domain }}
+            </p>
+          {% endcomment %}
+          <p id="gift-card-code" class="gift-card__code typography--body-bold">
+            {{ gift_card.code | format_code }}
+          </p>
+          {% comment %} <div class="gift-card__qr-code" data-identifier="{{ gift_card.qr_identifier }}"></div> {% endcomment %}
+          <div class="gift-card__buttons no-print">
+            <div class="gift-card__copy-button-wrapper">
+              <button class="gift-card__copy-button button button--outline-black typography--button">
+                {{ 'gift_cards.issued.copy_code' | t }}
+              </button>
+              <p
+                class="gift-card__copy-success form__message typography--overline hidden"
+                role="status"
+              >
+                {{ 'gift_cards.issued.copy_code_success' | t }}
+              </p>
+            </div>
+            <a
+              href="{{ shop.url }}"
+              class="link link--inline-block link--underline link--hover-color-gray-80 typography--overline"
+              target="_blank"
+              rel="noopener"
+              aria-describedby="a11y-new-window-message"
+            >
+              {{ 'gift_cards.issued.shop_link' | t: shop: shop.domain }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div hidden>
+      <span id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</span>
+    </div>
+  </body>
+</html>
+
+<script>
+  var isMessageDisplayed = false;
+  document.querySelector('.gift-card__copy-button').addEventListener('click', () => {
+    navigator.clipboard.writeText(document.getElementById('gift-card-code').innerText).then(function () {
+      if (!isMessageDisplayed) {
+        document.querySelector('.gift-card__copy-success').classList.remove('hidden');
+        isMessageDisplayed = true;
+        setTimeout(() => {
+          document.querySelector('.gift-card__copy-success').classList.add('hidden');
+          isMessageDisplayed = false;
+        }, 4000);
+      }
+    });
+  });
+</script>

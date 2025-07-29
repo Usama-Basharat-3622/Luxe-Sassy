@@ -1,0 +1,86 @@
+{% comment %}
+  Renders a set of links for paginated results. Must be used within paginate tags.
+  Usage:
+  {% paginate results by 2 %}
+    {% render 'pagination', paginate: paginate, anchor: '#yourID' %}
+  {% endpaginate %}
+  Accepts:
+  - paginate: {Object}
+  - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+{% endcomment %}
+{%- if paginate.parts.size > 0 -%}
+  <div class="pagination-wrapper">
+    <nav class="pagination" role="navigation" aria-label="{{ 'pagination.label' | t }}">
+      <ul class="pagination-list" role="list">
+        {%- if paginate.previous -%}
+          <li>
+            <a
+              href="{{ paginate.previous.url }}{{ anchor }}"
+              class="pagination-item pagination-item--arrow pagination-item--next"
+              aria-label="{{ 'pagination.previous' | t }}"
+            >
+              {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
+            </a>
+          </li>
+        {%- else -%}
+          <li>
+            <span
+              class="pagination-item pagination-item--arrow pagination-item--next pagination-item--disabled"
+              aria-hidden="true"
+            >
+              {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
+            </span>
+          </li>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          <li>
+            {%- if part.is_link -%}
+              <a
+                href="{{ part.url }}{{ anchor }}"
+                class="pagination-item typography--body-regular opacity-6 link link--hover-color-change"
+                aria-label="{{ 'pagination.page' | t: number: part.title }}"
+              >
+                {{- part.title -}}
+              </a>
+            {%- else -%}
+              {%- if part.title == paginate.current_page -%}
+                <a
+                  role="link"
+                  aria-disabled="true"
+                  class="pagination-item pagination-item--current typography--body-regular link"
+                  aria-current="page"
+                  aria-label="{{ 'pagination.page' | t: number: part.title }}"
+                >
+                  {{- part.title -}}
+                </a>
+              {%- else -%}
+                <span class="pagination-item typography--body-regular">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+
+        {%- if paginate.next -%}
+          <li>
+            <a
+              href="{{ paginate.next.url }}{{ anchor }}"
+              class="pagination-item pagination-item--arrow pagination-item--prev"
+              aria-label="{{ 'pagination.next' | t }}"
+            >
+              {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
+            </a>
+          </li>
+        {%- else -%}
+          <li>
+            <span
+              class="pagination-item pagination-item--arrow pagination-item--prev pagination-item--disabled"
+              aria-hidden="true"
+            >
+              {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
+            </span>
+          </li>
+        {%- endif -%}
+      </ul>
+    </nav>
+  </div>
+{%- endif -%}

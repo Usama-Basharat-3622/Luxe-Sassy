@@ -1,0 +1,243 @@
+{% style %}
+#page-main-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+}
+.page-main-{{ section.id }} {
+    display: flex;
+    flex-direction: row;
+    justify-content: {{ section.settings.text_placement_hor }};
+    text-align: {{ section.settings.text_alignment }};
+}
+.page-main-{{ section.id }} .page {
+    width: 100%;
+    max-width: {{ section.settings.content_width }}px;
+    display: flex;
+    flex-direction: column;
+}
+.page-main-{{ section.id }} .page .page-paragraph > *:not(:first-child){
+    margin-top: 1.6rem;
+}
+.page-main-{{ section.id }} .page .page-paragraph ol, .page-main-{{ section.id }} .page .page-paragraph ul{
+    list-style-position: outside;
+    padding-left: 2.5rem;
+}
+.page-main-{{ section.id }} .page .page-paragraph ol li, .page-main-{{ section.id }} .page .page-paragraph ul li{
+    padding-left: 0.2rem;
+}
+@media screen and (min-width: 768px){
+    .page-main-{{ section.id }} .page .page-title {
+        margin-bottom: 2rem;
+    }
+    .page-main-{{ section.id }} .page .page-paragraph p > strong{
+        padding-top: .2rem;
+        display: inline-block;
+    }
+}
+@media screen and (max-width:767px){
+    #page-main-{{ section.id }}{
+        padding: {{ section.settings.padding_top_mobile }}px 1.6rem {{ section.settings.padding_bottom_mobile }}px;
+    }
+    .page-main-{{ section.id }} {
+        justify-content: {{ section.settings.text_placement_hor_alter }};
+        text-align: {{ section.settings.text_alignment_alter }};
+    }
+    .page-main-{{ section.id }} .page .page-title {
+        margin-bottom: 2rem;
+    }
+}
+{% endstyle %}
+
+<div id="page-main-{{ section.id }}">
+<div class="page-main page-main-{{ section.id }}">
+  <div class="page">
+    {% if page.title != blank and section.settings.show_page_title %}
+      <div class="page-title typography--heading-1" role="heading">{{ page.title }}</div>
+    {% endif %}
+    {% if page.content != blank and section.settings.show_page_content %}
+      <div class="page-paragraph typography--body-regular">
+        {{
+          page.content
+          | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+          | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+          | replace: '<strong', "<strong class='typography--body-regular-bold'"
+          | replace: '<a', "<a class='link link--inline-block link--underline link--hover-color-change'"
+        }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Page Main",
+  "tag": "section",
+  "class": "section--page-main",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_page_title",
+      "label": "Show Page Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_page_content",
+      "label": "Show Page Content",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 800,
+      "step": 4,
+      "unit": "px",
+      "label": "Content Width",
+      "default": 700
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor",
+      "label": "Text Placement Horizontal",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_placement_hor_alter",
+      "label": "Text Placement Horizontal Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

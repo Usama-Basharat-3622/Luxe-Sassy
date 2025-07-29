@@ -1,0 +1,44 @@
+<input
+  type="{{ type | default: 'radio' }}"
+  id="{{ id }}"
+  name="{{ name }}"
+  value="{{ value }}"
+  form="{{ product_form_id }}"
+  class="swatch-input__input{% if visually_disabled %} visually-disabled{% endif %}"
+  {% if checked %}
+    checked
+  {% endif %}
+  {% if disabled %}
+    disabled
+  {% endif %}
+  {% if additional_props %}
+    {{ additional_props }}
+  {% endif %}
+>
+{% assign value_handelized = value |  handleize %}
+
+<label
+  for="{{ id }}"
+  title="{{ value }}"
+  class="swatch-input__label {{ label_class }} {% if metaobjects.filters_frame_shape[value_handelized].shape_image.value %} has-image {% endif %}"
+>
+{% if metaobjects.filters_frame_shape[value_handelized].shape_image.value %}
+  <span class="filter-swatch-shape-image">
+    {{-
+         metaobjects.filters_frame_shape[value_handelized].shape_image.value
+        | image_url: width: metaobjects.filters_frame_shape[value_handelized].shape_image.value.width
+        | image_tag:
+          loading: 'lazy',
+          widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+          class: 'media',
+          alt: shop.name
+      -}}
+  </span>
+{% endif %}
+  
+  <span class="filter-swatch-text">
+    {{ value  }}
+  </span>
+  
+ 
+</label>

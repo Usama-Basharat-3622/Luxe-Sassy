@@ -1,0 +1,26 @@
+@media screen and (min-width: 992px) {
+  .hp-eye-exam .banner {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .hp-eye-exam .banner > * {
+    flex: 0 0 50%;
+    min-width: 0;
+  }
+  .hp-eye-exam .banner-content {
+    padding: 2.4rem 2.4rem;
+  }
+
+  .hp-eye-exam .banner-content > * {
+    width: 30vw;
+    max-width: 60rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .hp-eye-exam .banner-content {
+    padding: 3.2rem 1.6rem;
+    display: grid;
+    gap: 1.2rem;
+  }
+}

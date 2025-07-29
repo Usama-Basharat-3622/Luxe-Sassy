@@ -1,0 +1,341 @@
+{% assign banner_image = content_banner.banner_image %}
+{% assign banner_image_mobile = content_banner.banner_image_mobile %}
+{% assign product_1 = content_banner.product_1.value %}
+{% assign product_2 = content_banner.product_2.value %}
+{% assign position_for_products_desktop = content_banner.position_for_products_desktop %}
+{% assign position_for_products_mobile = content_banner.position_for_products_mobile %}
+{% assign position_desktop = content_banner.position_desktop %}
+{% assign position_mobile = content_banner.position_mobile %}
+{% assign column_position = content_banner.column_position %}
+{% assign cover_link = content_banner.cover_link %}
+
+{% style %}
+  .clp-promotional-banner-products-{{ index }} {
+      position: relative;
+  }
+
+
+  .clp-promotional-banner-products__wrap {
+      position: absolute;
+      z-index: 1;
+  }
+
+  .clp-promotional-banner-products__content {
+      display: flex;
+      background: rgb(var(--color-white));
+      padding: 1.6rem;
+      border-radius: 0.5rem;
+      gap: 1.2rem;
+  }
+
+  .clp-promotional-banner-products__content img{
+      width: 8rem;
+      height: 5.4rem;
+      border: 0.1rem solid transparent;
+      transition: border-color 0.2s ease;
+  }
+
+  .clp-promo_item_title{
+      margin-top: 0.7rem;
+  }
+
+  .clp-promo_item_price{
+      margin-top: 0.4rem;
+  }
+
+
+  .clp-promo_item:hover img{
+      border: 0.1rem solid rgb(var(--color-black));
+  }
+  .clp-promotional-banner-products-{{ index }} video, .clp-promotional-banner-products__media{
+      height: 100%;
+  }
+
+
+
+  @media screen and (min-width: 1025px) {
+      .clp-promotional-banner-products-{{ index }} {
+          {% if column_position == 'left' %}
+          grid-column: 1 / span 2;
+          {% elsif column_position == 'right' %}
+          grid-column: 3 / span 2;
+          {% endif %}
+          grid-row: {{ position_desktop }} / span 2;
+      }
+
+      {% if position_for_products_desktop == 'Top Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 2.4rem;
+          left: 2.4rem;
+      }
+      {% elsif position_for_products_desktop == 'Top Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 2.4rem;
+          right: 2.4rem;
+      }
+      {% elsif position_for_products_desktop == 'Top Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 2.4rem;
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      {% elsif position_for_products_desktop == 'Middle Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          left: 2.4rem;
+          transform: translateY(-50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_desktop == 'Middle Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          left: 50%;
+          transform: translate(-50%, -50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_desktop == 'Middle Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          right: 2.4rem;
+          transform: translateY(-50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_desktop == 'Bottom Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 2.4rem;
+          left: 2.4rem;
+      }
+      {% elsif position_for_products_desktop == 'Bottom Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 2.4rem;
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      {% elsif position_for_products_desktop == 'Bottom Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 2.4rem;
+          right: 2.4rem;
+      }
+      {% endif %}
+  }
+
+  @media screen and (max-width: 1024px) {
+      .clp-promotional-banner-products-{{ index }} {
+          grid-row: {{ position_mobile }};
+      }
+
+      {% if position_for_products_mobile == 'Top Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 1.6rem;
+          left: 1.6rem;
+      }
+      {% elsif position_for_products_mobile == 'Top Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 1.6rem;
+          right: 1.6rem;
+      }
+      {% elsif position_for_products_mobile == 'Top Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          top: 1.6rem;
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      {% elsif position_for_products_mobile == 'Middle Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          left: 1.6rem;
+          transform: translateY(-50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_mobile == 'Middle Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          left: 50%;
+          transform: translate(-50%, -50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_mobile == 'Middle Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          right: 1.6rem;
+          transform: translateY(-50%);
+          top: 50%;
+      }
+      {% elsif position_for_products_mobile == 'Bottom Left' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 1.6rem;
+          left: 1.6rem;
+      }
+      {% elsif position_for_products_mobile == 'Bottom Center' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 1.6rem;
+          left: 50%;
+          transform: translateX(-50%);
+      }
+      {% elsif position_for_products_mobile == 'Bottom Right' %}
+      .clp-promotional-banner-products-{{ index }} .clp-promotional-banner-products__wrap{
+          bottom: 1.6rem;
+          right: 1.6rem;
+      }
+      {% endif %}
+
+
+
+
+      .clp-promotional-banner-products__content{
+          padding: 1.2rem;
+          gap: 1rem;
+      }
+  }
+{% endstyle %}
+
+<div class="clp-promotional-banner-products-{{ index }}">
+  {% assign media_url = banner_image | file_url %}
+  {% assign media_url_mobile = banner_image_mobile | file_url %}
+
+  {% if media_url contains '.mp4' %}
+    {% if banner_image %}
+      <video
+        alt="{{ banner_image.alt | escape }}"
+        width="{{ banner_image.width }}"
+        height="{{ banner_image.height }}"
+        autoplay
+        playsinline
+        muted
+        loop
+        preload="false"
+        loading="lazy"
+        class="media hidden≤1024"
+      >
+        <source src="{{ banner_image | file_url }}">
+      </video>
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'hidden≤1024' }}
+    {% endif %}
+
+  {% else %}
+    {% if banner_image %}
+      {{-
+        banner_image
+        | image_url: width: banner_image.width
+        | image_tag:
+          loading: 'lazy',
+          widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+          class: 'media clp-promotional-banner-products__media hidden≤1024',
+          alt: shop.name
+      -}}
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'hidden≤1024' }}
+    {% endif %}
+  {% endif %}
+
+  {% if media_url_mobile contains '.mp4' %}
+    {% if banner_image_mobile %}
+      <video
+        alt="{{ banner_image_mobile.alt | escape }}"
+        width="{{ banner_image_mobile.width }}"
+        height="{{ banner_image_mobile.height }}"
+        autoplay
+        playsinline
+        muted
+        loop
+        preload="false"
+        loading="lazy"
+        class="media hidden≥1025"
+      >
+        <source src="{{ banner_image_mobile| file_url }}">
+      </video>
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'hidden≥1025' }}
+    {% endif %}
+
+  {% else %}
+    {% if banner_image_mobile %}
+      {{-
+        banner_image_mobile
+        | image_url: width: banner_image_mobile.width
+        | image_tag:
+          loading: 'lazy',
+          widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+          class: 'media clp-promotional-banner-products__media hidden≥1025 ',
+          alt: shop.name
+      -}}
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'hidden≥1025' }}
+    {% endif %}
+  {% endif %}
+
+  {% if cover_link != blank %}
+    <a
+      class="link link--covering focus-none"
+      href="{{ cover_link }}"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <span class="visually-hidden">{{ 'accessibility.link_to_item' | t: item: button_label }}</span>
+    </a>
+  {% endif %}
+
+  {% if product_1 or product_2 %}
+    <div class="clp-promotional-banner-products__wrap">
+      <div class="clp-promotional-banner-products__content">
+        {% if product_1 %}
+          <a href="{{ product_1.url }}" class="clp-promo_item link">
+            {{-
+              product_1.featured_media
+              | image_url: width: product1.featured_image.width
+              | image_tag:
+                loading: 'lazy',
+                widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+                class: 'media',
+                alt: shop.name
+            -}}
+            <div class="clp-promo_item_title typography--body-small">{{ product_1.vendor }}</div>
+
+            {%- assign price_disabled = false -%}
+            {%- if product_1.type == 'Eyeglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.eyeglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if product_1.type == 'Sunglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.sunglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- unless price_disabled -%}
+              <div class="clp-promo_item_price typography--body-small">{{ product_1.price | money }}</div>
+            {%- endunless -%}
+          </a>
+        {% endif %}
+
+        {% if product_2 %}
+          <a href="{{ product_2.url }}" class="clp-promo_item link">
+            {{-
+              product_2.featured_image
+              | image_url: width: product1.featured_image.width
+              | image_tag:
+                loading: 'lazy',
+                widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
+                class: 'media',
+                alt: shop.name
+            -}}
+            <div class="clp-promo_item_title typography--body-small">{{ product_2.vendor }}</div>
+            {%- assign price_disabled = false -%}
+            {%- if product_2.type == 'Eyeglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.eyeglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if product_2.type == 'Sunglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.sunglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- unless price_disabled -%}
+              <div class="clp-promo_item_price typography--body-small">{{ product_2.price | money }}</div>
+            {%- endunless -%}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>

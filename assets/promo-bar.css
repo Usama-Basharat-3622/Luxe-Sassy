@@ -1,0 +1,127 @@
+.promo-bar {
+  position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+@media screen and (min-width: 1025px) {
+  .promo-bar {
+    padding: 1.3rem 2.4rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .promo-bar {
+    padding: 0.6rem 1.6rem;
+    justify-content: center;
+  }
+}
+
+promo-bar-slider {
+  display: block;
+}
+
+.promo-bar-slider {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 40rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 991px) {
+  .promo-bar-slider {
+    max-width: 30rem;
+  }
+}
+
+.promo-bar-slide {
+  padding: 0.4rem;
+  white-space: nowrap;
+}
+
+.promo-bar-menu {
+  flex: 1 0 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.promo-bar-menu--right {
+  justify-content: flex-end;
+}
+
+.promo-bar-menu-link {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.promo-bar-menu-link > .icon {
+  width: 2.4rem;
+}
+
+.promo-bar-dropdown-toggle > .icon-caret-down,
+.promo-bar-dropdown-toggle > .icon-caret-up {
+  width: 0.5rem;
+  margin-left: 0.2rem;
+}
+
+.promo-bar-dropdown-menu {
+  position: absolute;
+  top: 3.5rem;
+
+  width: 28rem;
+  padding: 1.6rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid rgb(var(--color-grey));
+  background-color: rgb(var(--color-white));
+
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.8rem;
+}
+
+.promo-bar-menu--left .promo-bar-dropdown-menu {
+  left: 0;
+}
+.promo-bar-menu--right .promo-bar-dropdown-menu {
+  right: 0;
+}
+
+.promo-bar-dropdown-block--list {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.promo-bar-dropdown-block-menu {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.8rem;
+}
+
+.promo-bar-dropdown-block-menu-link {
+  width: 100%;
+}
+
+.promo-bar-dropdown-menu-link {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 1.2rem;
+  background-color: rgb(var(--color-background));
+  padding: 1.2rem 1.2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.promo-bar-dropdown-menu-link > .icon {
+  width: 2.4rem;
+  color: rgb(var(--color-primary));
+}

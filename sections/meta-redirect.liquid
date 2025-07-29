@@ -1,0 +1,20 @@
+{%- unless request.design_mode -%}
+  <meta http-equiv="refresh" content="0; url={{ section.settings.redirect_link }}">
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Meta Redirect",
+  "tag": "section",
+  "class": "section--meta-redirect",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "url",
+      "id": "redirect_link",
+      "label": "Redirect link",
+      "default": "/"
+    }
+  ]
+}
+{% endschema %}

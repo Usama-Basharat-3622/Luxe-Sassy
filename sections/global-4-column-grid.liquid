@@ -1,0 +1,630 @@
+{% style %}
+  #gs-content-grid-main-{{ section.id }}{
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+      display: block;
+
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+  #gs-content-grid-main-{{ section.id }} .gs-content-grid-header-wrapper{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4.8rem;
+      gap: 1.6rem;
+  }
+  #gs-content-grid-main-{{ section.id }} .gs-content-grid-header-wrapper .gs-content-grid-main-title {
+      display: flex;
+      justify-content: {{ section.settings.text_alignment }};
+      width: 100%;
+  }
+  #gs-content-grid-main-{{ section.id }} .opacity-50{
+      opacity: 50%;
+      white-space: nowrap;
+  }
+  #gs-content-grid-main-{{ section.id }} .article-card-type {
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      margin: 2rem 0rem 1.6rem;
+  }
+
+  .truncate-lines-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+  }
+  .truncate-lines-4 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+  }
+  @media screen and (min-width: 1025px){
+      {% assign block_count = section.blocks.size %}
+      .gs-content-grid-main-{{ section.id }} .gs-content-grid-wrapper {
+          display: grid;
+          grid-template-columns: repeat({{ block_count }}, 1fr);
+          column-gap: 1.6rem;
+      }
+  }
+  @media screen and (max-width: 1024px){
+      #gs-content-grid-main-{{ section.id }}{
+          padding: {{ section.settings.padding_top_mobile }}px 0rem {{ section.settings.padding_bottom_mobile }}px;
+          display: block;
+      }
+      .gs-content-grid-main-{{ section.id }} .gs-content-grid-wrapper:not(.swiper-wrapper) {
+          grid-template-columns: 1fr;
+          row-gap: 0rem;
+          margin: 0rem 1.6rem;
+      }
+      #gs-content-grid-main-{{ section.id }} .article-card-info {
+          margin-bottom: 3.2rem;
+      }
+      #gs-content-grid-main-{{ section.id }} .gs-content-grid-header-wrapper {
+          margin: 0rem 1.6rem 3.2rem;
+          gap: 1.2rem;
+      }
+      #gs-content-grid-main-{{ section.id }} .gs-content-grid-header-wrapper .gs-content-grid-main-title {
+          justify-content: {{ section.settings.text_alignment_alter }};
+      }
+      .cb-slider-scrollbar.swiper-scrollbar{
+          background: rgb(var(--color-grey-medium));
+          height: 0.1rem;
+          transition: height 0.3s ease;
+          cursor: pointer;
+      }
+  }
+
+
+  {% for block in section.blocks %}
+  .gs-content-grid-main-{{ section.id }} .gs-content-grid-{{ block.id }}, .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgb(var(--color-grey));
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-content-grid-{{ block.id }} .article-card-info {
+      display: flex;
+      flex-direction: column;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-title {
+      padding-top: 2rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-title > *:not(:first-child){
+      margin-top: .8rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph {
+      margin-top: 1.6rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-cta {
+      max-width: fit-content;
+      margin-top: 1rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ol, .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ul{
+      list-style-position: outside;
+      padding-left: 2.5rem;
+  }
+  .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ol li, .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ul li{
+      padding-left: 0.2rem;
+  }
+  @media screen and (min-width: 1025px){
+      .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph p > strong{
+          padding-top: .2rem;
+          display: inline-block;
+      }
+      .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }}, .gs-content-grid-main-{{ section.id }} .gs-content-grid-{{ block.id }} .article-card-info  {
+          text-align: {{ block.settings.text_alignment }};
+          align-items: {{ block.settings.text_alignment }};
+      }
+  }
+  @media screen and (max-width:1024px){
+      .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-cta {
+          margin-top: .4rem;
+      }
+      .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }}{
+          margin-bottom: 3.2rem;
+      }
+      .gs-content-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }}, .gs-content-grid-main-{{ section.id }} .gs-content-grid-{{ block.id }} .article-card-info  {
+          text-align: {{ block.settings.text_alignment_alter }};
+          align-items: {{ block.settings.text_alignment_alter }};
+      }
+  }
+  {% endfor %}
+{% endstyle %}
+
+<div id="gs-content-grid-main-{{ section.id }}">
+  {% if section.settings.title != blank or section.settings.paragraph != blank %}
+    <div class="gs-content-grid-header-wrapper">
+      {% if section.settings.title != blank %}
+        <div class="gs-content-grid-main-title typography--heading-1" role="heading">{{ section.settings.title }}</div>
+      {% endif %}
+      {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+        <a
+          href="{{ section.settings.cta_link }}"
+          class="hp-blog-list-cta link button button--tertiary typography--body-regular"
+          aria-label="{{ section.settings.cta_text }}"
+        >
+          {{- section.settings.cta_text -}}
+          {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.carousel_mobile %}
+    <article-layout-grid role="region">
+      <div class="swiper gs-content-grid-main gs-content-grid-main-{{ section.id }}">
+        <div class="swiper-wrapper gs-content-grid-wrapper">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'article' %}
+                {%- assign article = block.settings.article -%}
+                {%- assign custom_date = article.metafields.custom.custom_publish_date.value -%}
+                {%- assign custom_link = article.metafields.custom.custom_article_link.value -%}
+                {%- assign final_date = custom_date | default: article.created_at -%}
+                {%- assign final_link = custom_link | default: article.url -%}
+                <div class="swiper-slide gs-content-grid-{{ block.id }}">
+                  <div class="article-card-info">
+                    <div class="article-card-type">
+                      <p class="article-card-created-at typography--body-small">
+                        {{ final_date | date: '%m.%d.%Y' }}
+                      </p>
+                      <h3 class="article-card-title typography--body-regular">
+                        <p class="truncate-lines-2">{{ article.title }}</p>
+                      </h3>
+                    </div>
+
+                    {%- if article.excerpt != blank -%}
+                      <div class="article-card-excerpt typography--body-small">
+                        <div class="truncate-lines-4">{{ article.excerpt }}</div>
+                      </div>
+                    {%- endif -%}
+
+                    {% if article.title != blank %}
+                      <a
+                        href="{{ final_link }}"
+                        class="article-card-link link link--underline link--hover-color-change typography--navigation"
+                        aria-label="{{ 'blog.article_card_cta_aria_label' | t }} {{ article.title }}"
+                        {% if final_link contains 'http' %}
+                          target="_blank" rel="noopener"
+                        {% endif %}
+                      >
+                        {{ 'blog.article_card_cta_label' | t }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% when 'text' %}
+                <div class="swiper-slide gs-text-grid-{{ block.id }}">
+                  {% if block.settings.title != blank %}
+                    <div class="gs-text-grid-title typography--body-regular">
+                      {{
+                        block.settings.title
+                        | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                        | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                        | replace: '<h6', "<p class='h6 typography--body-small opacity-50'"
+                        | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                        | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+                      }}
+                    </div>
+                  {% endif %}
+                  {% if block.settings.paragraph != blank %}
+                    <div class="gs-text-grid-paragraph {% if block.settings.paragraph_size == 'regular' %} typography--body-regular {% elsif block.settings.paragraph_size == 'small' %} typography--body-small {% endif %}">
+                      {{
+                        block.settings.paragraph
+                        | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                        | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                        | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                        | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+                      }}
+                    </div>
+                  {% endif %}
+                  {% if block.settings.cta_text != blank and block.settings.cta_link != blank %}
+                    <a
+                      href="{{ block.settings.cta_link }}"
+                      class="gs-text-grid-cta link link--underline link--hover-color-change typography--navigation"
+                      aria-label="{{ section.settings.cta_text }}"
+                      {%- if block.settings.cta_link contains 'http' -%}
+                        target="_blank"
+                      {%- endif -%}
+                    >
+                      {{- block.settings.cta_text -}}
+                    </a>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+        <div class="cb-slider-scrollbar swiper-scrollbar hidden≥1025"></div>
+      </div>
+    </article-layout-grid>
+
+  {% else %}
+    <div class="gs-content-grid-main gs-content-grid-main-{{ section.id }}">
+      <div class="gs-content-grid-wrapper">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'article' %}
+              {%- assign article = block.settings.article -%}
+              {%- assign custom_date = article.metafields.custom.custom_publish_date.value -%}
+              {%- assign custom_link = article.metafields.custom.custom_article_link.value -%}
+              {%- assign final_date = custom_date | default: article.created_at -%}
+              {%- assign final_link = custom_link | default: article.url -%}
+              <div class="gs-content-grid-{{ block.id }}">
+                <div class="article-card-info">
+                  <div class="article-card-type">
+                    <p class="article-card-created-at typography--body-small">
+                      {{ final_date | date: '%m.%d.%Y' }}
+                    </p>
+                    <h3 class="article-card-title typography--body-regular">
+                      <p class="truncate-lines-2">{{ article.title }}</p>
+                    </h3>
+                  </div>
+
+                  {%- if article.excerpt != blank -%}
+                    <div class="article-card-excerpt typography--body-small">
+                      <div class="truncate-lines-3">{{ article.excerpt }}</div>
+                    </div>
+                  {%- endif -%}
+
+                  {% if article.title != blank %}
+                    <a
+                      href="{{ final_link }}"
+                      class="article-card-link link link--underline link--hover-color-change typography--navigation"
+                      aria-label="{{ 'blog.article_card_cta_aria_label' | t }} {{ article.title }}"
+                      {% if final_link contains 'http' %}
+                        target="_blank" rel="noopener"
+                      {% endif %}
+                    >
+                      {{ 'blog.article_card_cta_label' | t }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {% when 'text' %}
+              <div class="gs-text-grid-{{ block.id }}">
+                {% if block.settings.title != blank %}
+                  <div class="gs-text-grid-title typography--body-regular">
+                    {{
+                      block.settings.title
+                      | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                      | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                      | replace: '<h6', "<p class='h6 typography--body-small opacity-50'"
+                      | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                      | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+                    }}
+                  </div>
+                {% endif %}
+                {% if block.settings.paragraph != blank %}
+                  <div class="gs-text-grid-paragraph {% if block.settings.paragraph_size == 'regular' %} typography--body-regular {% elsif block.settings.paragraph_size == 'small' %} typography--body-small {% endif %}">
+                    {{
+                      block.settings.paragraph
+                      | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                      | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                      | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                      | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+                    }}
+                  </div>
+                {% endif %}
+                {% if block.settings.cta_text != blank and block.settings.cta_link != blank %}
+                  <a
+                    href="{{ block.settings.cta_link }}"
+                    class="gs-text-grid-cta link link--underline link--hover-color-change typography--navigation"
+                    {%- if block.settings.cta_link contains 'http' -%}
+                      target="_blank"
+                    {%- endif -%}
+                  >
+                    {{- block.settings.cta_text -}}
+                  </a>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Content Grid",
+  "tag": "section",
+  "class": "section--gs-content-grid-details",
+  "max_blocks": 4,
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Title Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Title Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_mobile",
+      "label": "Show Carousel for Mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Article",
+      "type": "article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Article"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment_alter",
+          "label": "Text Alignment Mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        }
+      ]
+    },
+    {
+      "name": "Text Container",
+      "type": "text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "info": "Use CMD+U or CTRL+U to underline"
+        },
+        {
+          "type": "select",
+          "id": "paragraph_size",
+          "label": "Paragraph Size",
+          "options": [
+            {
+              "value": "regular",
+              "label": "Regular"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ],
+          "default": "regular"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment_alter",
+          "label": "Text Alignment Mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content Grid Layout"
+    }
+  ]
+}
+{% endschema %}

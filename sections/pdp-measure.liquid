@@ -1,0 +1,168 @@
+{{ 'pdp-measure.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.product_measurement_list_dynamic != blank -%}
+  {%- assign metaobject_list = section.settings.product_measurement_list_dynamic -%}
+{%- else -%}
+  {%- assign metaobject_list = section.settings.product_measurement_list_static -%}
+{%- endif -%}
+
+{% if section.settings.title != blank and metaobject_list != blank %}
+  <div
+    id="pdp-measure-{{ section.id }}"
+    class="pdp-measure-{{ section.id }} pdp-measure"
+  >
+    <div id="AnchorTarget-{{ section.settings.section_anchor_id }}" class="anchor-target" aria-hidden="true"></div>
+
+    <details-utils force-close="(max-width: 991px)" force-open="(min-width: 992px)">
+      <details class="accordion">
+        <summary class="accordion-title" aria-controls="AccordionContent-{{ section.id }}" role="button">
+          <h2 class="pdp-measure-title typography--heading-2">{{ section.settings.title }}</h2>
+          {{- 'icon-plus.svg' | inline_asset_content -}}
+        </summary>
+        <ul
+          id="AccordionContent-{{ section.id }}"
+          class="pdp-measure-list accordion-content scrollbar-style"
+          role="list"
+        >
+          {%- for metaobject in metaobject_list -%}
+            {% comment %}  {% endcomment %}
+            {%- assign field_handle = metaobject.field_handle -%}
+            {%- if field_handle contains '.' -%}
+              {%- assign field_handle_part_1 = field_handle | split: '.' | first -%}
+              {%- assign field_handle_part_2 = field_handle | split: '.' | last -%}
+              {%- assign field_value = product.selected_or_first_available_variant.metafields[field_handle_part_1][field_handle_part_2].value -%}
+            {%- else -%}
+              {%- assign field_value = product.selected_or_first_available_variant[field_handle] -%}
+            {%- endif -%}
+            {% comment %}  {% endcomment %}
+            {%- if field_value -%}
+              <li class="pdp-measure-list-item">
+                <div class="pdp-measure-card">
+                  <div class="pdp-measure-card-top">
+                    {%- if metaobject.image -%}
+                      <img
+                        srcset="{% render 'image-srcset', image: metaobject.image %}"
+                        sizes="24px"
+                        src="{{ metaobject.image | image_url }}"
+                        loading="eager"
+                        alt="{{ metaobject.image.alt | escape }}"
+                        width="{{ metaobject.image.width }}"
+                        height="{{ metaobject.image.height }}"
+                        class="pdp-measure-card-image media"
+                      >
+                    {%- endif -%}
+                  </div>
+                  <div class="pdp-measure-card-bottom">
+                    <h4 class="pdp-measure-card-content typography--body-small">{{ field_value }}</h4>
+                    {%- if metaobject.title -%}
+                      <h3 class="pdp-measure-card-title typography--body-small">{{ metaobject.title }}</h3>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </details>
+    </details-utils>
+  </div>
+{% endif %}
+
+{% style %}
+  @media screen and (min-width: 992px) {
+    .pdp-measure-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .pdp-measure-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "PDP Measurement",
+  "tag": "section",
+  "class": "section--pdp-measure",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_anchor_id",
+      "label": "Section Anchor ID",
+      "default": "measurement"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Product Measurement"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "product_measurement_list_dynamic",
+      "label": "Product Measurement List (Dynamic)",
+      "metaobject_type": "product_measurement",
+      "limit": 4
+    },
+    {
+      "type": "metaobject_list",
+      "id": "product_measurement_list_static",
+      "label": "Product Measurement List (Static)",
+      "metaobject_type": "product_measurement",
+      "limit": 4
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

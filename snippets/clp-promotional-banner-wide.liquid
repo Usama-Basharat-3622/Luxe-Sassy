@@ -1,0 +1,108 @@
+{% liquid
+  assign title = content_banner.title
+  assign description = content_banner.description
+  assign subtitle = content_banner.subtitle
+
+  assign position_desktop = content_banner.position_desktop
+  assign position_mobile = content_banner.position_mobile
+  assign button_label = content_banner.button_label
+  assign button_url = content_banner.button_url
+  assign background_color = content_banner.background_color
+  assign content_position = content_banner.content_position
+  assign content_position_mobile = content_banner.content_position_mobile
+
+  assign text_color = content_banner.text_color
+%}
+
+{% style %}
+  .clp-promotional-banner-wide-{{ index }} {
+      background: {{ background_color }};
+      padding: 4.8rem 6.4rem;
+      border-radius: 0.5rem;
+  }
+  @media screen and (min-width: 1025px) {
+      .clp-promotional-banner-wide-{{ index }} {
+          grid-column: 1 / 5;
+          grid-row: {{ position_desktop }};
+      }
+  }
+
+  @media screen and (max-width: 1024px) {
+      .clp-promotional-banner-wide-{{ index }} {
+          grid-row: {{ position_mobile }};
+          padding: 4rem 1.6rem;
+          border-radius: 0.5rem;
+      }
+  }
+
+  .clp-promotional-banner-wide-{{ index }} .clp-promotional-banner-wide__content {
+      color: {{ text_color }};
+  }
+
+  .clp-promotional-banner-wide-{{ index }} .clp-promotional-banner-wide__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+
+  }
+
+  .clp-promotional-banner-wide__title{
+      margin-bottom: 1.6rem;
+  }
+  .clp-promotional-banner-wide-button{
+      margin-top: 2rem;
+  }
+  .clp-promotional-banner-wide__subtitle{
+    margin-bottom: 2rem;
+  }
+
+  @media screen and (min-width: 1025px) {
+    .clp-promotional-banner-wide-{{ index }} .clp-promotional-banner-wide__content {
+      {% if content_position == 'left' %}
+          align-items: flex-start;
+      {% elsif content_position == 'right' %}
+          align-items: flex-end;
+          text-align: right;
+      {% endif %}
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .clp-promotional-banner-wide-{{ index }} .clp-promotional-banner-wide__content {
+      {% if content_position_mobile == 'left' %}
+          align-items: flex-start;
+      {% elsif content_position_mobile == 'right' %}
+          align-items: flex-end;
+          text-align: right;
+      {% elsif content_position_mobile == 'center' %}
+          text-align: center;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<div class="clp-promotional-banner-wide-{{ index }}">
+  <div class="clp-promotional-banner-wide__content">
+    {% if subtitle != blank %}
+      <p class="clp-promotional-banner-wide__subtitle typography--body-regular">{{ subtitle }}</p>
+    {% endif %}
+
+    {% if title != blank %}
+      <h2 class="clp-promotional-banner-wide__title typography--heading-1">{{ title }}</h2>
+    {% endif %}
+    {% if description != blank %}
+      <p class="clp-promotional-banner-wide__description typography--body-regular">{{ description }}</p>
+    {% endif %}
+
+    {% if button_label != blank %}
+      <a
+        href="{{ button_url }}"
+        class="clp-promotional-banner-wide-button button button--tertiary typography--body-regular link"
+      >
+        {{ button_label }}
+        {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+      </a>
+    {% endif %}
+  </div>
+</div>

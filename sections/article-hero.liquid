@@ -1,0 +1,370 @@
+<div
+  id="article-hero-{{ section.id }}"
+  class="article-hero-{{ section.id }} article-hero isolate"
+>
+  <div class="banner article-hero-main">
+    <div class="article-hero-content">
+      <p class="article-card-created-at typography--body-small">
+        {%- assign custom_publish_date = article.metafields.custom.custom_publish_date -%}
+        {% if custom_publish_date %}
+           {{ custom_publish_date | date: '%m.%d.%Y' }}
+          {% else %}
+          {{ article.created_at | date: '%m.%d.%Y' }}
+        {% endif %}
+      </p>
+      <h1 class="article-title typography--heading-1">
+        {{ article.title }}
+      </h1>
+
+      {%- if article.excerpt != blank -%}
+        <div class="article-excerpt typography--body-regular">
+          {{
+            article.excerpt
+            | replace: '<h1', "<h1 class='typography--heading-1'"
+            | replace: '<h2', "<h2 class='typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link--hover-color-change'"
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- assign media = article.image -%}
+    {% if media != blank %}
+      <div class="article-hero-top">
+        <img
+          srcset="{% render 'image-srcset', image: media %}"
+          sizes="100vw"
+          src="{{ media | image_url: width: 2048 }}"
+          loading="eager"
+          fetchpriority="high"
+          alt="{{ media.alt | escape }}"
+          width="{{ media.width }}"
+          height="{{ media.height }}"
+          class="media"
+          style="--focal-point-x: {{ media.presentation.focal_point.x }}%; --focal-point-y: {{ media.presentation.focal_point.y }}%"
+        >
+      </div>
+    {% endif %}
+
+    {%- if section.settings.show_article_content -%}
+      {%- if article.content != blank -%}
+        <div class="article-content typography--body-regular">
+          {{
+            article.content
+            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link--hover-color-change'"
+          }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .article-hero-{{ section.id }}:not(:empty){
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  .article-hero-{{ section.id }}{
+    width: 100%;
+    max-width: 72.4rem;
+    margin: auto;
+  }
+  .article-type {
+    display: flex;
+    gap: 1rem;
+  }
+  .article-hero .article-hero-content .article-card-created-at {
+      opacity: 50%;
+      white-space: nowrap;
+  }
+  .article-hero .article-hero-content .article-excerpt > * + * {
+    margin-top: 1.2rem;
+  }
+  .article-hero .article-hero-content .article-excerpt ol {
+      list-style: auto !important;
+  }
+  .article-hero .article-hero-content .article-excerpt ul {
+      list-style: unset !important;
+  }
+  .article-hero .article-hero-content .article-excerpt li{
+      margin-left: 2.5rem;
+  }
+  .article-hero .article-hero-main .article-content > * + * {
+    margin-top: 1.2rem;
+  }
+  .article-hero .article-hero-main .article-content .h1, .article-hero .article-hero-main .article-content .h2 {
+    margin-top: 4rem;
+  }
+  .article-hero .article-hero-main .article-content img {
+    margin: 2.4rem 0rem;
+    max-width: 100%;
+  }
+  .article-hero .article-content ol {
+      list-style: auto !important;
+  }
+  .article-hero .article-content ul {
+      list-style: unset !important;
+  }
+  .article-hero .article-content li{
+      margin-left: 2.5rem;
+  }
+  @media screen and (min-width: 768px){
+    .section--article-hero{
+      padding: 0rem 2.4rem;
+    }
+    .article-hero .article-hero-content {
+      display: grid;
+      width: 100%;
+    }
+    .article-hero .article-hero-content .article-title, .article-hero .article-hero-content .article-card-created-at {
+      text-align: {{ section.settings.title_alignment_desk }};
+    }
+    .article-hero .article-hero-main .article-content {
+      text-align: {{ section.settings.content_alignment_desk }};
+      margin-top: 2.4rem;
+    }
+    .article-hero .article-hero-content .article-excerpt {
+      text-align: {{ section.settings.excerpt_alignment_desk }};
+    }
+    .article-hero .article-hero-content .article-title {
+      margin-top: 1.6rem;
+    }
+    .article-hero .article-hero-content .article-content {
+      margin: 4.8rem 0rem;
+    }
+    .article-hero .article-hero-content .article-excerpt {
+      margin: 2.4rem 0rem 4.8rem;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .article-hero-{{ section.id }}:not(:empty){
+      padding-top: {{ section.settings.padding_top_mob }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mob }}px;
+    }
+    .section--article-hero{
+      padding: 0rem 1.6rem;
+    }
+    .article-hero .article-hero-content {
+      display: grid;
+      width: 100%;
+      margin: auto;
+    }
+    .article-hero .article-hero-content .article-title, .article-hero .article-hero-content .article-card-created-at {
+      text-align: {{ section.settings.title_alignment_mob }};
+    }
+    .article-hero .article-hero-main .article-content {
+      text-align: {{ section.settings.content_alignment_mob }};
+    }
+    .article-hero .article-hero-content .article-excerpt {
+      text-align: {{ section.settings.excerpt_alignment_mob }};
+    }
+    .article-hero .article-hero-content .article-title {
+      margin-top: 1.2rem;
+    }
+    .article-hero .article-hero-main .article-content {
+      margin: 1.6rem 0rem 4rem;
+    }
+    .article-hero .article-hero-content .article-excerpt {
+      margin: 1.6rem 0rem 4rem;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Article Hero",
+  "tag": "section",
+  "class": "section--article-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Article Header",
+      "info": "Control the alignment of the article date and title"
+    },
+    {
+      "type": "radio",
+      "id": "title_alignment_desk",
+      "label": "Alignment (Desktop)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "title_alignment_mob",
+      "label": "Alignment (Mobile)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Article Excerpt",
+      "info": "Control the alignment of the article excerpt text"
+    },
+    {
+      "type": "radio",
+      "id": "excerpt_alignment_desk",
+      "label": "Alignment (Desktop)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "excerpt_alignment_mob",
+      "label": "Alignment (Mobile)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Article Content",
+      "info": "Control the alignment of the article content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_article_content",
+      "label": "Show Article Content",
+      "default": false
+    },
+    {
+      "type": "radio",
+      "id": "content_alignment_desk",
+      "label": "Alignment (Desktop)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "content_alignment_mob",
+      "label": "Alignment (Mobile)",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

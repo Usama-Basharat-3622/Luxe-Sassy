@@ -1,0 +1,764 @@
+{{ 'pdp-main.css' | asset_url | stylesheet_tag }}
+
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="pdp-main-{{ section.id }} pdp-main"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  <!-- Gallery -->
+  <product-gallery
+    id="ProductGallery-{{ section.id }}"
+    class="pdp-product-gallery pdp-product-gallery-{{ section.id }} isolate"
+    role="region"
+    aria-label="{{ 'product.media.gallery_label' | t }}"
+  >
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div
+          class="swiper-slide"
+        >
+          <div class="ratio ratio--inline">
+            <img
+              srcset="{% render 'image-srcset', image: product.featured_image %}"
+              sizes="(min-width: 992px) 50vw, 100vw"
+              src="{{ product.featured_image | image_url: width: 3840 }}"
+              loading="eager"
+              {% if forloop.first %}
+                fetchpriority="high"
+              {% else %}
+                fetchpriority="low"
+              {% endif %}
+              alt="{{ product.featured_image.alt | escape }}"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+              class="media visually-hidden"
+              style="--focal-point-x: {{ product.featured_image.presentation.focal_point.x }}%; --focal-point-y: {{ product.featured_image.presentation.focal_point.y }}%"
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-pagination hidden≥992 {% if product.images.size == 1 %}hidden{% endif %}"></div>
+
+      <div class="swiper-button-container hidden≤991 {% if product.images.size == 1 %}hidden{% endif %}">
+        <button
+          class="swiper-button-prev icon-only-button"
+          type="button"
+          name="previous"
+          aria-label="{{ 'accessibility.previous' | t }}"
+          aria-controls="ProductGallery-{{ section.id }}"
+        >
+          {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
+        </button>
+
+        <button
+          class="swiper-button-next icon-only-button"
+          type="button"
+          name="next"
+          aria-label="{{ 'accessibility.next' | t }}"
+          aria-controls="ProductGallery-{{ section.id }}"
+        >
+          {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
+        </button>
+      </div>
+
+      <template>
+        {% assign product_image_variants = product.variants %}
+        {%- assign product_image_index0 = 0 -%}
+        {%- for product_image in product.images -%}
+          {%- assign product_image_index0 = product_image_index0 | plus: 1 -%}
+          {%- if product_image.attached_to_variant? -%}
+            {% assign product_image_variants = product_image.variants -%}
+            {%- assign product_image_index0 = 0 -%}
+          {%- endif -%}
+          {% for product_image_variant in product_image_variants %}
+            <div
+              class="swiper-slide"
+              data-variant-id="{{ product_image_variant.id }}"
+              data-variant-title="{{ product_image_variant.title }}"
+            >
+              <modal-opener
+                class="product-zoom-gallery-opener modal-opener"
+                data-modal="#ProductZoomGallery-{{ section.id }}"
+              >
+                <div class="ratio ratio--inline">
+                  <img
+                    srcset="{% render 'image-srcset', image: product_image %}"
+                    sizes="(min-width: 992px) 50vw, 100vw"
+                    src="{{ product_image | image_url: width: 3840 }}"
+                    loading="eager"
+                    {% if forloop.first %}
+                      fetchpriority="high"
+                    {% else %}
+                      fetchpriority="low"
+                    {% endif %}
+                    alt="{{ product_image.alt | escape }}"
+                    width="{{ product_image.width }}"
+                    height="{{ product_image.height }}"
+                    class="media"
+                    style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
+                  >
+                </div>
+                <button
+                  class="covering-button cursor--enlarge"
+                  type="button"
+                  aria-haspopup="dialog"
+                  data-media-index="{{ product_image_index0 }}"
+                >
+                  <span class="visually-hidden">
+                    Open Product Image {{ product_image_index0 | plus: 1 }} in slider modal
+                  </span>
+                </button>
+              </modal-opener>
+            </div>
+          {% endfor %}
+        {%- endfor -%}
+      </template>
+    </div>
+
+    <script type="application/json">
+      {{ product.selected_or_first_available_variant | json }}
+    </script>
+
+    {% if product.metafields.custom.badge_list.value != blank %}
+      <ul class="pdp-product-badge-list product-badge-list" role="list">
+        {% for badge in product.metafields.custom.badge_list.value %}
+          <li class="product-badge-list-item">
+            <div class="product-badge">
+              <span class="product-badge-text typography--tag">
+                {{- badge.text -}}
+              </span>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </product-gallery>
+
+  <!-- Info -->
+  <section
+    id="ProductInfo-{{ section.id }}"
+    class="pdp-info pdp-info-{{ section.id }}"
+  >
+    <div id="pdp-info-inner" class="pdp-info-inner">
+      {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'breadcrumbs' -%}
+            {%- render 'pdp-breadcrumbs', product: product, block: block -%}
+          {%- when 'heading' -%}
+            <div class="pdp-heading" data-wk-pdp-target {{ block.shopify_attributes }}>
+              <div>
+                <h1 class="pdp-heading-title typography--heading-1-bold">{{ block.settings.title }}</h1>
+                <h2 class="pdp-heading-subtitle typography--heading-2">{{ block.settings.subtitle }}</h2>
+              </div>
+            </div>
+          {%- when 'tag' -%}
+            {%- if block.settings.product_tag_list_dynamic != blank -%}
+              {%- assign metaobject_list = block.settings.product_tag_list_dynamic -%}
+            {%- else -%}
+              {%- assign metaobject_list = block.settings.product_tag_list_static -%}
+            {%- endif -%}
+            {% if metaobject_list != blank %}
+              <ul class="pdp-info-tag-list product-tag-list" role="list">
+                {%- for metaobject in metaobject_list -%}
+                  <li class="product-tag-list-item">
+                    <div class="product-tag">
+                      <h3 class="product-tag-title typography--body-small">{{ metaobject.title }}</h3>
+                    </div>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {% endif %}
+          {%- when 'price' -%}
+            {%- assign price_disabled = false -%}
+            {%- if product.type == 'Eyeglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.eyeglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if product.type == 'Sunglasses' -%}
+              {%- assign price_disabled = true -%}
+              {%- if settings.sunglasses_price_enabled -%}
+                {%- assign price_disabled = false -%}
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- unless price_disabled -%}
+              {%- render 'pdp-price', product: product, block: block -%}
+            {%- endunless -%}
+          {%- when 'quantity_selector' -%}
+            {%- render 'product-quantity-selector', product: product, block: block -%}
+          {%- when 'quantity_selector_cl' -%}
+            {%- render 'product-quantity-selector-cl', product: product, block: block -%}
+          {%- when 'product_picker_cl' -%}
+            {%- render 'pdp-product-picker-cl', product: product, block: block -%}
+          {%- when 'variant_picker' -%}
+            {%- render 'product-variant-picker', product: product, block: block -%}
+          {%- when 'buy_buttons' -%}
+            {%- if product.type == 'Eyeglasses' -%}
+              {%- case settings.eyeglasses_pdp_primary_cta -%}
+                {%- when 'add-to-cart' -%}
+                  {%- render 'product-buy-buttons',
+                    block: block,
+                    product: product,
+                    product_form_id: product_form_id,
+                    section_id: section.id
+                  -%}
+                {%- when 'virtual-try-on' -%}
+                  {%- render 'product-vto-button', block: block -%}
+                {%- when 'custom' -%}
+                  {%- render 'product-custom-button',
+                    block: block,
+                    cta_text: settings.eyeglasses_custom_cta_text,
+                    cta_link: settings.eyeglasses_custom_cta_link
+                  -%}
+              {%- endcase -%}
+            {%- elsif product.type == 'Sunglasses' -%}
+              {%- case settings.sunglasses_pdp_primary_cta -%}
+                {%- when 'add-to-cart' -%}
+                  {%- render 'product-buy-buttons',
+                    block: block,
+                    product: product,
+                    product_form_id: product_form_id,
+                    section_id: section.id
+                  -%}
+                {%- when 'virtual-try-on' -%}
+                  {%- render 'product-vto-button', block: block -%}
+                {%- when 'custom' -%}
+                  {%- render 'product-custom-button',
+                    block: block,
+                    cta_text: settings.sunglasses_custom_cta_text,
+                    cta_link: settings.sunglasses_custom_cta_link
+                  -%}
+              {%- endcase -%}
+            {%- else -%}
+              {%- render 'product-buy-buttons',
+                block: block,
+                product: product,
+                product_form_id: product_form_id,
+                section_id: section.id
+              -%}
+            {%- endif -%}
+          {%- when 'popup' -%}
+            <modal-opener
+              class="pdp-product-popup-modal-opener modal-opener"
+              data-modal="#PopupModal-{{ block.id }}"
+              {{ block.shopify_attributes }}
+            >
+              <button
+                id="ProductPopup-{{ block.id }}"
+                class="pdp-product-popup-modal-button link link--underline link--hover-color-change typography--body-regular"
+                type="button"
+                aria-haspopup="dialog"
+              >
+                {{ block.settings.text | default: block.settings.page.title }}
+              </button>
+            </modal-opener>
+          {%- when 'custom_liquid' -%}
+            {{ block.settings.custom_liquid }}
+          {%- when '@app' -%}
+            {% render block %}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </section>
+
+  <!-- Popups -->
+  {% assign popups = section.blocks | where: 'type', 'popup' %}
+  {%- for block in popups -%}
+    {%- if block.settings.page_dynamic != blank -%}
+      {%- assign popup_page = block.settings.page_dynamic -%}
+    {%- else -%}
+      {%- assign popup_page = block.settings.page_static -%}
+    {%- endif -%}
+
+    <modal-dialog
+      id="PopupModal-{{ block.id }}"
+      class="pdp-product-popup-modal dialog-modal"
+      {{ block.shopify_attributes }}
+    >
+      <div
+        class="dialog-modal-content dialog-modal-content--right"
+        role="dialog"
+        aria-label="{{ block.settings.text }}"
+        aria-modal="true"
+        tabindex="-1"
+      >
+        <div class="dialog-modal-header">
+          <button
+            id="ModalClose-{{ block.id }}"
+            type="button"
+            class="dialog-modal-close"
+            aria-label="{{ 'accessibility.close' | t }}"
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        </div>
+        <div class="dialog-modal-main">
+          <div class="richtext">
+            {%- assign richtext_html = popup_page.content
+              | strip_newlines
+              | remove: '<br>'
+              | replace: '<h1>', '<h2 class="typography--heading-1">'
+              | replace: '</h1>', '</h2>'
+              | replace: '<h2>', '<h2 class="typography--heading-1">'
+              | replace: '<h3>', '<h3 class="">'
+              | replace: '<h4>', '<h4 class="">'
+              | replace: '<h5>', '<h5 class="">'
+              | replace: '<h6>', '<h6 class="">'
+              | replace: '<p>', '<p class="">'
+            -%}
+            {{ richtext_html }}
+          </div>
+        </div>
+      </div>
+    </modal-dialog>
+  {%- endfor -%}
+
+  <!-- Size Guide Popup -->
+  {% assign size_guide_block = section.blocks | where: 'type', 'variant_picker' | first %}
+  {%- if size_guide_block -%}
+    {%- if size_guide_block.settings.page_dynamic != blank -%}
+      {%- assign popup_page = size_guide_block.settings.page_dynamic -%}
+    {%- else -%}
+      {%- assign popup_page = size_guide_block.settings.page_static -%}
+    {%- endif -%}
+    <modal-dialog
+      id="PopupModal-{{ size_guide_block.id }}"
+      class="pdp-product-popup-modal dialog-modal"
+      {{ size_guide_block.shopify_attributes }}
+    >
+      <div
+        class="dialog-modal-content dialog-modal-content--right"
+        role="dialog"
+        aria-label="{{ size_guide_block.settings.text }}"
+        aria-modal="true"
+        tabindex="-1"
+      >
+        <div class="dialog-modal-header">
+          <button
+            id="ModalClose-{{ size_guide_block.id }}"
+            type="button"
+            class="dialog-modal-close"
+            aria-label="{{ 'accessibility.close' | t }}"
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        </div>
+        <div class="dialog-modal-main">
+          <div class="richtext">
+            {%- assign richtext_html = popup_page.content
+              | strip_newlines
+              | remove: '<br>'
+              | replace: '<h1>', '<h2 class="typography--heading-1">'
+              | replace: '</h1>', '</h2>'
+              | replace: '<h2>', '<h2 class="typography--heading-1">'
+              | replace: '<h3>', '<h3 class="">'
+              | replace: '<h4>', '<h4 class="">'
+              | replace: '<h5>', '<h5 class="">'
+              | replace: '<h6>', '<h6 class="">'
+              | replace: '<p>', '<p class="">'
+            -%}
+            {{ richtext_html }}
+          </div>
+        </div>
+      </div>
+    </modal-dialog>
+  {%- endif -%}
+
+  <!-- Zoom -->
+  <product-zoom-gallery
+    id="ProductZoomGallery-{{ section.id }}"
+    class="pdp-product-zoom-gallery dialog-modal"
+  >
+    <div
+      class="dialog-modal-content"
+      role="dialog"
+      aria-label="Product Zoom Gallery"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <button
+        id="ModalClose-ProductZoomGallery"
+        type="button"
+        class="dialog-modal-close"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+
+      <div class="dialog-modal-main isolate">
+        <div class="pdp-product-zoom-slider swiper">
+          <div class="swiper-wrapper"></div>
+          <button
+            class="swiper-button-prev icon-only-button"
+            type="button"
+            name="previous"
+            aria-label="{{ 'accessibility.previous' | t }}"
+            aria-controls="ProductZoomGallery-{{ section.id }}"
+          >
+            {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
+          </button>
+          <button
+            class="swiper-button-next icon-only-button"
+            type="button"
+            name="next"
+            aria-label="{{ 'accessibility.next' | t }}"
+            aria-controls="ProductZoomGallery-{{ section.id }}"
+          >
+            {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
+          </button>
+        </div>
+
+        <div class="pdp-product-zoom-thumbSlider swiper">
+          <div class="swiper-wrapper"></div>
+        </div>
+
+        <template class="template--slider">
+          {% assign product_image_variants = product.variants %}
+          {%- for product_image in product.images -%}
+            {%- if product_image.attached_to_variant? -%}
+              {% assign product_image_variants = product_image.variants -%}
+            {%- endif -%}
+            {% for product_image_variant in product_image_variants %}
+              <div
+                class="swiper-slide"
+                data-variant-id="{{ product_image_variant.id }}"
+                data-variant-title="{{ product_image_variant.title }}"
+              >
+                <modal-opener
+                  class="product-zoom-opener modal-opener"
+                  data-modal="#ProductZoom-{{ section.id }}"
+                >
+                  <img
+                    srcset="{% render 'image-srcset', image: product_image %}"
+                    sizes="100vw"
+                    src="{{ product_image | image_url: width: 3840 }}"
+                    loading="lazy"
+                    fetchpriority="low"
+                    alt="{{ product_image.alt | escape }}"
+                    width="{{ product_image.width }}"
+                    height="{{ product_image.height }}"
+                    class="media"
+                    style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
+                  >
+                  <button
+                    class="covering-button cursor--zoom-in"
+                    type="button"
+                    aria-haspopup="dialog"
+                    data-media-id="{{ product_image.id }}"
+                  >
+                    <span class="visually-hidden">
+                      Open Product Image {{ product_image_index0 | plus: 1 }} in zoom modal
+                    </span>
+                  </button>
+                </modal-opener>
+              </div>
+            {% endfor %}
+          {%- endfor -%}
+        </template>
+
+        <template class="template--thumbSlider">
+          {% assign product_image_variants = product.variants %}
+          {%- for product_image in product.images -%}
+            {%- if product_image.attached_to_variant? -%}
+              {% assign product_image_variants = product_image.variants -%}
+            {%- endif -%}
+            {% for product_image_variant in product_image_variants %}
+              <div
+                class="swiper-slide"
+                data-variant-id="{{ product_image_variant.id }}"
+                data-variant-title="{{ product_image_variant.title }}"
+              >
+                <img
+                  srcset="{% render 'image-srcset', image: product_image %}"
+                  sizes="120px"
+                  src="{{ product_image | image_url: width: 3840 }}"
+                  loading="lazy"
+                  fetchpriority="low"
+                  alt="{{ product_image.alt | escape }}"
+                  width="{{ product_image.width }}"
+                  height="{{ product_image.height }}"
+                  class="media"
+                  style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
+                >
+              </div>
+            {% endfor %}
+          {%- endfor -%}
+        </template>
+
+        <script type="application/json">
+          {{ product.selected_or_first_available_variant | json }}
+        </script>
+      </div>
+    </div>
+  </product-zoom-gallery>
+
+  <!-- Zoom 2 -->
+  <product-zoom
+    id="ProductZoom-{{ section.id }}"
+    class="ProductZoom-{{ section.id }} pdp-product-zoom dialog-modal"
+  >
+    <div
+      class="dialog-modal-content"
+      role="dialog"
+      aria-label="Product Zoom"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <button
+        id="ModalClose-ProductZoom"
+        type="button"
+        class="dialog-modal-close"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+
+      <div class="dialog-modal-main cursor--zoom-out">
+        <div class="product-zoom-media-list">
+          {%- for product_image in product.images -%}
+            <img
+              src="{{ product_image | image_url: width: 3840 }}"
+              loading="lazy"
+              fetchpriority="low"
+              alt="{{ product_image.alt | escape }}"
+              width="{{ product_image.width }}"
+              height="{{ product_image.height }}"
+              class="media"
+              data-media-id="{{ product_image.id }}"
+            >
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </product-zoom>
+</product-info>
+
+{%- if request.design_mode -%}
+  <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  if product.selected_or_first_available_variant.featured_media
+    assign seo_media = product.selected_or_first_available_variant.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    if (window.matchMedia('(max-width: 991px)').matches) {
+      ScrollTrigger.create({
+        trigger: '#scroll-trigger--pdp',
+        endTrigger: '#scroll-trigger--pdp',
+        start: 'top bottom',
+        end: 'top top',
+        toggleClass: { targets: '.product-form__buttons', className: 'static' },
+      });
+    }
+  });
+</script>
+
+{% style %}
+  .pdp-product-gallery .swiper-slide .ratio--inline {
+    --aspect-ratio:{{ section.settings.gallery_aspect_ratio }};
+  }
+  .pdp-product-gallery .swiper-slide:first-child:last-child .ratio--inline {
+    --aspect-ratio: 3 / 2;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "PDP Main",
+  "tag": "section",
+  "class": "section--pdp-main",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "radio",
+      "id": "gallery_aspect_ratio",
+      "label": "Gallery Aspect Ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "1 : 1"
+        },
+        {
+          "value": "3/2",
+          "label": "3: 2"
+        }
+      ],
+      "default": "1/1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "limit": 1
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "{{ product.vendor }}"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "{{ product.title }}"
+        }
+      ]
+    },
+    {
+      "type": "tag",
+      "name": "Tag",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "metaobject_list",
+          "id": "product_tag_list_dynamic",
+          "label": "Product Tag List (Dynamic)",
+          "metaobject_type": "product_tag",
+          "limit": 4
+        },
+        {
+          "type": "metaobject_list",
+          "id": "product_tag_list_static",
+          "label": "Product Tag List (Static)",
+          "metaobject_type": "product_tag",
+          "limit": 4
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity Selector",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector_cl",
+      "name": "Quantity Selector CL",
+      "limit": 1
+    },
+    {
+      "type": "product_picker_cl",
+      "name": "Product Picker CL",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Size Guide"
+        },
+        {
+          "type": "text",
+          "id": "option_handle",
+          "label": "Option Handle"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "page",
+          "id": "page_dynamic",
+          "label": "Page (Dynamic)"
+        },
+        {
+          "type": "page",
+          "id": "page_static",
+          "label": "Page (Static)"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_title",
+          "label": "Link Title"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    },
+    {
+      "type": "popup",
+      "name": "Popup",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "page",
+          "id": "page_dynamic",
+          "label": "Page (Dynamic)"
+        },
+        {
+          "type": "page",
+          "id": "page_static",
+          "label": "Page (Static)"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

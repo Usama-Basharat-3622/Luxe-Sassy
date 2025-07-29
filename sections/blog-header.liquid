@@ -1,0 +1,122 @@
+<div class="blog-header">
+  <div class="blog-header-info blog-header-content-overlay">
+    <div class="blog-header-heading">
+      <h1 class="blog-header-subtitle typography--heading-1" role="heading">
+        {%- if request.page_type == 'blog' -%}
+          {{ blog.title }}
+        {%- else -%}
+          {{ page.title }}
+        {%- endif -%}
+      </h1>
+    </div>
+    {% if section.settings.show_blog_menu %}
+      <nav class="blog-header-nav">
+        <ul class="blog-header-menu scrollbar-hidden" role="navigation">
+          {%- for link in linklists['blog-menu'].links -%}
+            <li class="blog-header-menu-item {% if link.current %} active{% endif %}">
+              <a
+                href="{{ link.url }}"
+                aria-label="{{ link.title }}"
+                class="blog-header-menu-link button button--tag-big typography--body-regular {% if link.current %} active{% endif %}"
+                role="button"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
+</div>
+
+{% style %}
+  /* Nav */
+  .blog-header-menu-link {
+    text-decoration: none;
+  }
+  .blog-header-menu-link.active {
+    border: 0.1rem solid rgb(var(--color-black));
+  }
+  @media screen and (min-width: 1025px) {
+    .blog-header-menu {
+      display: flex;
+      align-items: center;
+      overflow: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow-x: scroll;
+      max-width: unset;
+      margin-left: unset;
+      justify-content: flex-start;
+      flex-flow: row nowrap;
+      max-width: 100%;
+      margin: 0;
+      padding: 0 2rem;
+      gap: 1.5rem;
+    }
+    .blog-header-info {
+      padding: 2.6rem 2.4rem;
+      white-space: nowrap;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .blog-header-info > * {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 4rem;
+    }
+
+    .blog-header-info > *:last-child {
+      margin-right: 0;
+    }
+  }
+  @media only screen and (max-width: 1024px) {
+    .blog-header-menu {
+      display: flex;
+      align-items: center;
+      overflow: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow-x: scroll;
+      max-width: unset;
+      margin-left: unset;
+      justify-content: flex-start;
+      flex-flow: row nowrap;
+      max-width: 100%;
+      margin: 0;
+      padding: 1rem 1.6rem;
+      gap: 1.2rem;
+    }
+    .blog-header-info .blog-header-subtitle {
+      padding: 2rem 1.6rem;
+    }
+  }
+{% endstyle %}
+
+<script>
+  const elemente = document.querySelector('.blog-header-menu-item.active');
+  const containere = document.querySelector('.blog-header-menu');
+  containere.scrollLeft = elemente.offsetLeft - containere.offsetLeft - 12;
+</script>
+
+{% schema %}
+{
+  "name": "Blog Header",
+  "tag": "section",
+  "class": "section--blog-header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_blog_menu",
+      "label": "Show Blog Menu",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

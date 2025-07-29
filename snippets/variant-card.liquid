@@ -1,0 +1,123 @@
+{%- capture scope_id -%}
+{{- scope_id -}}-{{- card_variant.product.id -}}-{{- card_variant.id -}}
+{%- endcapture -%}
+
+{%- assign has_swatch = false -%}
+{%- for option in card_variant.product.options_with_values -%}
+  {%- assign swatch_count = option.values | map: 'swatch' | compact | size -%}
+  {%- if swatch_count > 0 -%}
+    {%- assign has_swatch = true -%}
+    {%- assign swatch_option_name = option.name -%}
+    {%- assign swatch_option_index0 = forloop.index0 -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="product-card isolate">
+  <div class="product-card-top">
+    <div class="product-card-album">
+      <div class="ratio ratio--3-2">
+        {%- assign first_image = card_variant.featured_image | default: card_variant.product.featured_image -%}
+        <img
+          srcset="{% render 'image-srcset', image: first_image %}"
+          sizes="{{ card_image_sizes }}"
+          src="{{ first_image | image_url: width: 3840 }}"
+          loading="eager"
+          fetchpriority="high"
+          alt="{{ first_image.alt | escape }}"
+          width="{{ first_image.width }}"
+          height="{{ first_image.height }}"
+          class="product-card-media media"
+        >
+
+        {%- assign hover_image_position = first_image.position -%}
+        {%- assign hover_image = card_variant.product.images[hover_image_position] -%}
+
+        {%- if hover_image -%}
+          {%- unless hover_image.attached_to_variant? -%}
+            <img
+              srcset="{% render 'image-srcset', image: hover_image %}"
+              sizes="{{ card_image_sizes }}"
+              src="{{ hover_image | image_url: width: 3840 }}"
+              loading="lazy"
+              fetchpriority="low"
+              alt="{{ hover_image.alt | escape }}"
+              width="{{ hover_image.width }}"
+              height="{{ hover_image.height }}"
+              class="product-card-media media"
+              data-option-value="{{ card_variant.options[swatch_option_index0] }}"
+            >
+          {%- endunless -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {% if card_variant.product.metafields.custom.badge_list.value != blank %}
+      <ul class="product-badge-list" role="list">
+        {% for badge in card_variant.product.metafields.custom.badge_list.value %}
+          <li class="product-badge-list-item">
+            <div class="product-badge">
+              <span class="product-badge-text typography--tag">
+                {{- badge.text -}}
+              </span>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <a
+      class="link link--covering focus-none"
+      href="{{ card_variant.url | within: collection }}"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <span class="visually-hidden">{{ 'accessibility.link_to_item' | t: item: card_variant.product.title }}</span>
+    </a>
+  </div>
+  <div class="product-card-bottom">
+    <div class="product-card-info">
+      <div class="product-card-line">
+        <a
+          class="product-card-vendor typography--navigation link link--block link--hover-color-change"
+          href="{{ card_variant.url | within: collection }}"
+          data-wk-pc-target
+        >
+          <h3>{{ card_variant.product.vendor }}</h3>
+        </a>
+      </div>
+
+      <div class="product-card-line">
+        <h4 class="product-card-title typography--navigation">{{ card_variant.product.title }}</h4>
+
+        {%- if has_swatch -%}
+          {%- render 'variant-card-swatch-picker',
+            swatch_option: card_variant.product.options_by_name[swatch_option_name],
+            swatch_selected_value: card_variant.options[swatch_option_index0],
+            scope_id: scope_id
+          -%}
+        {%- endif -%}
+      </div>
+
+      {%- assign price_disabled = false -%}
+      {%- if card_variant.product.type == 'Eyeglasses' -%}
+        {%- assign price_disabled = true -%}
+        {%- if settings.eyeglasses_price_enabled -%}
+          {%- assign price_disabled = false -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if card_variant.product.type == 'Sunglasses' -%}
+        {%- assign price_disabled = true -%}
+        {%- if settings.sunglasses_price_enabled -%}
+          {%- assign price_disabled = false -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- unless price_disabled -%}
+        <div class="product-card-price" data-product-card-price>
+          {% render 'price', variant: card_variant, style_class: 'typography--navigation' %}
+        </div>
+      {%- endunless -%}
+    </div>
+  </div>
+</div>

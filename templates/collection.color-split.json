@@ -1,0 +1,36 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+    "layout": "theme",
+    "wrapper": "div.collection-template-sections-wrapper.template-sections-wrapper",
+    "sections": {
+      "clp-hero": {
+        "type": "clp-hero",
+        "settings": {
+        }
+      },
+      "clp-main-color-split": {
+        "type": "clp-main-color-split",
+        "settings": {
+        }
+      },
+      "clp-faq": {
+        "type": "clp-faq",
+        "settings": {
+        }
+      },
+    },
+    "order": [
+      "clp-hero",
+      "clp-main-color-split",
+      "clp-faq"
+    ]
+  }
+  

@@ -1,0 +1,16 @@
+<div id="scroll-trigger--pdp" aria-hidden="true"></div>
+
+<div
+  class="product-form__buttons"
+  {{ block.shopify_attributes }}
+>
+  <div class="vto-button-target"></div>
+  {%- if block.settings.link_title != blank -%}
+    <a
+      href="{{ block.settings.link_url }}"
+      class="link link--block link--underline link--hover-color-change typography--body-regular"
+    >
+      {{ block.settings.link_title }}
+    </a>
+  {%- endif -%}
+</div>

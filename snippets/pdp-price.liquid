@@ -1,0 +1,38 @@
+<div
+  id="price-{{ section.id }}"
+  class="pdp-price"
+  role="status"
+  {{ block.shopify_attributes }}
+>
+  <div class="pryce typography--heading-2">
+    {%- if product.selected_or_first_available_variant.price
+        < product.selected_or_first_available_variant.compare_at_price
+    -%}
+      <div class="pryce-item--compare pryce-item">
+        <span class="visually-hidden visually-hidden--inline">
+          {{- 'product.price.compare_at_price' | t -}}
+        </span>
+        <s>
+          {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+        </s>
+      </div>
+
+      <div class="pryce-item--sale pryce-item">
+        <span class="visually-hidden visually-hidden--inline">{{ 'product.price.sale_price' | t }}</span>
+        <span>
+          {{- product.selected_or_first_available_variant.price | money -}}
+        </span>
+      </div>
+
+    {%- else -%}
+      <div class="pryce-item--regular pryce-item">
+        <span class="visually-hidden visually-hidden--inline">
+          {{- 'product.price.regular_price' | t -}}
+        </span>
+        <span>
+          {{- product.selected_or_first_available_variant.price | money -}}
+        </span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

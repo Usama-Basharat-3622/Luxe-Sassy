@@ -1,0 +1,326 @@
+{%- if article.metafields.custom.content_block_list.value.count > 0 -%}
+  <div
+    id="article-content-block-list-{{ section.id }}"
+    class="article-content-block-list-{{ section.id }} article-content-block-list isolate"
+  >
+    {% for content_block in article.metafields.custom.content_block_list.value -%}
+      {%- case content_block.system.type -%}
+        {%- when 'blog_post_content_block' -%}
+          <div class="article-content-block-list-mob-{{ content_block.system.id }}">
+            <div class="article-main-content-block-{{ content_block.system.id }} article-main-content-block {% if content_block.media_position == "bottom" %}article-main-content-block--reverse-desk{% endif %} {% if content_block.media_position_mob == "bottom" %}article-main-content-block--reverse-mob{% endif %} isolate">
+              {%- assign media = content_block.media.value -%}
+              {%- if media != blank -%}
+                <div class="article-main-content-block-media">
+                  {%- case media.media_type -%}
+                    {%- when 'video' -%}
+                      <video
+                        alt="{{ media.alt | escape }}"
+                        width="{{ media.preview_image.width }}"
+                        height="{{ media.preview_image.height }}"
+                        autoplay
+                        playsinline
+                        muted
+                        loop
+                        preload="false"
+                        loading="lazy"
+                        class="media"
+                      >
+                        {% for source in media.sources %}
+                          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                        {% endfor %}
+                      </video>
+
+                    {%- when 'image' -%}
+                      <img
+                        srcset="{% render 'image-srcset', image: media %}"
+                        sizes="(max-width: 767px) 100vw, 50vw"
+                        src="{{ media | image_url: width: 2048 }}"
+                        alt="{{ media.alt | escape }}"
+                        width="{{ media.width }}"
+                        height="{{ media.height }}"
+                        loading="lazy"
+                        class="media"
+                        style="--focal-point-x: {{ media.presentation.focal_point.x }}%; --focal-point-y: {{ media.presentation.focal_point.y }}%"
+                      >
+                  {%- endcase -%}
+                </div>
+              {%- endif -%}
+              <div class="article-main-content-block-text">
+                <div class="article-main-content-block-text-inner">
+                  {%- if content_block.title != blank -%}
+                    <h2 class="article-main-content-block-title typography--heading-1">
+                      {{ content_block.title }}
+                    </h2>
+                  {%- endif -%}
+
+                  {%- if content_block.text != blank -%}
+                    <div class="article-main-content-block-paragraph typography--body-regular">
+                      {{
+                        content_block.text
+                        | metafield_tag
+                        | strip_newlines
+                        | remove: '<br>'
+                        | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+                        | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+                        | replace: '<p', "<p class='content-paragraph typography--body-regular'"
+                        | replace: '<strong', "<strong class='typography--body-regular-bold'"
+                        | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+                      }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- when 'blog_post_product_block' -%}
+          <div class="article-product-block-list-mob-{{ content_block.system.id }}">
+            <div class="article-main-product-block-{{ content_block.system.id }} article-main-product-block">
+              {%- if content_block.title != blank -%}
+                {%- assign prod = content_block.product.value -%}
+                <div class="article-main-product-block-title typography--heading-2">
+                  {{ content_block.title }}
+                  <a
+                    href="{{ prod.url }}"
+                    aria-label="{{ prod.title }}"
+                    target="_blank"
+                    class="link link--underline link--hover-color-change"
+                  >
+                    {{- prod.title -}}
+                  </a>
+                </div>
+              {%- endif -%}
+              {%- assign media = content_block.product_media.value -%}
+              {%- if media != blank -%}
+                <a
+                  href="{{ prod.url }}"
+                  target="_blank"
+                  aria-label="{{ prod.title }}"
+                  class="article-main-product-block-media"
+                >
+                  {%- case media.media_type -%}
+                    {%- when 'video' -%}
+                      <video
+                        alt="{{ media.alt | escape }}"
+                        width="{{ media.preview_image.width }}"
+                        height="{{ media.preview_image.height }}"
+                        autoplay
+                        playsinline
+                        muted
+                        loop
+                        preload="false"
+                        loading="lazy"
+                        class="media"
+                      >
+                        {% for source in media.sources %}
+                          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                        {% endfor %}
+                      </video>
+
+                    {%- when 'image' -%}
+                      <img
+                        srcset="{% render 'image-srcset', image: media %}"
+                        sizes="100vw"
+                        src="{{ media | image_url: width: 2048 }}"
+                        alt="{{ media.alt | escape }}"
+                        width="{{ media.width }}"
+                        height="{{ media.height }}"
+                        loading="lazy"
+                        class="media"
+                        style="--focal-point-x: {{ media.presentation.focal_point.x }}%; --focal-point-y: {{ media.presentation.focal_point.y }}%"
+                      >
+                  {%- endcase -%}
+                </a>
+              {%- endif -%}
+              {%- if content_block.text != blank -%}
+                <div class="article-main-product-block-caption typography--body-regular">
+                  {{ content_block.text }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor %}
+  </div>
+{%- endif -%}
+
+{% style %}
+  @media screen and (min-width: 768px) {
+      .article-content-block-list-{{ section.id }}:not(:empty){
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+  }
+
+  @media only screen and (max-width: 767px) {
+      .article-content-block-list-{{ section.id }}:not(:empty){
+          padding-top: {{ section.settings.padding_top_mob }}px;
+          padding-bottom: {{ section.settings.padding_bottom_mob }}px;
+      }
+  }
+
+
+  {% for content_block in article.metafields.custom.content_block_list.value -%}
+      {%- if content_block.system.type == "blog_post_content_block" -%}
+      .article-main-content-block-{{ content_block.system.id }}.article-main-content-block{
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 72.4rem;
+          margin: auto;
+      }
+      @media screen and (min-width: 768px) {
+          .article-main-content-block-{{ content_block.system.id }}{
+              padding-top: {{ content_block.padding_top_desktop }}px;
+              padding-bottom: {{ content_block.padding_bottom_desktop }}px;
+          }
+          .article-main-content-block-{{ content_block.system.id }}.article-main-content-block.article-main-content-block--reverse-desk{
+              flex-direction: column-reverse !important;
+          }
+          .article-main-content-block-{{ content_block.system.id }}.article-main-content-block--reverse-desk .article-main-content-block-text{
+              padding: 0rem 2.4rem 5rem;
+          }
+          .article-main-content-block-{{ content_block.system.id }} .article-main-content-block-title {
+              text-align: {{ content_block.title_alignment }};
+          }
+          .article-main-content-block-{{ content_block.system.id }} .article-main-content-block-paragraph {
+              text-align: {{ content_block.text_alignment }};
+          }
+      }
+      @media screen and (max-width: 767px) {
+          .article-content-block-list-mob-{{ content_block.system.id }}{
+              padding-top: {{ content_block.padding_top_mobile }}px;
+              padding-bottom: {{ content_block.padding_bottom_mobile }}px;
+          }
+          .article-main-content-block-{{ content_block.system.id }}.article-main-content-block.article-main-content-block--reverse-mob{
+              flex-direction: column-reverse !important;
+          }
+          .article-main-content-block-{{ content_block.system.id }} .article-main-content-block-title {
+              text-align: {{ content_block.title_alignment_mob }};
+          }
+          .article-main-content-block-{{ content_block.system.id }} .article-main-content-block-paragraph {
+              text-align: {{ content_block.text_alignment_mob }};
+          }
+      }
+      {% endif %}
+      {%- if content_block.system.type == "blog_post_product_block" -%}
+      .article-main-product-block-{{ content_block.system.id }}.article-main-product-block{
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 72.4rem;
+          margin: auto;
+      }
+      @media screen and (min-width: 768px) {
+          .article-main-product-block-{{ content_block.system.id }}{
+              padding-top: {{ content_block.padding_top_desktop }}px;
+              padding-bottom: {{ content_block.padding_bottom_desktop }}px;
+          }
+          .article-main-product-block-{{ content_block.system.id }} .article-main-product-block-title {
+              text-align: {{ content_block.title_alignment }};
+          }
+          .article-main-product-block-{{ content_block.system.id }} .article-main-product-block-caption {
+              text-align: {{ content_block.text_alignment }};
+          }
+      }
+      @media screen and (max-width: 767px) {
+          .article-product-block-list-mob-{{ content_block.system.id }}{
+              padding-top: {{ content_block.padding_top_mobile }}px;
+              padding-bottom: {{ content_block.padding_bottom_mobile }}px;
+          }
+          .article-main-product-block-{{ content_block.system.id }} .article-main-product-block-title {
+              text-align: {{ content_block.title_alignment_mob }};
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+          }
+          .article-main-product-block-{{ content_block.system.id }} .article-main-product-block-caption {
+              text-align: {{ content_block.text_alignment_mob }};
+          }
+      }
+      {% endif %}
+  {% endfor %}
+      .article-main-content-block-paragraph .metafield-rich_text_field>*+*, .article-main-product-block-title .metafield-rich_text_field>*+* {
+          margin-top: 1.2rem;
+      }
+      .article-main-content-block-text-inner>*+*, .article-main-product-block > *{
+          margin-top: 2.4rem;
+      }
+  @media screen and (min-width: 768px) {
+      .section--article-content-block-list{
+          padding: 0rem 2.4rem;
+      }
+      .article-main-content-block-media{
+          padding: 4.8rem 0rem;
+      }
+      .article-main-content-block-paragraph .metafield-rich_text_field .h1, .article-main-content-block-paragraph .metafield-rich_text_field .h2,
+      .article-main-product-block-title {
+          margin-top: 4.8rem;
+      }
+  }
+  @media screen and (max-width: 767px) {
+      .section--article-content-block-list{
+          padding: 0rem 1.6rem;
+      }
+      .article-main-content-block-media{
+          padding: 4rem 0rem;
+      }
+      .article-main-content-block-paragraph .metafield-rich_text_field .h1, .article-main-content-block-paragraph .metafield-rich_text_field .h2,
+      .article-main-product-block-title {
+          margin-top: 4rem;
+      }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Article Content Blocks",
+  "tag": "section",
+  "class": "section--article-content-block-list",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

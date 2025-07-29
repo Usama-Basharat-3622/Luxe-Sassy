@@ -1,0 +1,224 @@
+{{ 'pdp-content-block-list.css' | asset_url | stylesheet_tag }}
+<div
+  id="pdp-content-block-list-{{ section.id }}"
+  class="pdp-content-block-list-{{ section.id }} pdp-content-block-list isolate"
+>
+  {%- if product.metafields.custom.content_block_list.value != blank -%}
+    {%- assign metaobject_list = product.metafields.custom.content_block_list.value -%}
+  {%- else -%}
+    {%- assign metaobject_list = section.settings.product_content_block_list_static -%}
+  {%- endif -%}
+
+  {% if metaobject_list != blank %}
+    {%- for metaobject in metaobject_list -%}
+      {%- case metaobject.system.type -%}
+        {%- when 'pdp_content_block_50_50' -%}
+          <div class="pdp-50-50-block-{{ metaobject.system.id }} pdp-50-50-block pdp-content-block isolate">
+            <div class="pdp-banner banner">
+              {%- assign media = metaobject.media.value -%}
+              {%- assign media_alter = metaobject.media_alter.value -%}
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  <img
+                    srcset="{% render 'image-srcset', image: media %}"
+                    sizes="50vw"
+                    src="{{ media | image_url: width: 2048 }}"
+                    alt="{{ media.alt | escape }}"
+                    width="{{ media.width }}"
+                    height="{{ media.height }}"
+                    loading="lazy"
+                    class="media hidden≤991"
+                    style="--focal-point-x: {{ media.presentation.focal_point.x }}%; --focal-point-y: {{ media.presentation.focal_point.y }}%"
+                  >
+                  <img
+                    srcset="{% render 'image-srcset', image: media_alter %}"
+                    sizes="100vw"
+                    src="{{ media_alter | image_url: width: 2048 }}"
+                    alt="{{ media_alter.alt | escape }}"
+                    width="{{ media_alter.width }}"
+                    height="{{ media_alter.height }}"
+                    loading="lazy"
+                    class="media hidden≥992"
+                    style="--focal-point-x: {{ media_alter.presentation.focal_point.x }}%; --focal-point-y: {{ media_alter.presentation.focal_point.y }}%"
+                  >
+                {%- when 'video' -%}
+                  <video
+                    alt="{{ media.alt | escape }}"
+                    width="{{ media.preview_image.width }}"
+                    height="{{ media.preview_image.height }}"
+                    autoplay
+                    playsinline
+                    muted
+                    loop
+                    preload="auto"
+                    loading="eager"
+                    class="media hidden≤991"
+                  >
+                    {% for source in media.sources %}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {% endfor %}
+                  </video>
+                  <video
+                    alt="{{ media_alter.alt | escape }}"
+                    width="{{ media_alter.preview_image.width }}"
+                    height="{{ media_alter.preview_image.height }}"
+                    autoplay
+                    playsinline
+                    muted
+                    loop
+                    preload="auto"
+                    loading="eager"
+                    class="media hidden≥992"
+                  >
+                    {% for source in media_alter.sources %}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {% endfor %}
+                  </video>
+              {%- endcase -%}
+
+              <div class="banner-content">
+                {%- if metaobject.title != blank -%}
+                  <h2 class="banner-title typography--heading-1">
+                    {{ metaobject.title }}
+                  </h2>
+                {%- endif -%}
+                {%- if metaobject.paragraph != blank -%}
+                  <div class="banner-paragraph typography--body-regular">
+                    {{ metaobject.paragraph }}
+                  </div>
+                {%- endif -%}
+                {%- if metaobject.cta_text != blank -%}
+                  <a
+                    href="{%- if metaobject.cta_link != blank -%}{{ metaobject.cta_link }}{%- else -%}{{ metaobject.cta_url }}{%- endif -%}"
+                    class="banner-cta link button button--tertiary typography--body-regular"
+                  >
+                    {{- metaobject.cta_text -}}
+                    {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+{% style %}
+  {%- for metaobject in metaobject_list -%}
+  {%- case metaobject.system.type -%}
+  {%- when "pdp_content_block_50_50" -%}
+  .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-content{
+    background-color: {{ metaobject.background_color }};
+  }
+
+  .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-content > * {
+    max-width: {{ metaobject.text_max_width }}px;
+  }
+
+  .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-title,
+  .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-paragraph{
+    color: {{ metaobject.text_color }}
+  }
+  @media screen and (min-width: 992px) {
+    .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner{
+      flex-direction: {{ metaobject.flex_direction }};
+    }
+
+    .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-content{
+      display: grid;
+      justify-content: {{ metaobject.text_placement_horizontal }};
+      align-content: {{ metaobject.text_placement_vertical }};
+      justify-items: {{ metaobject.text_alignment }};
+      text-align: {{ metaobject.text_alignment }};
+    }
+  }
+  @media only screen and (max-width: 991px) {
+    .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner{
+      flex-direction: {{ metaobject.flex_direction_alter }};
+    }
+    .pdp-content-block-list-{{ section.id }} .pdp-50-50-block-{{ metaobject.system.id }} .banner-content{
+      text-align: {{ metaobject.text_alignment_alter }};
+    }
+  }
+  {%- endcase -%}
+  {%- endfor -%}
+
+  @media screen and (min-width: 992px) {
+    .pdp-content-block-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .pdp-content-block-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "PDP Content Block List",
+  "tag": "section",
+  "class": "section--pdp-content-block-list",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "metaobject_list",
+      "id": "product_content_block_list_static",
+      "label": "Product Content Block List (Static)",
+      "metaobject_type": "pdp_content_block_50_50",
+      "limit": 4
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

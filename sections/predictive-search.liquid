@@ -1,0 +1,78 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{%- if predictive_search.performed -%}
+  <div id="predictive-search-results">
+    <div
+      id="predictive-search-results-groups-wrapper"
+      class="predictive-search__results-groups-wrapper"
+    >
+      {%- if predictive_search.resources.products.size > 0 -%}
+        <div class="predictive-search__products-wrapper">
+          <div class="predictive-search__heading">
+            <h3 class="predictive-search__title typography--body-regular-bold">
+              {{- 'search.products' | t -}}
+            </h3>
+            <div id="predictive-search-option-search-keywords" class="predictive-search__search-for-button">
+              <button
+                class="predictive-search__item predictive-search__item--term link link--block link--underline link--hover-color-change typography--body-regular"
+                role="option"
+                aria-selected="false"
+              >
+                <span data-predictive-search-search-for-text>
+                  {{- 'search.search_for' | t: terms: predictive_search.terms -}}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <ul
+            id="predictive-search-results-products-list"
+            class="predictive-search__results-list"
+            role="list"
+          >
+            {%- for product in predictive_search.resources.products limit: 4 -%}
+              <li
+                id="predictive-search-option-product-{{ forloop.index }}"
+                class="predictive-search__list-item"
+                aria-selected="false"
+              >
+                {% render 'product-card',
+                  card_product: product,
+                  card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+                  scope_id: section.id
+                %}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- else -%}
+        <div class="predictive-search__empty-msg">
+          <button
+            class="predictive-search__item predictive-search__item--term link link--block link--underline link--hover-color-change typography--body-regular"
+            role="option"
+            aria-selected="false"
+          >
+            <span data-predictive-search-search-for-text>
+              {{- 'search.search_for' | t: terms: predictive_search.terms -}}
+            </span>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- render 'loading-spinner', class: 'predictive-search__loading-state hidden' -%}
+  </div>
+
+  <span class="hidden" data-predictive-search-live-region-count-value>
+    {% liquid
+      assign total_results = predictive_search.resources.products.size
+      if total_results == 0
+        echo 'search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'search.results_with_count' | t: count: total_results | append: ': '
+        if predictive_search.resources.products.size > 0
+          echo 'search.results_products_with_count' | t: count: predictive_search.resources.products.size
+        endif
+      endif
+    %}
+  </span>
+{%- endif -%}

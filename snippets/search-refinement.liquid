@@ -1,0 +1,13 @@
+<div class="search-refinement">
+  <div class="search-refinement-left">
+    <div class="product-count" role="status">
+      <p>
+        {{ 'search.Search_results' | t: term: results.terms | escape }} (
+        <span id="ProductCount" class="product-count">{{ results_total }}</span> )
+      </p>
+    </div>
+  </div>
+  <div class="search-refinement-right">
+    {% render 'facets', results: results, enable_filtering: true, enable_sorting: true %}
+  </div>
+</div>

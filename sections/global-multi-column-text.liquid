@@ -1,0 +1,395 @@
+{% style %}
+  #gs-text-grid-main-{{ section.id }}{
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+  #gs-text-grid-main-{{ section.id }} .gs-text-grid-wrapper{
+      display: flex;
+      flex-direction: column;
+      text-align: {{ section.settings.text_alignment }};
+      margin-bottom: 4.8rem;
+      gap: 1.6rem;
+  }
+  #gs-text-grid-main-{{ section.id }} .gs-text-grid-main-paragraph > *:not(:first-child) {
+      margin-top: 1.6rem;
+  }
+  .gs-text-grid-main-{{ section.id }} {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 1.6rem;
+      row-gap: 5.4rem;
+  }
+  @media screen and (min-width: 767px) and (max-width: 1025px) {
+      .gs-text-grid-main-{{ section.id }} {
+          grid-template-columns: 1fr 1fr;
+      }
+  }
+  @media screen and (max-width: 767px){
+      #gs-text-grid-main-{{ section.id }}{
+          padding: {{ section.settings.padding_top_mobile }}px 1.6rem {{ section.settings.padding_bottom_mobile }}px;
+      }
+      .gs-text-grid-main-{{ section.id }} {
+          grid-template-columns: 1fr;
+          row-gap: 4rem;
+      }
+      #gs-text-grid-main-{{ section.id }} .gs-text-grid-wrapper{
+          text-align: {{ section.settings.text_alignment_alter }};
+          margin-bottom: 4rem;
+          gap: 1.2rem;
+      }
+  }
+
+
+  {% for block in section.blocks %}
+
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgb(var(--color-grey));
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-title {
+      padding-top: 2rem;
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-title > *:not(:first-child),
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph {
+      margin-top: 1.6rem;
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-cta {
+      max-width: fit-content;
+      margin-top: 2.4rem;
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ol, .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ul{
+      list-style-position: outside;
+      padding-left: 2.5rem;
+  }
+  .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ol li, .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph ul li{
+      padding-left: 0.2rem;
+  }
+  @media screen and (min-width: 768px){
+      .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-paragraph p > strong{
+          padding-top: .2rem;
+          display: inline-block;
+      }
+      .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} {
+          text-align: {{ block.settings.text_alignment }};
+          align-items: {{ block.settings.text_alignment }};
+      }
+  }
+  @media screen and (max-width:767px){
+      .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} .gs-text-grid-cta {
+          margin-top: 2rem;
+      }
+      .gs-text-grid-main-{{ section.id }} .gs-text-grid-{{ block.id }} {
+          text-align: {{ block.settings.text_alignment_alter }};
+          align-items: {{ block.settings.text_alignment_alter }};
+      }
+  }
+  {% endfor %}
+{% endstyle %}
+
+<div id="gs-text-grid-main-{{ section.id }}">
+  {% if section.settings.title != blank or section.settings.paragraph != blank %}
+    <div class="gs-text-grid-wrapper">
+      {% if section.settings.title != blank %}
+        <div class="gs-text-grid-main-title typography--heading-1" role="heading">{{ section.settings.title }}</div>
+      {% endif %}
+      {% if section.settings.paragraph != blank %}
+        <div class="gs-text-grid-main-paragraph typography--body-regular">
+          {{
+            section.settings.paragraph
+            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+          }}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="gs-text-grid-main gs-text-grid-main-{{ section.id }}">
+    {% for block in section.blocks %}
+      <div class="gs-text-grid-{{ block.id }}">
+        {% if block.settings.title != blank %}
+          <div class="gs-text-grid-title typography--body-regular">
+            {{
+              block.settings.title
+              | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+              | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+              | replace: '<strong', "<strong class='typography--body-regular-bold'"
+              | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+            }}
+          </div>
+        {% endif %}
+        {% if block.settings.paragraph != blank %}
+          <div class="gs-text-grid-paragraph {% if block.settings.paragraph_size == 'regular' %} typography--body-regular {% elsif block.settings.paragraph_size == 'small' %} typography--body-small {% endif %}">
+            {{
+              block.settings.paragraph
+              | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+              | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+              | replace: '<strong', "<strong class='typography--body-regular-bold'"
+              | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+            }}
+          </div>
+        {% endif %}
+        {% if block.settings.cta_text != blank and block.settings.cta_link != blank %}
+          <div class="gs-text-grid-cta-main">
+            <a
+              href="{{ block.settings.cta_link }}"
+              class="gs-text-grid-cta link button button--tertiary typography--body-regular"
+              aria-label="{{ block.settings.cta_text }}"
+              {%- if block.settings.cta_link contains 'http' -%}
+                target="_blank"
+              {%- endif -%}
+            >
+              {{- block.settings.cta_text -}}
+              {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Multicolumn Text",
+  "tag": "section",
+  "class": "section--gs-text-grid-details",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Text Container",
+      "type": "text-container",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "info": "Use CMD+U or CTRL+U to underline"
+        },
+        {
+          "type": "select",
+          "id": "paragraph_size",
+          "label": "Paragraph Size",
+          "options": [
+            {
+              "value": "regular",
+              "label": "Regular"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ],
+          "default": "regular"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment_alter",
+          "label": "Text Alignment Mobile",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn Text Grid"
+    }
+  ]
+}
+{% endschema %}

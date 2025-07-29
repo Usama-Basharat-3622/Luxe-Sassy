@@ -1,0 +1,49 @@
+{%- if product.metafields.custom.cl_size_variants.value != blank -%}
+  <div
+    class="pdp-product-picker"
+    data-section="{{ section.id }}"
+    {{ block.shopify_attributes }}
+  >
+    <fieldset class="variant-product-option">
+      <legend class="variant-product-option-title">
+        <span>Select pack size:</span>
+      </legend>
+      <ul class="variant-product-option-value-list" role="list">
+        {%- for variant_product in product.metafields.custom.cl_size_variants.value -%}
+          <li class="variant-product-option-value">
+            <a
+              href="{{ variant_product.url | within: collection }}"
+              class="variant-product-option-value-link link link--block {% if variant_product.handle == product.handle %} active{% endif %}"
+            >
+              <span class="typography--body-regular-bold">{{ variant_product.metafields.custom.cl_pack_size }}</span>
+
+              {%- assign price_disabled = false -%}
+              {%- if variant_product.type == 'Eyeglasses' -%}
+                {%- assign price_disabled = true -%}
+                {%- if settings.eyeglasses_price_enabled -%}
+                  {%- assign price_disabled = false -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if variant_product.type == 'Sunglasses' -%}
+                {%- assign price_disabled = true -%}
+                {%- if settings.sunglasses_price_enabled -%}
+                  {%- assign price_disabled = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- unless price_disabled -%}
+                {%- render 'price', variant: variant_product, style_class: 'typography--body-regular' -%}
+              {%- endunless -%}
+              {% if variant_product.metafields.custom.cl_lens_info != blank %}
+                <p class="typography--body-small">{{ variant_product.metafields.custom.cl_lens_info }}</p>
+              {% endif %}
+              {% if variant_product.metafields.custom.cl_lens_info_secondary != blank %}
+                <p class="typography--body-small">{{ variant_product.metafields.custom.cl_lens_info_secondary }}</p>
+              {% endif %}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </fieldset>
+  </div>
+{%- endif -%}

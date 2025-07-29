@@ -1,0 +1,252 @@
+{{ 'pdp-recently-viewed.css' | asset_url | stylesheet_tag }}
+
+<div
+  id="pdp-recently-viewed-{{ section.id }}"
+  class="pdp-recently-viewed-{{ section.id }} pdp-recently-viewed isolate"
+>
+  {%- if section.settings.title != blank -%}
+    <h2 class="pdp-recently-viewed-title typography--heading-1">
+      {{ section.settings.title }}
+    </h2>
+  {%- endif -%}
+
+  <hp-product-carousel class="pdp-recently-viewed-carousel" role="region">
+    <div class="swiper isolate">
+      <div class="swiper-wrapper"></div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  </hp-product-carousel>
+</div>
+
+{%- capture rw_image -%}
+  {%- if product.selected_or_first_available_variant.featured_image -%}
+    {%- assign featured_image = product.selected_or_first_available_variant.featured_image -%}
+  {%- else -%}
+    {%- assign featured_image = product.featured_image -%}
+  {%- endif -%}
+  <img
+    src="{{ featured_image | image_url: width: 1200 }}"
+    loading="lazy"
+    fetchpriority="high"
+    alt="{{ featured_image.alt | escape }}"
+    width="{{ featured_image.width }}"
+    height="{{ featured_image.height }}"
+    class="product-card-media media"
+  >
+{%- endcapture -%}
+
+{%- capture rw_image_hover -%}
+  {%- assign rw_index = rw_image.position | plus: 1 -%}
+  {%- if product.images[rw_index] -%}
+  <img
+    src="{{ product.images[rw_index] | image_url: width: 1200 }}"
+    loading="lazy"
+    fetchpriority="high"
+    alt="{{ product.images[rw_index].alt | escape }}"
+    width="{{ product.images[rw_index].width }}"
+    height="{{ product.images[rw_index].height }}"
+    class="product-card-media media"
+  >
+  {%- endif -%}
+{%- endcapture -%}
+
+
+{%- assign price_disabled = false -%}
+{%- if product.type == 'Eyeglasses' -%}
+  {%- assign price_disabled = true -%}
+  {%- if settings.eyeglasses_price_enabled -%}
+    {%- assign price_disabled = false -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if product.type == 'Sunglasses' -%}
+  {%- assign price_disabled = true -%}
+  {%- if settings.sunglasses_price_enabled -%}
+    {%- assign price_disabled = false -%}
+  {%- endif -%}
+{%- endif -%}
+
+{% unless price_disabled %}
+  {%- assign rw_price = product.selected_or_first_available_variant.price | money -%}
+{% endunless %}
+
+{%- capture rw_badge -%}
+  {% if product.metafields.custom.badge_list.value != blank %}
+  <ul class="product-badge-list" role="list">
+    {% for badge in product.metafields.custom.badge_list.value %}
+      <li class="product-badge-list-item">
+        <div class="product-badge">
+          <span class="product-badge-text typography--tag">
+            {{- badge.text -}}
+          </span>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{%- endcapture -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const productData = {
+      id: '{{ product.id }}',
+      vendor: '{{ product.vendor }}',
+      title: '{{ product.title }}',
+      url: '{{ product.selected_or_first_available_variant.url }}',
+      price: '{{ rw_price }}',
+      image: {{ rw_image | json }},
+      image_hover: {{ rw_image_hover | json }},
+      badge: {{ rw_badge | json }},
+    };
+
+    var recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+    recentlyViewed = recentlyViewed.filter(function (item) {
+      return item.id !== productData.id;
+    });
+
+    recentlyViewed.unshift(productData);
+    if (recentlyViewed.length > 12) {
+      recentlyViewed.pop();
+    }
+
+    localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+
+    var recentlyViewedContainer = document.querySelector('#pdp-recently-viewed-{{ section.id }} .swiper-wrapper');
+    if (recentlyViewedContainer) {
+      recentlyViewedContainer.innerHTML = recentlyViewed
+        .map(function (item) {
+          return `
+          <div class="swiper-slide">
+            <div class="product-card isolate">
+            <div class="product-card-top">
+            <div class="product-card-album">
+              <div class="ratio ratio--3-2">
+                ${item.image}
+                ${item.image_hover}
+              </div>
+            </div>
+            ${item.badge}
+            <a
+            class="link link--covering focus-none"
+            href="${item.url}"
+            tabindex="-1"
+            aria-hidden="true"
+            >
+            <span class="visually-hidden">Link to ${item.title}</span>
+            </a>
+            </div>
+            <div class="product-card-bottom">
+            <div class="product-card-info">
+              <div class="product-card-line">
+                <a
+                  class="product-card-vendor typography--navigation link link--block link--hover-color-change"
+                  href="${item.url}"
+                  data-wk-pc-target
+                >
+                  <h3>${item.vendor}</h3>
+                </a>
+              </div>
+            <h4 class="product-card-title typography--navigation">${item.title}</h4>
+            <div class="product-card-price typography--navigation">
+              <div class="price">
+                <div class="price-item--regular price-item">
+                  <span>${item.price}</span>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+            </div>
+          </div>
+        `;
+        })
+        .join('');
+    }
+  });
+</script>
+
+{% style %}
+  @media screen and (min-width: 992px) {
+    .pdp-recently-viewed-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .pdp-recently-viewed-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "PDP Recently Viewed",
+  "tag": "section",
+  "class": "section--pdp-recently-viewed",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 12,
+      "label": "Products to show"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

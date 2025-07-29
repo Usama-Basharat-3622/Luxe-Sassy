@@ -1,0 +1,41 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Hàm để lấy tham số từ URL
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Lấy giá trị zipcode từ URL
+    const zipcode = getUrlParameter('zipcode');
+
+    if (zipcode) {
+      // Tìm input có id "address"
+      const addressInput = document.getElementById('address');
+
+      if (addressInput) {
+        // Điền giá trị zipcode vào input
+        addressInput.value = zipcode;
+
+        // Tìm button "submit-search"
+        const submitButton = document.getElementById('submit-search');
+
+        if (submitButton) {
+          // Thêm một chút độ trễ để đảm bảo trang đã load hoàn toàn
+          setTimeout(function () {
+            // Kích hoạt sự kiện click cho button tìm kiếm
+            submitButton.click();
+          }, 2000);
+        } else {
+          console.error('Không tìm thấy phần tử button với id "submit-search"');
+        }
+      } else {
+        console.error('Không tìm thấy phần tử input với id "address"');
+      }
+    } else {
+      console.log('Không tìm thấy tham số zipcode trong URL');
+    }
+  });
+</script>

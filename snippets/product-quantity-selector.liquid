@@ -1,0 +1,83 @@
+<div
+  id="QuantityForm-{{ section.id }}"
+  class="product-form__input product-form__quantity"
+  {{ block.shopify_attributes }}
+>
+  {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
+  {% # theme-check-disable %}
+  {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+  {% # theme-check-enable %}
+  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
+    {{ 'product.quantity.label' | t }}
+    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
+      {%- render 'loading-spinner' -%}
+      <span
+        >(
+        {{- 'product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+        )</span
+      >
+    </span>
+  </label>
+
+  <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+    <button class="quantity__button" name="minus" type="button">
+      <span class="visually-hidden">
+        {{- 'product.quantity.decrease' | t: product: product.title | escape -}}
+      </span>
+      <span class="svg-wrapper">
+        {{- 'icon-minus.svg' | inline_asset_content -}}
+      </span>
+    </button>
+    <input
+      class="quantity__input"
+      type="number"
+      name="quantity"
+      id="Quantity-{{ section.id }}"
+      data-cart-quantity="{{ cart_qty }}"
+      data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+      min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+      {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+        data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+        max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+      {% endif %}
+      step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+      value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+      form="{{ product_form_id }}"
+    >
+    <button class="quantity__button" name="plus" type="button">
+      <span class="visually-hidden">
+        {{- 'product.quantity.increase' | t: product: product.title | escape -}}
+      </span>
+      <span class="svg-wrapper">
+        {{- 'icon-plus.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </quantity-input>
+
+  <div class="quantity__rules caption" id="Quantity-Rules-{{ section.id }}">
+    {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
+      <span class="divider">
+        {{-
+          'product.quantity.multiples_of'
+          | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
+        -}}
+      </span>
+    {%- endif -%}
+    {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
+      <span class="divider">
+        {{-
+          'product.quantity.minimum_of'
+          | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
+        -}}
+      </span>
+    {%- endif -%}
+    {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+      <span class="divider">
+        {{-
+          'product.quantity.maximum_of'
+          | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
+        -}}
+      </span>
+    {%- endif -%}
+  </div>
+</div>

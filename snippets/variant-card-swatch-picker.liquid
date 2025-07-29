@@ -1,0 +1,45 @@
+<div class="product-card-swatch-picker">
+  <fieldset class="product-card-option product-option product-option--swatch product-form__input product-form__input--swatch">
+    <legend class="product-option-title hidden">
+      <span>{{ swatch_option.name }}:</span>
+      <span data-selected-value>
+        {{- swatch_option.selected_value -}}
+      </span>
+    </legend>
+
+    <ul
+      class="product-option-value-list"
+      role="list"
+    >
+      {%- for swatch_option_value in swatch_option.values -%}
+        {% if swatch_option_value == swatch_selected_value %}
+          <li class="product-option-value">
+            <input
+              type="radio"
+              id="{{ scope_id }}-{{ swatch_option.name }}-{{ swatch_option.position }}-{{ forloop.index0 }}"
+              name="{{ scope_id }}-{{ swatch_option.name }}-{{ swatch_option.position }}"
+              value="{{ swatch_option_value }}"
+              class="swatch-input__input"
+              checked
+              data-option-value="{{ swatch_option_value }}"
+              data-option-available="{{ swatch_option_value.available }}"
+              {%- capture option_variant_price_html -%}{% render 'price', variant: swatch_option_value.variant %}{%- endcapture -%}
+              data-option-variant-price="{{ option_variant_price_html | escape_once | strip | strip_newlines }}"
+              data-option-variant-title="{{ swatch_option_value.variant.title }}"
+              data-option-variant-link="{{ swatch_option_value.variant.url | within: collection }}"
+            >
+            <label
+              for="{{ scope_id }}-{{ swatch_option.name }}-{{ swatch_option.position }}-{{ forloop.index0 }}"
+              title="{{ swatch_option_value }}"
+              class="swatch-input__label"
+              aria-label="{{ swatch_option_value }}"
+            >
+              {% render 'swatch', swatch: swatch_option_value.swatch %}
+              <span class="visually-hidden">{{ swatch_option_value | escape }}</span>
+            </label>
+          </li>
+        {% endif %}
+      {%- endfor -%}
+    </ul>
+  </fieldset>
+</div>

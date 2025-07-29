@@ -1,0 +1,236 @@
+
+.VG-media iframe,
+.VG-media video{
+    width: 100%;
+    height: 100%;
+}
+
+.VG-media iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Video Slider Top */
+.vs-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 0rem 2.4rem 4.8rem;
+}
+.vs-controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* Modal CSS */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(var(--color-black),0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.video-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+#modalVideo {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+#closeModal {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  font-size: 4rem;
+  background: none;
+  color: rgb(var(--color-grey));
+  border: none;
+  cursor: pointer;
+}
+
+#modalMediaContainer {
+  width: 83vw;
+  height: 83svh;
+}
+
+#modalMediaContainer video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#modalMediaContainer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Play Icon */
+@media screen and (min-width: 1025px){
+  .VG-media button {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    margin: auto;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: fit-content;
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 1024px){
+  .VG-media button {
+    position: absolute;
+    inset: 0; /* makes the button fill the entire parent */
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .VG-media button svg{
+    position: absolute;
+    height: fit-content;
+    width: fit-content;
+    pointer-events: none;
+    bottom: 12px;
+    left: 12px;
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+.VG-media button:focus{
+  outline: 1px solid rgb(var(--color-white)) !important;
+}
+
+.VG-media button.hideBtn{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.VG-content {
+  padding-top: 24px;
+}
+
+/* Vimeo + Youtube Video Covers */
+
+
+.video-cover {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+}
+
+.video-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.video-thumbnail-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+.video-thumbnail-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: default;
+}
+body.modal-open {
+  overflow: hidden;
+  height: 100svh;
+}
+
+@media screen and (max-width: 1024px){
+  .modal-content {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  #modalMediaContainer {
+    width: 93vw;
+    height: auto;
+    max-width: 93vw;
+    max-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  #modalMediaContainer video{
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+  }
+  #modalMediaContainer iframe {
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    min-height: 24svh;
+  }
+  #closeModal {
+    position: absolute;
+    top: 20px;
+    right: 14px;
+    font-size: 4rem;
+    background: none;
+    color: rgb(var(--color-grey));
+    border: none;
+    cursor: pointer;
+  }
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(var(--color-black),0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .vs-top {
+    margin: 0rem 1.6rem 3.2rem;
+  }
+  .vs-slider-scrollbar.swiper-scrollbar {
+    background: rgb(var(--color-grey-medium));
+    height: 0.1rem;
+    transition: height 0.3s ease;
+    cursor: pointer;
+}
+}

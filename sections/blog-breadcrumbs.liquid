@@ -1,0 +1,52 @@
+<ul
+  class="blog-breadcrumbs breadcrumbs typography--body-small"
+  aria-label="{{ 'breadcrumbs.title' | t }}"
+  role="navigation"
+>
+  <li class="breadcrumbs-item">
+    <a href="{{ routes.root_url }}" class="link link--block link--hover-color-change" aria-label="{{ 'breadcrumbs.home' | t }}">
+      {{- 'breadcrumbs.home' | t -}}
+    </a>
+  </li>
+  <li class="breadcrumbs-item breadcrumbs-item--delimiter" aria-hidden="true">
+    <span>&gt;</span>
+  </li>
+  <li class="breadcrumbs-item">
+    <a href="{{ pages['blog'].url }}" class="link link--block link--hover-color-change" aria-label="{{ pages.blog.title }}">
+      {{- pages.blog.title -}}
+    </a>
+  </li>
+  {% if blog %}
+    <li class="breadcrumbs-item breadcrumbs-item--delimiter" aria-hidden="true">
+      <span>&gt;</span>
+    </li>
+    <li class="breadcrumbs-item">
+      <a href="{{ blog.url }}" class="link link--block link--hover-color-change" aria-label="{{ blog.title }}">
+        {{- blog.title -}}
+      </a>
+    </li>
+  {% endif %}
+</ul>
+
+{% style %}
+  @media screen and (min-width: 1025px) {
+    .blog-breadcrumbs {
+      padding: 2.4rem;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .blog-breadcrumbs {
+      padding: 1.6rem 1.6rem 2rem;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Blog Breadcrumbs",
+  "tag": "section",
+  "class": "section--blog-breadcrumbs",
+  "settings": []
+}
+{% endschema %}

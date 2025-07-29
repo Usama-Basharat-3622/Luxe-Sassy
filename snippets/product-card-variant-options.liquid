@@ -1,0 +1,79 @@
+{%- liquid
+  assign product_form_id = 'product-form-' | append: option_identifier
+-%}
+
+<ul
+  class="product-option-value-list"
+  role="list"
+>
+  {%- for value in option.values -%}
+    {%- liquid
+      assign option_disabled = true
+      if value.available
+        assign option_disabled = false
+      endif
+    -%}
+
+    {%- capture input_id -%}
+      {{ option_identifier }}-{{ option.name }}-{{ option.position }}-{{ forloop.index0 -}}
+    {%- endcapture -%}
+
+    {%- capture input_name -%}
+      {{ option_identifier }}-{{ option.name }}-{{ option.position }}
+    {%- endcapture -%}
+
+    {%- capture input_dataset -%}
+      data-product-url="{{ value.product_url }}"
+      data-option-value-id="{{ value.id }}"
+    {%- endcapture -%}
+
+    {%- capture label_unavailable -%}
+      <span class="visually-hidden label-unavailable">
+        {{- 'product.variant_sold_out_or_unavailable' | t -}}
+      </span>
+    {%- endcapture -%}
+
+    {%- if picker_type == 'swatch' -%}
+      {%- capture help_text -%}
+      <span class="visually-hidden">{{ value | escape }}</span>
+      {{ label_unavailable }}
+    {%- endcapture -%}
+
+      <li class="product-option-value">
+        {%
+          render 'swatch-input',
+          id: input_id,
+          name: input_name,
+          value: value | escape,
+          swatch: value.swatch,
+          product_form_id: product_form_id,
+          checked: value.selected,
+          visually_disabled: option_disabled,
+          help_text: help_text,
+          additional_props: input_dataset
+        %}
+      </li>
+    {%- elsif picker_type == 'button' -%}
+      <li class="product-option-value">
+        <input
+          type="radio"
+          id="{{ input_id }}"
+          name="{{ input_name | escape }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% if value.selected %}
+            checked
+          {% endif %}
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+          {{ input_dataset }}
+        >
+        <label for="{{ input_id }}" class="typography--body-small">
+          <span>{{ value }}</span>
+          {{ label_unavailable }}
+        </label>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

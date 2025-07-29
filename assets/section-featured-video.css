@@ -1,0 +1,84 @@
+.FV-video-grid-item {
+  max-width: 100%;
+}
+.FV-media {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background: #000;
+}
+.FV-video-poster-wrapper {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.FV-video-poster-img {
+  width: 100%;
+  height: 100%;
+}
+.FV-video-play-btn {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.FV-video-iframe-wrapper, .FV-media video {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width: 1025px){
+  .FV-video-gallery-grid {
+    display: grid;
+    grid-template-columns: 30% 70%;
+  }
+  .FV-video-grid-title {
+    margin-right: 2rem;
+  }
+  .FV-video-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 3.2rem;
+    margin-top: 3.2rem;
+  }
+  .caption-paragraph {
+    width: 100%;
+    max-width: 47.7rem;
+  }
+}
+@media screen and (max-width: 1024px){
+  .FV-video-gallery-grid {
+    display: grid;
+  }
+  .FV-video-grid-title {
+    margin-bottom: 1.6rem;
+  }
+  .FV-video-play-btn {
+    left: 12px;
+    bottom: 12px;
+  }
+  .FV-video-play-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+  .FV-video-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-top: 2.4rem;
+  }
+}
+
+

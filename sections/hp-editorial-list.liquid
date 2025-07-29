@@ -1,0 +1,348 @@
+{{ 'hp-editorial-list.css' | asset_url | stylesheet_tag }}
+
+<div
+  id="hp-editorial-list-{{ section.id }}"
+  class="hp-editorial-list-{{ section.id }} hp-editorial-list isolate"
+>
+  <div class="hp-editorial-list-wrapper scrollbar-style">
+    {%- for block in section.blocks -%}
+      <div class="hp-banner-{{ block.id }} hp-banner banner" {{ block.shopify_attributes }}>
+        <img
+          srcset="{% render 'image-srcset', image: block.settings.image %}"
+          sizes="(min-width: 992px) calc( 100vw / {{ section.blocks.size }} ), 50vw"
+          src="{{ block.settings.image | image_url: width: 2048 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          loading="lazy"
+          fetchpriority="low"
+          class="media hidden≤767"
+          style="--focal-point-x: {{ block.settings.image.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image.presentation.focal_point.y }}%"
+        >
+
+        {%- if block.settings.image_alter -%}
+          <img
+            srcset="{% render 'image-srcset', image: block.settings.image_alter %}"
+            sizes="100vw"
+            src="{{ block.settings.image_alter | image_url: width: 2048 }}"
+            alt="{{ block.settings.image_alter.alt | escape }}"
+            width="{{ block.settings.image_alter.width }}"
+            height="{{ block.settings.image_alter.height }}"
+            loading="lazy"
+            fetchpriority="low"
+            class="media hidden≥768"
+            style="--focal-point-x: {{ block.settings.image_alter.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image_alter.presentation.focal_point.y }}%"
+          >
+
+        {%- else -%}
+          <img
+            srcset="{% render 'image-srcset', image: block.settings.image %}"
+            sizes="100vw"
+            src="{{ block.settings.image | image_url: width: 2048 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+            loading="lazy"
+            fetchpriority="low"
+            class="media hidden≥768"
+            style="--focal-point-x: {{ block.settings.image.presentation.focal_point.x }}%; --focal-point-y: {{ block.settings.image.presentation.focal_point.y }}%"
+          >
+        {%- endif -%}
+
+        <div class="banner-content banner-overlay">
+          {%- if block.settings.title != blank -%}
+            <h2 class="banner-title typography--heading-1">
+              {{ block.settings.title }}
+            </h2>
+          {%- endif -%}
+          {%- if block.settings.cta_text != blank -%}
+            <a
+              href="{{ block.settings.cta_link }}"
+              class="banner-cta link button button--tertiary typography--body-regular"
+            >
+              {{- block.settings.cta_text -}}
+              {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% style %}
+  {%- for block in section.blocks -%}
+
+  .hp-editorial-list-{{ section.id }} .hp-banner-{{ block.id }} .banner-overlay {
+    background-color: rgba(0,0,0,0.{{ block.settings.overlay_opacity }});
+  }
+
+  @media screen and (min-width: 768px) {
+    .hp-editorial-list-{{ section.id }} .hp-banner-{{ block.id }} .banner-content{
+      display: grid;
+      justify-content: {{ block.settings.text_placement_hor }};
+      align-content: {{ block.settings.text_placement_vert }};
+      justify-items: {{ block.settings.text_alignment }};
+      text-align: {{ block.settings.text_alignment }};
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .hp-editorial-list-{{ section.id }} .hp-banner-{{ block.id }} .banner-content{
+      display: grid;
+      justify-content: {{ block.settings.text_placement_hor_alter }};
+      align-content: {{ block.settings.text_placement_vert_alter }};
+      justify-items: {{ block.settings.text_alignment_alter }};
+      text-align: {{ block.settings.text_alignment_alter }};
+    }
+  }
+
+  {%- endfor -%}
+
+  @media screen and (min-width: 768px) {
+    .hp-editorial-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+    .hp-editorial-list-{{ section.id }}{
+      padding-top: {{ section.settings.padding_top_alter }}px;
+      padding-bottom: {{ section.settings.padding_bottom_alter }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "HP Editorial List",
+  "tag": "section",
+  "class": "section--hp-editorial-list",
+  "max_blocks": 4,
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_alter",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "block",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_alter",
+          "label": "Image (Mobile)"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "label": "Overlay Opacity",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Link"
+        },
+        {
+          "type": "radio",
+          "id": "text_placement_hor",
+          "label": "Text Placement Horizontal",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "radio",
+          "id": "text_placement_vert",
+          "label": "Text Placement Vertical",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "end"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "radio",
+          "id": "text_placement_hor_alter",
+          "label": "Text Placement Horizontal (Mobile)",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "radio",
+          "id": "text_placement_vert_alter",
+          "label": "Text Placement Vertical (Mobile)",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "end"
+        },
+        {
+          "type": "radio",
+          "id": "text_alignment_alter",
+          "label": "Text Alignment (Mobile)",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP Editorial List"
+    }
+  ]
+}
+{% endschema %}

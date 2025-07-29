@@ -1,0 +1,1027 @@
+<script src="{{ 'faq-accordions-handler.js' | asset_url }}" defer></script>
+
+{% style %}
+
+.accordions-{{ section.id }}{
+    width: 100%;
+    max-width: 72.4rem;
+    margin: auto;
+}
+.accordions-{{ section.id }} .accordion-wrapper .accordion-title.active:last-of-type{
+    border-bottom: 0px;
+}
+
+/* accordion-title */
+.accordions-{{ section.id }} .accordion-title {
+    cursor: pointer;
+    padding: 2rem 0rem 1.6rem;
+    width: 100%;
+    text-align: left;
+    border-top: 1px solid rgb(var(--color-grey)) !important;
+    position: relative;
+    transition: none;
+}
+.accordions-{{ section.id }} .accordion-title:focus {
+    outline: .2rem solid rgb(var(--color-focus));
+    outline-offset: .3rem;
+    z-index: 10;
+}
+.accordions-{{ section.id }} .accordion-title:after {
+    content: '';
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='15' viewBox='0 0 16 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0.5' y1='7.5' x2='15.5' y2='7.5' stroke='%23201F1E'/%3E%3Cline x1='8' x2='8' y2='15' stroke='%23201F1E'/%3E%3C/svg%3E");
+    float: right;
+    margin-left: 0.5rem;
+    width: 15px;
+    height: 15px;
+    background-size: auto;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.accordions-{{ section.id }} .accordion-title.active:after {
+    content: "";
+    width: 15px;
+    height: 1px;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='2' viewBox='0 0 16 2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0.5' y1='1' x2='15.5' y2='1' stroke='%23201F1E'/%3E%3C/svg%3E");
+    background-size: auto;
+}
+/* accordion-detail */
+
+.accordions-{{ section.id }} .accordion-title{
+    cursor: pointer;
+    outline: none;
+    transition: 0.4s;
+    border: none;
+    padding-right: 2.5rem;
+}
+.accordions-{{ section.id }} .accordion-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    padding-right: 2rem;
+}
+
+.accordions-{{ section.id }} .accordion-item {
+    display: none;
+}
+.accordions-{{ section.id }} .accordion-item.active {
+    display: block;
+}
+
+.accordions-{{ section.id }} .filter-button.active{
+    border: .1rem solid rgb(var(--color-black));
+}
+.accordions-{{ section.id }} .accordion-navigation {
+    display: flex;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    max-width: unset;
+    margin-left: unset;
+    flex-flow: row nowrap;
+    max-width: 100%;
+    width: fit-content;
+    margin-inline: auto;
+    gap: 1.6rem;
+}
+.accordions-{{ section.id }} .filter-button{
+    text-decoration: none;
+}
+#accordions-{{ section.id }} .accordion-detail > * {
+    margin-bottom: 1.8rem;
+}
+
+#accordions-{{ section.id }}{  
+    {% if section.settings.show_border_top %}
+        border-top: .1rem solid rgb(var(--color-grey));
+    {% endif %}
+    {% if section.settings.show_border_bottom %}
+        border-bottom: .1rem solid rgb(var(--color-grey));
+    {% endif %}
+}
+
+@media screen and (min-width: 768px){
+    #accordions-{{ section.id }}{
+        padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+    }
+    .accordions-{{ section.id }} .accordion-navigation {
+        padding: 2rem 0rem 4.8rem;
+    }
+    .accordions-{{ section.id }} .accordion-wrapper {
+        margin-bottom: 4rem;
+    }
+}
+@media screen and (max-width: 767px) {
+    #accordions-{{ section.id }}{
+        padding: {{ section.settings.padding_top_mob }}px 0 {{ section.settings.padding_bottom_mob }}px;
+    }
+    .accordions-{{ section.id }} .accordion-navigation {
+        padding: 2rem 0rem 3.2rem 1.6rem;
+    }
+    .accordions-{{ section.id }} .accordion-wrapper {
+        margin-bottom: 2rem;
+    }
+    #accordions-{{ section.id }} .accordion-item-wrapper{
+        padding: 0rem 1.6rem;
+    }
+    .accordions-{{ section.id }} .accordion-title:after {
+        width: 11px;
+        height: 11px;
+        top: 52%;
+    }
+    .accordions-{{ section.id }} .accordion-title.active:after {
+        width: 11px;
+    }
+    .accordions-{{ section.id }} .accordion-navigation {
+        gap: 1.2rem;
+    }
+    .accordions-{{ section.id }} .accordion-navigation > :last-child {
+        margin-right: 1.6rem;
+    }
+    .accordions-{{ section.id }} .accordion-title, .accordions-{{ section.id }} .accordion-detail{
+        padding-right: 1.7rem;
+    }
+}
+{% endstyle %}
+
+<div id="accordions-{{ section.id }}">
+    <div class="accordions-{{ section.id }} accordions" role="region">
+        <div class="accordion-wrapper">
+            <div class="accordion-navigation">
+                <button class="filter-button button button--tag-big typography--body-regular" data-filter="all">All</button>
+                {% assign unique_tags = "" %}
+                {% for block in section.blocks %}
+                    {% assign tag = block.settings.tag | downcase %}
+                    {% if tag != "" %}
+                        {% assign tag_list = unique_tags | split: "," %}
+                        {% unless tag_list contains tag %}
+                            {% assign unique_tags = unique_tags | append: tag | append: "," %}
+                            <button class="filter-button button button--tag-small typography--body-regular" data-filter="{{ tag }}">{{ block.settings.tag | capitalize }}</button>
+                        {% endunless %}
+                    {% endif %}
+                {% endfor %}
+            </div>                                  
+            <div class="accordion-item-wrapper">
+                {% for block in section.blocks %}
+                    {% if block.settings.accordion_title != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title2 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title2 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title2 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail2 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title3 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title3 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title3 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail3 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title4 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title4 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title4 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail4 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title5 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title5 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title5 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail5 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title6 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title6 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title6 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail6 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title7 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title7 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title7 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail7 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title8 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title8 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title8 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail8 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title9 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title9 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title9 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail9 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title10 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title10 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title10 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail10 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title11 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title11 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title11 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail11 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title12 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title12 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title12 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail12 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title13 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title13 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title13 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail13 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title14 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title14 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title14 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail14 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title15 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title15 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title15 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail15 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title16 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title16 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title16 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail16 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title17 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title17 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title17 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail17 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title18 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title18 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title18 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail18 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title19 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title19 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title19 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail19 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title20 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title10 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title20 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail20 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title21 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title21 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title21 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail21 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title22 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title22 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title22 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail22 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title23 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title23 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title23 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail23 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title24 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title24 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title24 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail24 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title25 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title25 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title25 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail25 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title26 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title26 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title26 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail26 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title27 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title27 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title27 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail27 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title28 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title28 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title28 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail28 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title29 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title29 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title29 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail29 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.accordion_title30 != blank %}
+                    <div class="accordion-item" data-tag="{{ block.settings.tag }}">
+                        <button aria-label="{{ block.settings.accordion_title30 }}" class="accordion-title typography--body-regular-bold">
+                            {{ block.settings.accordion_title30 }}
+                        </button>
+
+                        <div class="accordion-detail typography--body-regular">
+                            {{ block.settings.accordion_detail30 
+                            |  replace: "<h1", "<h1 class='typography--heading-1'"
+                            |  replace: "<h2", "<h2 class='typography--heading-2'"
+                            |  replace: "<strong", "<strong class='typography--body-regular-bold'"
+                            |  replace: "<a", "<a class='link--hover-color-change'" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+
+{
+"name": "FAQ Accordions",
+"tag": "section",
+"class": "section-faqs-accordions",
+"limit": 1,
+"enabled_on": {
+    "templates": ["page"]
+},
+"settings": [
+    {
+        "type": "checkbox",
+        "id": "show_border_top",
+        "label": "Show Border Top",
+        "default": false
+    },
+    {
+        "type": "checkbox",
+        "id": "show_border_bottom",
+        "label": "Show Border Bottom",
+        "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+],
+"blocks": [
+    {
+      "name": "Accordion",
+      "type": "block",
+      "settings": [
+        {
+            "type": "header",
+            "content": "Accordion Tag",
+        },
+        {
+            "type": "text",
+            "id": "tag",
+            "label": "Accordion Tag",
+            "info": "Enter a tag to categorize this accordion. The tag will automatically be included in the accordion navigation above, allowing users to filter by category."
+        },
+        {
+            "type": "header",
+            "content": "Accordion Content"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title",
+            "label": "Accordion Title 1"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail",
+            "label": "Accordion Content 1"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title2",
+            "label": "Accordion Title 2"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail2",
+            "label": "Accordion Content 2"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title3",
+            "label": "Accordion Title 3"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail3",
+            "label": "Accordion Content 3"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title4",
+            "label": "Accordion Title 4"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail4",
+            "label": "Accordion Content 4"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title5",
+            "label": "Accordion Title 5"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail5",
+            "label": "Accordion Content 5"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title6",
+            "label": "Accordion Title 6"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail6",
+            "label": "Accordion Content 6"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title7",
+            "label": "Accordion Title 7"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail7",
+            "label": "Accordion Content 7"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title8",
+            "label": "Accordion Title 8"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail8",
+            "label": "Accordion Content 8"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title9",
+            "label": "Accordion Title 9"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail9",
+            "label": "Accordion Content 9"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title10",
+            "label": "Accordion Title 10"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail10",
+            "label": "Accordion Content 10"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title11",
+            "label": "Accordion Title 11"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail11",
+            "label": "Accordion Content 11"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title12",
+            "label": "Accordion Title 12"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail12",
+            "label": "Accordion Content 12"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title13",
+            "label": "Accordion Title 13"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail13",
+            "label": "Accordion Content 13"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title14",
+            "label": "Accordion Title 14"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail14",
+            "label": "Accordion Content 14"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title15",
+            "label": "Accordion Title 15"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail15",
+            "label": "Accordion Content 15"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title16",
+            "label": "Accordion Title 16"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail16",
+            "label": "Accordion Content 16"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title17",
+            "label": "Accordion Title 17"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail17",
+            "label": "Accordion Content 17"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title18",
+            "label": "Accordion Title 18"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail18",
+            "label": "Accordion Content 18"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title19",
+            "label": "Accordion Title 19"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail19",
+            "label": "Accordion Content 19"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title20",
+            "label": "Accordion Title 20"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail20",
+            "label": "Accordion Content 20"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title21",
+            "label": "Accordion Title 21"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail21",
+            "label": "Accordion Content 21"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title22",
+            "label": "Accordion Title 22"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail22",
+            "label": "Accordion Content 22"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title23",
+            "label": "Accordion Title 23"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail23",
+            "label": "Accordion Content 23"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title24",
+            "label": "Accordion Title 24"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail24",
+            "label": "Accordion Content 24"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title25",
+            "label": "Accordion Title 25"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail25",
+            "label": "Accordion Content 25"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title26",
+            "label": "Accordion Title 26"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail26",
+            "label": "Accordion Content 26"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title27",
+            "label": "Accordion Title 27"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail27",
+            "label": "Accordion Content 27"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title28",
+            "label": "Accordion Title 28"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail28",
+            "label": "Accordion Content 28"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title29",
+            "label": "Accordion Title 29"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail29",
+            "label": "Accordion Content 29"
+        },
+        {
+            "type": "text",
+            "id": "accordion_title30",
+            "label": "Accordion Title 30"
+        },
+        {
+            "type": "richtext",
+            "id": "accordion_detail30",
+            "label": "Accordion Content 30"
+        }
+    ]
+    }
+],
+"presets": [
+    {
+        "name": "Global Accordions"
+    } 
+]
+}
+
+
+{% endschema %}

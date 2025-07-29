@@ -1,0 +1,367 @@
+{{ 'cart-main.css' | asset_url | stylesheet_tag }}
+<div id="Cart" class="cart {% if cart == empty %} is-empty{% endif %}">
+  <div class="cart-content">
+    <div class="cart-empty {% if cart != empty %} hidden{% endif %}">
+      <h2 class="cart-empty-title typography--heading-1">
+        {{ 'cart.empty' | t }}
+      </h2>
+    </div>
+
+    <div class="cart-header {% if cart == empty %} hidden{% endif %}">
+      <h1 class="typography--heading-1">
+        {{ 'cart.page_title' | t }}
+        <span class="cart-count">({{ cart.item_count }})</span>
+      </h1>
+    </div>
+
+    <cart-items class="cart-items {% if cart == empty %} hidden{% endif %}">
+      <form action="{{ routes.cart_url }}" id="Cart-Form" class="cart-form" method="post">
+        <div id="main-cart-items">
+          <div
+            id="Cart-Items"
+            class="cart-items"
+            data-id="{{ section.id }}"
+          >
+            <table class="cart-table">
+              <thead class="hidden≤991">
+                <tr>
+                  <th class="typography--body-regular-bold" colspan="2" scope="col">
+                    {{ 'cart.table_heading_product' | t }}
+                  </th>
+                  <th
+                    class="typography--body-regular-bold hidden≤991"
+                    colspan="1"
+                    scope="col"
+                  >
+                    {{ 'cart.table_heading_quantity' | t }}
+                  </th>
+                  <th class="typography--body-regular-bold" colspan="1" scope="col">
+                    {{ 'cart.table_heading_total' | t }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for item in cart.items -%}
+                  {%- assign is_gwp_item = false -%}
+                  {%- if item.product.type == 'GWP' -%}
+                    {%- assign is_gwp_item = true -%}
+                  {%- endif -%}
+
+                  {%- assign is_lensadvizor_item = false -%}
+                  {% assign is_warranty = false %}
+                  {%- if item.product.tags contains 'LensAdvizor'
+                    or item.product.type == 'LensAdvizor'
+                    or item.product.vendor == 'LensAdvizor'
+                  -%}
+                    {%- assign is_lensadvizor_item = true -%}
+                  {%- endif -%}
+                  {%- if item.product.tags contains 'Warranty' -%}
+                    {%- assign is_warranty = true -%}
+                  {%- endif -%}
+
+                  {%- comment -%}
+                    If the item is a LensAdvizor item or GWP item, we don't want to show the remove button
+                  {%- endcomment -%}
+
+                  <tr id="Cart-Item-{{ item.index | plus: 1 }}" class="cart-item" data-cart-item-key="{{ item.key }}" data-cart-index="{{ item.index | plus: 1 }}">
+                    <td class="cart-item-section--media">
+                      {% if item.image %}
+                        <div class="ratio ratio--inline">
+                          <img
+                            src="{{ item.image | image_url: width: 480 }}"
+                            alt="{{ item.image.alt | escape }}"
+                            loading="lazy"
+                            width="{{ item.image.width }}"
+                            height="{{ item.image.height }}"
+                            class="media"
+                          >
+                        </div>
+                        {%- unless is_lensadvizor_item or is_gwp_item -%}
+                          <a
+                            class="link link--covering focus-none"
+                            href="{{ item.url }}"
+                            tabindex="-1"
+                            aria-hidden="true"
+                          >
+                            <span class="visually-hidden">
+                              {{- 'accessibility.link_to_item' | t: item: item.product.title -}}
+                            </span>
+                          </a>
+                        {%- endunless -%}
+                      {% endif %}
+                    </td>
+                    <td class="cart-item-section--details">
+                      <!-- title -->
+                      <h3 class="cart-item-title break-word typography--body-regular">
+                        {%- unless is_lensadvizor_item or is_gwp_item -%}
+                          <a href="{{ item.url }}" class="cart-item-link link link--block">
+                            {{- item.product.title -}}
+                          </a>
+                        {% else %}
+                          <span class="cart-item-link link link--block">
+                            {{- item.product.title -}}
+                          </span>
+                        {%- endunless -%}
+                      </h3>
+
+                      <!-- option, property, plan -->
+
+                      {%- if item.product.has_only_default_variant == false -%}
+                        <div class="cart-item-option-list">
+                          {%- for option in item.options_with_values -%}
+                            <div class="cart-item-option typography--navigation">
+                              <span class="visually-hidden">{{ option.name }}: </span>
+
+                              <span>
+                                {{- option.value -}}
+                              </span>
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      {%- endif -%}
+
+                      {%- if item.properties.size != 0 -%}
+                        <div class="cart-item-property-list">
+                          {%- for property in item.properties -%}
+                            {%- assign property_first_char = property.first | slice: 0 -%}
+                            {%- if property.last != blank and property_first_char != '_' -%}
+                              <div class="cart-item-property typography--navigation">
+                                <span>{{ property.first }}: </span>
+                                <span>{{ property.last }}</span>
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      {%- endif -%}
+
+                      {%- if item.selling_plan_allocation != null -%}
+                        <p class="cart-item-plan typography--navigation">
+                          {{ item.selling_plan_allocation.selling_plan.name }}
+                        </p>
+                      {%- endif -%}
+
+                      <div id="Cart-Lineitem-Error-{{ item.index | plus: 1 }}" class="cart-error" role="alert">
+                        <p class="cart-item__error-text"></p>
+                      </div>
+                    </td>
+                    <td class="cart-item-section--quantity">
+                      <!-- quantity -->
+                      {%- unless is_lensadvizor_item or is_gwp_item -%}
+                        {%- assign item_count_for_variant = cart | item_count_for_variant: item.variant.id -%}
+                        <span class="visually-hidden">{{ 'product.quantity.label' | t }}:</span>
+                        <quantity-input class="quantity-picker cart-item-quantity-picker">
+                          <button class="quantity__button" name="minus" type="button">
+                            <span class="visually-hidden">
+                              {{- 'product.quantity.decrease' | t: product: item.product.title | escape -}}
+                            </span>
+                            {{- 'icon-minus.svg' | inline_asset_content -}}
+                          </button>
+                          <input
+                            readonly
+                            id="Quantity-{{ item.index | plus: 1 }}"
+                            class="quantity__input"
+                            type="number"
+                            name="updates[]"
+                            value="{{ item.quantity }}"
+                            min="1"
+                            {% if item.product.metafields.custom.cl_annual_supply_boxes %}
+                              {%- assign item_max = item.product.metafields.custom.cl_annual_supply_boxes
+                                | divided_by: 2
+                              -%}
+                              max="{{ item_max }}"
+                            {% endif %}
+                            step="1"
+                            aria-label="{{ 'product.quantity.input_label' | t: product: item.product.title | escape }}"
+                            data-index="{{ item.index | plus: 1 }}"
+                            data-quantity-variant-id="{{ item.variant.id }}"
+                            data-cart-quantity="{{ item_count_for_variant }}"
+                          >
+                          <button class="quantity__button" name="plus" type="button">
+                            <span class="visually-hidden">
+                              {{- 'product.quantity.increase' | t: product: item.product.title | escape -}}
+                            </span>
+                            {{- 'icon-plus.svg' | inline_asset_content -}}
+                          </button>
+                        </quantity-input>
+                        <cart-remove-button
+                          class="cart-item-remove"
+                          id="Remove-{{ item.index | plus: 1 }}"
+                          data-index="{{ item.index | plus: 1 }}"
+                        >
+                          <a
+                            href="{{ item.url_to_remove }}"
+                            class="cart-remove-link link link--block link--underline link--hover-color-change typography--navigation"
+                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                          >
+                            {{ 'cart.remove_button_label' | t }}
+                          </a>
+                        </cart-remove-button>
+                      {%- else -%}
+                        <span class="visually-hidden">{{ 'product.quantity.label' | t }}:</span>
+                        <div class="typography--navigation">
+                          {{- item.quantity -}}
+                        </div>
+                        {% if is_warranty %}
+                          <cart-remove-button
+                            class="cart-item-remove"
+                            id="Remove-{{ item.index | plus: 1 }}"
+                            data-index="{{ item.index | plus: 1 }}"
+                          >
+                            <a
+                              href="{{ item.url_to_remove }}"
+                              class="cart-remove-link link link--block link--underline link--hover-color-change typography--navigation"
+                              aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                            >
+                              {{ 'cart.remove_button_label' | t }}
+                            </a>
+                          </cart-remove-button>
+                        {% endif %}
+                      {%- endunless -%}
+                    </td>
+                    <td class="cart-item-section--totals">
+                      {%- render 'loading-spinner' -%}
+
+                      {%- comment -%}
+                        when the price difference comes from real discount through shopify discount/script editor
+                      {%- endcomment -%}
+
+                      {%- if item.original_price != item.final_price -%}
+                        <div class="cart-item-price cart-item-price--discounted typography--body-regular">
+                          <span class="visually-hidden visually-hidden--inline">
+                            {{- 'product.price.regular_price' | t -}}
+                          </span>
+                          <s class="cart-item-price-item cart-item-price-item--compare">
+                            {%- if settings.money_trailing_zeros_enable -%}
+                              {{- item.original_line_price | money -}}
+                            {%- else -%}
+                              {{- item.original_line_price | money_without_trailing_zeros -}}
+                            {%- endif -%}
+                          </s>
+
+                          <span class="visually-hidden visually-hidden--inline">
+                            {{- 'product.price.sale_price' | t -}}
+                          </span>
+                          <span class="cart-item-price-item cart-item-price-item--sale">
+                            {%- if settings.money_trailing_zeros_enable -%}
+                              {{- item.final_line_price | money -}}
+                            {%- else -%}
+                              {{- item.final_line_price | money_without_trailing_zeros -}}
+                            {%- endif -%}
+                          </span>
+                        </div>
+
+                        {%- comment -%}
+                          when the price difference only comes from compare at price through product price
+                        {%- endcomment -%}
+
+                      {%- elsif item.variant.compare_at_price > item.variant.price -%}
+                        <div class="cart-item-price cart-item-price-onsale typography--heading-5">
+                          <span class="visually-hidden visually-hidden--inline">
+                            {{- 'product.price.compare_at_price' | t -}}
+                          </span>
+                          <s class="cart-item-price-item cart-item-price-item--compare">
+                            {%- if settings.money_trailing_zeros_enable -%}
+                              {{- item.product.compare_at_price | money -}}
+                            {%- else -%}
+                              {{- item.product.compare_at_price | money_without_trailing_zeros -}}
+                            {%- endif -%}
+                          </s>
+
+                          <span class="visually-hidden visually-hidden--inline">
+                            {{- 'product.price.sale_price' | t -}}
+                          </span>
+                          <span class="cart-item-price-item cart-item-price-item--sale">
+                            {%- if settings.money_trailing_zeros_enable -%}
+                              {{- item.final_line_price | money -}}
+                            {%- else -%}
+                              {{- item.final_line_price | money_without_trailing_zeros -}}
+                            {%- endif -%}
+                          </span>
+                        </div>
+
+                        {%- comment -%}
+                          when no price difference
+                        {%- endcomment -%}
+
+                      {%- else -%}
+                        <div class="cart-item-price typography--body-regular">
+                          <span class="visually-hidden visually-hidden--inline">
+                            {{- 'product.price.regular_price' | t -}}
+                          </span>
+                          <span class="cart-item-price-item cart-item-price-item--regular">
+                            {%- if settings.money_trailing_zeros_enable -%}
+                              {{- item.final_line_price | money -}}
+                            {%- else -%}
+                              {{- item.final_line_price | money_without_trailing_zeros -}}
+                            {%- endif -%}
+                          </span>
+                        </div>
+                      {%- endif -%}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </cart-items>
+
+    <div id="cart-footer" class="cart-footer {% if cart == empty %} hidden{% endif %}">
+      <div class="cart-footer-inner">
+        <div class="cart-summary" role="status">
+          <h2 class="cart-summary-title typography--heading-2-bold">{{ 'cart.subtotal' | t }}</h2>
+          <p class="cart-summary-value typography--heading-2-bold">
+            {%- if settings.money_trailing_zeros_enable -%}
+              {{- cart.total_price | money -}}
+            {%- else -%}
+              {{- cart.total_price | money_without_trailing_zeros -}}
+            {%- endif -%}
+          </p>
+        </div>
+        <div class="cart-next-step-msg typography--body-regular">
+          {{- 'cart.next_step' | t -}}
+        </div>
+        <div class="cart-ctas">
+          <button
+            type="submit"
+            id="Cart-Checkout"
+            class="cart-checkout button button--primary typography--cta"
+            name="checkout"
+            form="Cart-Form"
+            {% if cart == empty %}
+              disabled
+            {% endif %}
+          >
+            {{ 'cart.checkout_button_label' | t }}
+          </button>
+        </div>
+
+        <div id="Cart-Errors" class="cart-errors typography--heading-3" role="alert"></div>
+      </div>
+    </div>
+
+    <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
+    <p
+      class="visually-hidden"
+      id="shopping-cart-line-item-status"
+      aria-live="polite"
+      aria-hidden="true"
+      role="status"
+    >
+      {{ 'accessibility.loading' | t }}
+    </p>
+    <div id="cart-errors" class="hidden"></div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Cart Main",
+  "tag": "section",
+  "class": "section--cart-main",
+  "enabled_on": {
+    "templates": ["cart"]
+  },
+  "settings": []
+}
+{% endschema %}

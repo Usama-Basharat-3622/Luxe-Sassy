@@ -1,0 +1,302 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "theme",
+  "wrapper": "div.product-template-sections-wrapper.template-sections-wrapper",
+  "sections": {
+    "pdp-main": {
+      "type": "pdp-main",
+      "blocks": {
+        "breadcrumbs_ggVgPY": {
+          "type": "breadcrumbs",
+          "settings": {}
+        },
+        "heading_YbzzLG": {
+          "type": "heading",
+          "settings": {
+            "title": "{{ product.vendor }}",
+            "subtitle": "{{ product.title }}"
+          }
+        },
+        "tag_a3A4zw": {
+          "type": "tag",
+          "settings": {
+            "product_tag_list_dynamic": "{{ product.metafields.custom.tag_list.value }}",
+            "product_tag_list_static": ["free-shipping-and-returns", "save-15"]
+          }
+        },
+        "price_rTUare": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_tPnXKw": {
+          "type": "variant_picker",
+          "settings": {
+            "option_handle": "size",
+            "cta_text": "Size Guide",
+            "page_dynamic": "{{ product.metafields.custom.size_guide.value }}",
+            "page_static": "size-guide-dev-placeholder"
+          }
+        },
+        "buy_buttons_npgmbp": {
+          "type": "buy_buttons",
+          "settings": {
+            "link_title": "Find and try on in store",
+            "link_url": "shopify://pages/stores"
+          }
+        },
+        "lensadvisor_select_lenses_app_app_block_NLaHa8": {
+          "type": "shopify://apps/lensadvisor-select-lenses-app/blocks/app-block/86552bcb-0c5c-439e-b59c-d8577012ea59",
+          "settings": {
+            "hide_add_to_cart": true
+          }
+        },
+        "custom_liquid_8b9naF": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumbs_ggVgPY",
+        "heading_YbzzLG",
+        "tag_a3A4zw",
+        "price_rTUare",
+        "variant_picker_tPnXKw",
+        "buy_buttons_npgmbp",
+        "lensadvisor_select_lenses_app_app_block_NLaHa8",
+        "custom_liquid_8b9naF"
+      ],
+      "settings": {
+        "gallery_aspect_ratio": "1/1"
+      }
+    },
+    "pdp-nav": {
+      "type": "pdp-nav",
+      "blocks": {
+        "block_G6TVbJ": {
+          "type": "block",
+          "settings": {
+            "title": "Description",
+            "section_anchor_id": "description"
+          }
+        },
+        "block_JDkYrx": {
+          "type": "block",
+          "settings": {
+            "title": "Product measurement",
+            "section_anchor_id": "measurement"
+          }
+        },
+        "block_4cPLab": {
+          "type": "block",
+          "settings": {
+            "title": "Specifications",
+            "section_anchor_id": "specs"
+          }
+        },
+        "block_6B6trC": {
+          "type": "block",
+          "settings": {
+            "title": "Related Products",
+            "section_anchor_id": "recommendation"
+          }
+        }
+      },
+      "block_order": [
+        "block_G6TVbJ",
+        "block_JDkYrx",
+        "block_4cPLab",
+        "block_6B6trC"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
+    "pdp-desc": {
+      "type": "pdp-desc",
+      "settings": {
+        "section_anchor_id": "description",
+        "product_tag_list_dynamic": "{{ product.metafields.custom.tag_list_description.value }}",
+        "product_tag_list_static": [
+          "free-shipping-and-returns",
+          "365-day-warranty",
+          "virtual-try-on",
+          "available-in-2-sizes"
+        ],
+        "padding_top": 24,
+        "padding_bottom": 0,
+        "padding_top_alter": 24,
+        "padding_bottom_alter": 0
+      }
+    },
+    "pdp-measure": {
+      "type": "pdp-measure",
+      "settings": {
+        "section_anchor_id": "measurement",
+        "title": "Product Measurement",
+        "product_measurement_list_dynamic": "{{ product.metafields.custom.measurement_list.value }}",
+        "product_measurement_list_static": [
+          "frame-length",
+          "lens-width",
+          "bridge-width",
+          "temple-length"
+        ],
+        "padding_top": 16,
+        "padding_bottom": 0,
+        "padding_top_alter": 16,
+        "padding_bottom_alter": 0
+      }
+    },
+    "pdp-specs": {
+      "type": "pdp-specs",
+      "blocks": {
+        "block_tEq9qa": {
+          "type": "block",
+          "settings": {
+            "title": "UPC",
+            "object": "variant",
+            "handle": "barcode"
+          }
+        },
+        "block_gEG7BX": {
+          "type": "block",
+          "settings": {
+            "title": "Color Description",
+            "object": "variant_metafield",
+            "handle": "custom.f_color_description"
+          }
+        },
+        "block_enyTYy": {
+          "type": "block",
+          "settings": {
+            "title": "Size Description",
+            "object": "variant_metafield",
+            "handle": "custom.f_size_description"
+          }
+        },
+        "block_gqXkKk": {
+          "type": "block",
+          "settings": {
+            "title": "Lens Options",
+            "object": "variant_metafield",
+            "handle": ""
+          }
+        },
+        "block_KQygfn": {
+          "type": "block",
+          "settings": {
+            "title": "Material Description",
+            "object": "variant_metafield",
+            "handle": "custom.f_frame_material_description"
+          }
+        },
+        "block_LAUaqF": {
+          "type": "block",
+          "settings": {
+            "title": "Brand Model",
+            "object": "variant_metafield",
+            "handle": "custom.f_brand_model"
+          }
+        },
+        "block_p8h7Fg": {
+          "type": "block",
+          "settings": {
+            "title": "Shape",
+            "object": "variant_metafield",
+            "handle": "custom.f_shape_filter"
+          }
+        },
+        "block_WGyQPi": {
+          "type": "block",
+          "settings": {
+            "title": "Bridge Fit",
+            "object": "variant_metafield",
+            "handle": "custom.f_bridge_fit"
+          }
+        },
+        "block_LEnHzP": {
+          "type": "block",
+          "settings": {
+            "title": "Spring Hinge",
+            "object": "variant_metafield",
+            "handle": "custom.f_spring_hinge"
+          }
+        }
+      },
+      "block_order": [
+        "block_tEq9qa",
+        "block_gEG7BX",
+        "block_enyTYy",
+        "block_gqXkKk",
+        "block_KQygfn",
+        "block_LAUaqF",
+        "block_p8h7Fg",
+        "block_WGyQPi",
+        "block_LEnHzP"
+      ],
+      "settings": {
+        "section_anchor_id": "specs",
+        "title": "Specifications",
+        "padding_top": 16,
+        "padding_bottom": 80,
+        "padding_top_alter": 16,
+        "padding_bottom_alter": 32
+      }
+    },
+    "pdp-content-block-list": {
+      "type": "pdp-content-block-list",
+      "settings": {
+        "product_content_block_list_static": ["book-an-appointment"],
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
+    "pdp-recommendation": {
+      "type": "pdp-recommendation",
+      "settings": {
+        "section_anchor_id": "recommendation",
+        "title": "Related Products",
+        "products_to_show": 12,
+        "padding_top": 30,
+        "padding_bottom": 30,
+        "padding_top_alter": 24,
+        "padding_bottom_alter": 24
+      }
+    },
+    "pdp-recently-viewed": {
+      "type": "pdp-recently-viewed",
+      "settings": {
+        "title": "Recently Viewed",
+        "products_to_show": 12,
+        "padding_top": 30,
+        "padding_bottom": 80,
+        "padding_top_alter": 24,
+        "padding_bottom_alter": 54
+      }
+    }
+  },
+  "order": [
+    "pdp-main",
+    "pdp-nav",
+    "pdp-desc",
+    "pdp-measure",
+    "pdp-specs",
+    "pdp-content-block-list",
+    "pdp-recommendation",
+    "pdp-recently-viewed"
+  ]
+}

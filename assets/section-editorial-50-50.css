@@ -1,0 +1,65 @@
+@media screen and (min-width: 992px) {
+    .editorial-50-50 .banner {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    .editorial-50-50 .banner > * {
+      flex: 0 0 50%;
+      min-width: 0;
+    }
+    .editorial-50-50 .banner-content {
+      padding: 4rem 2.4rem;
+    }
+  
+    .editorial-50-50 .banner-paragraph {
+      margin-top: 1rem;
+    }
+  
+    .editorial-50-50 .banner-cta {
+      margin-top: 1.6rem;
+    }
+  }
+  .banner-paragraph > *:not(:first-child){
+    margin-top: 1.6rem;
+  }
+  .banner-paragraph .h2:first-of-type {
+    padding-top: 2rem;
+    border-top: 1px solid rgb(var(--color-grey));
+  }
+  .banner-paragraph > *.h2:not(:first-child){
+    padding-top: 2rem;
+    border-top: 1px solid rgb(var(--color-grey));
+    margin-top: 4rem;
+  }
+  
+  .banner-paragraph ol, .banner-paragraph ul{
+    list-style-position: outside;
+    padding-left: 2.5rem;
+  }
+  .banner-paragraph ol li, .banner-paragraph ul li{
+    padding-left: 0.2rem;
+  }
+  
+  @media only screen and (max-width: 991px) {
+    .editorial-50-50 .banner {
+      display: flex;
+    }
+    .editorial-50-50 .banner-content {
+      padding: 3.2rem 1.6rem;
+    }
+  
+    .editorial-50-50 .banner-paragraph {
+      margin-top: 1rem;
+    }
+  
+    .editorial-50-50 .banner-cta {
+      margin-top: 2rem;
+    }
+    .banner-paragraph p > strong{
+      padding-top: .2rem;
+      display: inline-block;
+  }
+    .banner-paragraph > *.h2:not(:first-child){
+      margin-top: 3.2rem;
+    }
+}

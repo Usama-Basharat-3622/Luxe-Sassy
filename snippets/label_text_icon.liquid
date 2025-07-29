@@ -1,0 +1,19 @@
+{%- if label contains '|' -%}
+  {% comment %} icon + text {% endcomment %}
+  {%- assign label_part_1 = label | split: '|' | first -%}
+  {%- assign label_part_2 = label | split: '|' | last -%}
+  {%- if label_part_1 contains 'icon-' -%}
+    {%- assign label_icon = label_part_1 -%}
+    {%- assign label_title = label_part_2 -%}
+    {{ label_icon | append: '.svg' | inline_asset_content }}
+    <span class="{{ style_class }}">{{ label_title }}</span>
+  {%- elsif label_part_2 contains 'icon-' -%}
+    {%- assign label_title = label_part_1 -%}
+    {%- assign label_icon = label_part_2 -%}
+    <span class="{{ style_class }}">{{ label_title }}</span>
+    {{ label_icon | append: '.svg' | inline_asset_content }}
+  {%- endif -%}
+{%- else -%}
+  {% comment %} text {% endcomment %}
+  <span class="{{ style_class }}">{{ label }}</span>
+{%- endif -%}

@@ -1,0 +1,59 @@
+{%- unless product.has_only_default_variant -%}
+  <variant-selects
+    id="variant-selects-{{ section.id }}"
+    class="product-variant-picker"
+    data-section="{{ section.id }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="product-option-list">
+      {%- for option in product.options_with_values -%}
+        {%- assign option_handle = option.name | handle -%}
+        {%- assign swatch_count = option.values | map: 'swatch' | compact | size -%}
+        {%- if swatch_count > 0 -%}
+          <fieldset class="product-option product-option--swatch product-form__input product-form__input--swatch">
+            <legend class="product-option-title typography--body-regular">
+              <span>{{ option.name }}:</span>
+              <span data-selected-value>
+                {{- option.selected_value -}}
+              </span>
+            </legend>
+            {% render 'product-variant-options', product: product, option: option, picker_type: 'swatch' %}
+          </fieldset>
+        {%- else -%}
+          <fieldset class="product-option product-option--pill product-form__input product-form__input--pill">
+            <div class="product-option-heading">
+              <legend class="product-option-title typography--body-regular">
+                <span>{{ option.name }}:</span>
+                <span class="visually-hidden" data-selected-value>
+                  {{- option.selected_value -}}
+                </span>
+              </legend>
+              {%- if option_handle contains block.settings.option_handle -%}
+                {%- if block.settings.option_handle != blank -%}
+                  <modal-opener
+                    class="pdp-size-guide-modal-opener modal-opener"
+                    data-modal="#PopupModal-{{ block.id }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <button
+                      id="ProductPopup-{{ block.id }}"
+                      class="pdp-product-popup-modal-button link link--underline link--hover-color-change typography--body-regular"
+                      type="button"
+                      aria-haspopup="dialog"
+                    >
+                      {{ block.settings.cta_text | default: block.settings.page.title }}
+                    </button>
+                  </modal-opener>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+            {% render 'product-variant-options', product: product, option: option, picker_type: 'button' %}
+          </fieldset>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <script type="application/json" data-selected-variant>
+      {{ product.selected_or_first_available_variant | json }}
+    </script>
+  </variant-selects>
+{%- endunless -%}
