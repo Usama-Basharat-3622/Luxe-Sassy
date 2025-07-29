@@ -1,6 +1,6 @@
 {% style %}
   @font-face {
-    font-family: 'Karla';
+    font-family: 'KarlaText';
     src: url({{ 'font-Karla-Regular.woff2' | asset_url }}) format('woff2'),
     url({{ 'font-Karla-Regular.woff' | asset_url }}) format('woff');
     font-weight: 400;
@@ -9,10 +9,10 @@
   }
 
   @font-face {
-    font-family: 'Karla';
+    font-family: 'KarlaText';
     src: url({{ 'font-Karla-Bold.woff2' | asset_url }}) format('woff2'),
     url({{ 'font-Karla-Bold.woff' | asset_url }}) format('woff');
-    font-weight: 600;
+    font-weight: 700;
     font-style: normal;
     font-display: swap;
   }
@@ -21,8 +21,8 @@
 
     /* Font Declaration */
 
-    --font-sans-serif-family: 'Karla';
-    --font-serif-family: 'Karla';
+    --font-sans-serif-family: 'KarlaText';
+    --font-serif-family: 'KarlaText';
 
 
     --font-family-heading-1: var(--font-sans-serif-family);
@@ -100,67 +100,62 @@
 
     /* Color Declaration */
 
-    --color-black: 41,43,45;
+    --color-black: 32,31,30;
     --color-white: 255,255,255;
 
     --color-grey-dark: 89,89,89;
-    --color-grey-medium: 202,199,199;
-    --color-grey: 224,226,226;
+    --color-grey-medium: 204,204,204;
+    --color-grey: 232,232,232;
     --color-grey-light: 245,245,245;
 
-    --color-deep-sea: 0,74,69;
-    --color-dark-teal: 0,102,95;
-
-    --color-seafoam-medium: 217,234,232;
-    --color-seafoam-light: 235,250,249;
-
-    --color-burnt-orange: 217,54,0;
-    --color-accent-burnt-orange: 235,74,20;
-    --color-red: 232,6,2;
+    --color-red: 195,32,50;
+    --color-accent-red: 251,53,73;
+    --color-blue-light: 241,250,255;
 
 
     /* Color Assignment */
 
-    --color-primary: var(--color-deep-sea);
+    --color-primary: var(--color-red);
     --color-warning: var(--color-red);
-    --color-focus: var(--color-grey-dark);
-    --color-background: var(--color-seafoam-light);
+    --color-focus: var(--color-black);
+    --color-background: var(--color-grey-light);
 
 
-    --color-text-hover: var(--color-deep-sea);
-    --color-text-active: var(--color-deep-sea);
+    --color-text-hover: var(--color-grey-dark);
+    --color-text-active: var(--color-grey-dark);
 
     --color-text-bubble: var(--color-white);
-    --color-background-bubble: var(--color-burnt-orange);
+    --color-background-bubble: var(--color-red);
 
     --color-text-badge: var(--color-white);
-    --color-background-badge: var(--color-burnt-orange);
+    --color-background-badge: var(--color-red);
 
     --color-text-tag: var(--color-black);
-    --color-background-tag: var(--color-seafoam-light);
+    --color-background-tag: var(--color-blue-light);
 
 
     /* button--small */
 
     --color-text-button-small: var(--color-white);
-    --color-background-button-small: var(--color-burnt-orange);
+    --color-background-button-small: var(--color-red);
 
     --color-text-button-small-hover: var(--color-white);
-    --color-background-button-small-hover: var(--color-accent-burnt-orange);
+    --color-background-button-small-hover: var(--color-accent-red);
 
     --color-text-button-small-active: var(--color-white);
-    --color-background-button-small-active: var(--color-accent-burnt-orange);
+    --color-background-button-small-active: var(--color-accent-red);
+
 
     /* button--primary */
 
     --color-text-button-primary: var(--color-white);
-    --color-background-button-primary: var(--color-deep-sea);
+    --color-background-button-primary: var(--color-red);
 
     --color-text-button-primary-hover: var(--color-white);
-    --color-background-button-primary-hover: var(--color-dark-teal);
+    --color-background-button-primary-hover: var(--color-accent-red);
 
     --color-text-button-primary-active: var(--color-white);
-    --color-background-button-primary-active: var(--color-dark-teal);
+    --color-background-button-primary-active: var(--color-accent-red);
 
     --color-text-button-primary-disabled: var(--color-white);
     --color-background-button-primary-disabled: var(--color-grey-dark);
@@ -168,14 +163,14 @@
 
     /* button--secondary */
 
-    --color-text-button-secondary: var(--color-dark-teal);
+    --color-text-button-secondary: var(--color-red);
     --color-background-button-secondary: var(--color-white);
 
     --color-text-button-secondary-hover: var(--color-white);
-    --color-background-button-secondary-hover: var(--color-dark-teal);
+    --color-background-button-secondary-hover: var(--color-accent-red);
 
     --color-text-button-secondary-active: var(--color-white);
-    --color-background-button-secondary-active: var(--color-dark-teal);
+    --color-background-button-secondary-active: var(--color-accent-red);
 
     --color-text-button-secondary-disabled: var(--color-white);
     --color-background-button-secondary-disabled: var(--color-grey-dark);
@@ -188,17 +183,18 @@
     --color-background-button-tag-big: var(--color-background);
 
     --color-text-button-tag-big-hover: var(--color-black);
-    --color-border-button-tag-big-hover: var(--color-deep-sea);
+    --color-border-button-tag-big-hover: var(--color-black);
     --color-background-button-tag-big-hover: var(--color-background);
 
     --color-text-button-tag-big-active: var(--color-black);
-    --color-border-button-tag-big-active: var(--color-deep-sea);
+    --color-border-button-tag-big-active: var(--color-black);
     --color-background-button-tag-big-active: var(--color-background);
 
 
     /* checkbox */
-    --color-checkbox-background: var(--color-white);
-    --color-input-checkbox-tick: var(--color-black);
+    --color-checkbox-background: var(--color-black);
+    --color-input-checkbox-tick: var(--color-white);
+
   }
 
   :root {

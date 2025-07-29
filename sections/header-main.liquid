@@ -10,7 +10,16 @@
       <div class="header-logo">
     {%- endif -%}
     <a href="{{ routes.root_url }}" class="header-logo-link link link--block">
-      {{- settings.logo_svg -}}
+      <img
+        srcset="{% render 'image-srcset', image: settings.logo_png %}"
+        sizes="50vw"
+        src="{{ settings.logo_png | image_url }}"
+        alt="{{ settings.logo_png.alt | escape }}"
+        width="{{ settings.logo_png.width }}"
+        height="{{ settings.logo_png.height }}"
+        class="media icon"
+        style="--focal-point-x: {{ settings.logo_png.presentation.focal_point.x }}%; --focal-point-y: {{ settings.logo_png.presentation.focal_point.y }}%"
+      >
       <span class="visually-hidden">{{ shop.name }}</span>
     </a>
     {%- if request.page_type == 'index' -%}
@@ -24,22 +33,18 @@
 
     <!-- Side Menu -->
     <ul class="header-side-menu" role="navigation">
-      <!-- Cta -->
-      <li class="header-side-menu-item hidden≤1024">
-        <a
-          href="{{ section.settings.cta_link }}"
-          class="header-side-menu-button link button button--small hidden≤1024"
-        >
-          {% render 'label_text_icon', label: section.settings.cta_text, style_class: 'typography--navigation' %}
-        </a>
-      </li>
       <!-- Search -->
       <li class="header-side-menu-item hidden-header-drawer-open">
         {% render 'header-search' %}
       </li>
-      <!-- Wishlist -->
-      <li class="header-side-menu-item hidden-header-drawer-open" data-wk-header-target>
-        {{- 'icon-heart.svg' | inline_asset_content -}}
+      <!-- Account -->
+      <li class="header-side-menu-item hidden-header-drawer-open">
+        <a
+          href="{{ section.settings.cta_link }}"
+          class=""
+        >
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
       </li>
       <!-- Cart -->
       <li class="header-side-menu-item hidden-header-drawer-open">

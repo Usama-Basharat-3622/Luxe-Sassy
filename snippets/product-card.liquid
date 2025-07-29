@@ -120,20 +120,6 @@
           -%}
         {%- endif -%}
       </div>
-
-      {%- assign price_disabled = false -%}
-      {%- if card_product.type == 'Eyeglasses' -%}
-        {%- assign price_disabled = true -%}
-        {%- if settings.eyeglasses_price_enabled -%}
-          {%- assign price_disabled = false -%}
-        {%- endif -%}
-      {%- endif -%}
-      {%- if card_product.type == 'Sunglasses' -%}
-        {%- assign price_disabled = true -%}
-        {%- if settings.sunglasses_price_enabled -%}
-          {%- assign price_disabled = false -%}
-        {%- endif -%}
-      {%- endif -%}
       
       {%- unless price_disabled -%}
         <div class="product-card-price" data-product-card-price>

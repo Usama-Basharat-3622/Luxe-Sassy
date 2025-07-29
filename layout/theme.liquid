@@ -27,15 +27,7 @@
     {% render 'meta-tags' %}
     {% render 'preload-tags' %}
 
-    {%- case settings.style_config -%}
-      {%- when 'svs' -%}
-        {% render 'style-settings-svs' %}
-      {%- when 'shopko' -%}
-        {% render 'style-settings-shopko' %}
-      {%- when 'befitting' -%}
-        {% render 'style-settings-befitting' %}
-      {%- else -%}
-    {%- endcase -%}
+    {% render 'style-settings' %}
 
     <link href="{{ 'vendor.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ 'vendor-overwrite.css' | asset_url }}" rel="stylesheet" type="text/css" media="all">
