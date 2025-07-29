@@ -16,6 +16,7 @@
       "blocks": {
         "promo_bar_slide_kzwX3X": {
           "type": "promo-bar-slide",
+          "disabled": true,
           "settings": {
             "text": "Shop Contact Lenses",
             "link": "shopify://collections/all-contacts"
@@ -43,6 +44,7 @@
         "promo_bar_slide_xKmfmx",
         "promo_bar_slide_DrxnVk"
       ],
+      "disabled": true,
       "settings": {
         "promo_bar_text_color": "#201f1e",
         "promo_bar_background_color": "#f5f5f5",
