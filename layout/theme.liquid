@@ -37,9 +37,7 @@
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer></script>
     <script src="{{ 'shop.js' | asset_url }}" defer></script>
-    <script src="{{ 'fielmann.js' | asset_url }}" defer></script>
 
-    {% render 'script-external-head' %}
 
     {{ content_for_header }}
 
@@ -69,7 +67,7 @@
       {% sections 'header-group' %}
     </header>
 
-    {% comment %} {% section 'cart-drawer' %} {% endcomment %}
+    {% section 'cart-drawer' %}
 
     <main
       id="MainContent"
@@ -88,6 +86,5 @@
     </ul>
 
     {% render 'script-settings' %}
-    {% render 'script-external-body' %}
   </body>
 </html>
