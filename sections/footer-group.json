@@ -8,62 +8,48 @@
         "link_list_JVJW4P": {
           "type": "link_list",
           "settings": {
-            "heading": "Shop",
-            "menu": ""
+            "heading": "Customer Service",
+            "menu": "footer-menu-1"
           }
         },
         "link_list_ewYgtr": {
           "type": "link_list",
           "settings": {
-            "heading": "Eyecare",
-            "menu": ""
+            "heading": "About",
+            "menu": "footer-menu-2"
+          }
+        },
+        "newsletter_xBxEhm": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Newsletter",
+            "portal_id": "9328207",
+            "form_id": "df2fc5eb-eb4e-427d-b6f0-7853519bb4b2",
+            "newsletter_title": "Sign up to our newsletter to receive exclusive offers.",
+            "newsletter_subtext": "",
+            "newsletter_placeholder": "Enter your email",
+            "newsletter_button": "Subscribe",
+            "success_message": "<p>Thankyou for Subscribing</p>",
+            "success_message_timeout": 10,
+            "error_message": "There seems to be an error while submitting, please try again."
           }
         },
         "link_list_8n3WTh": {
           "type": "link_list",
           "settings": {
-            "heading": "Company",
-            "menu": ""
+            "heading": "More Info",
+            "menu": "footer-menu-3"
           }
         }
       },
       "block_order": [
         "link_list_JVJW4P",
         "link_list_ewYgtr",
+        "newsletter_xBxEhm",
         "link_list_8n3WTh"
       ],
       "settings": {
-        "footer_logo_width": 108,
-        "footer_help_icon_color": "#c32032",
         "footer_background_color": "#ffffff",
-        "footer_social_color": "#000000",
-        "portal_id": "49380860",
-        "form_id": "798cd61e-8f76-4364-aff8-69308fc3307d",
-        "newsletter_title": "Join our newsletter to enjoy more exclusive offers and the latest updates.",
-        "newsletter_subtext": "",
-        "newsletter_placeholder": "Enter your email",
-        "newsletter_button": "Subscribe to Newsletter",
-        "success_message": "<p>Thankyou for Subscribing</p>",
-        "success_message_timeout": 10,
-        "error_message": "There seems to be an error while submitting, please try again.",
-        "footer_tag_link": "",
-        "chat_title": "",
-        "chat_subtext": "",
-        "email_title": "",
-        "email_subtext": "",
-        "email_link": "",
-        "call_title": "",
-        "call_subtext": "",
-        "call_link": "",
-        "feedback_title": "",
-        "feedback_subtext": "",
-        "feedback_link": "",
-        "url1": "",
-        "url1_link": "shopify://pages/terms-of-use",
-        "url2": "",
-        "url2_link": "shopify://pages/policies",
-        "url3": "",
-        "url3_link": "",
         "visa": true,
         "mastercard": true,
         "paypal": true,

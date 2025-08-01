@@ -2,7 +2,7 @@
 
 {% style %}
 
-.footer-logo svg{
+.footer-logo img{
   width: {{ section.settings.footer_logo_width }}px;
 }
 
@@ -18,93 +18,11 @@
   fill: {{ section.settings.footer_background_color }};
 }
 
-.footer-socials svg path{
-  fill: {{ section.settings.footer_social_color }}
-}
-
 {% endstyle %}
 
 <footer class="footer">
-  <div class="footer-top">
-    <div class="footer-newsletter-container" aria-labelledby="newsletter-title">
-      <div class="footer-newsletter-content">
-        <div id="newsletter-title" class="footer-newsletter-title typography--heading-1" role="heading">
-          {{ section.settings.newsletter_title }}
-        </div>
-        {% if section.settings.newsletter_subtext != blank %}
-          <div class="footer-newsletter-text typography--body-regular">{{ section.settings.newsletter_subtext }}</div>
-        {% endif %}
-      </div>
-      <form
-        action="{{ routes.root_url }}"
-        method="post"
-        class="footer-newsletter-form"
-        aria-label="Newsletter signup form"
-      >
-        <div class="field field--input error">
-          <label for="newsletter-email" class="visually-hidden">{{ 'newsletter.email_label' | t }}</label>
-          <input
-            type="text"
-            id="newsletter-email"
-            name="contact[email]"
-            placeholder="{{ section.settings.newsletter_placeholder }}"
-            class="footer-newsletter-input typography--body-regular"
-            required
-            aria-required="true"
-          >
-        </div>
-
-        <button type="submit" class="button button--primary typography--cta footer-newsletter-button">
-          {{ section.settings.newsletter_button }}
-        </button>
-        <div
-          class="visually-hidden footer-newsletter-success-message typography--body-regular"
-          role="alert"
-          aria-live="assertive"
-          data-success-timer="{{ section.settings.success_message_timeout }}"
-        >
-          {{ section.settings.success_message }}
-        </div>
-        <div
-          class="visually-hidden footer-newsletter-error-message typography--body-regular"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ section.settings.error_message }}
-        </div>
-        <div
-          class="visually-hidden footer-newsletter-error-format-message typography--body-regular"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ 'newsletter.error_format_message' | t }}
-        </div>
-      </form>
-    </div>
-  </div>
 
   <div class="footer-inner">
-    <div class="footer-logo">
-      <a href="{{ routes.root_url }}" class="footer-logo-link link link--block">
-        {{- settings.logo_svg -}}
-        <span class="visually-hidden">{{ shop.name }}</span>
-      </a>
-
-      {% if section.settings.footer_tagline %}
-        <a href="{{ section.settings.footer_tag_link }}" class="footer-tagline link link--inline-block link--hover-color-change">
-            {{-
-              section.settings.footer_tagline
-              | image_url: width: section.settings.footer_tagline.width
-              | image_tag:
-                loading: 'lazy',
-                widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
-                class: 'media',
-                alt: shop.name
-            -}}
-        </a>
-      {% endif %}
-    </div>
-
     <div class="footer-links" role="navigation" aria-label="Footer navigation">
       {%- for block in section.blocks -%}
         {%- if block.settings.menu != blank -%}
@@ -134,288 +52,94 @@
             </details>
           </details-utils>
         {%- endif -%}
+        {%- if block.type == 'newsletter' -%}
+          <details-utils class="footer-block__details-content footer-newsletter-container" aria-labelledby="newsletter-title" force-open="(min-width: 1181px)">
+            <details>
+              {%- if block.settings.heading != blank -%}
+                <summary class="footer-block__details-content-title typography--body-regular-bold" tabindex="-1">
+                  {{ block.settings.heading | escape }}
+                  <span aria-hidden="true">
+                    {{- 'icon-plus.svg' | inline_asset_content -}}
+                    {{- 'icon-minus.svg' | inline_asset_content -}}
+                  </span>
+                </summary>
+              {%- endif -%}
+              <ul class="footer-block__newsletter">
+                {%- if section.settings.newsletter_heading != blank -%}
+                  <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
+                {%- endif -%}
+                {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <div class="newsletter-form__field-wrapper">
+                    <div class="field field--input">
+                      <label class="newsletter-label typography--body-regular" for="NewsletterForm--{{ section.id }}">
+                        {{ block.settings.newsletter_title }}
+                      </label>
+                      <input
+                        id="NewsletterForm--{{ section.id }}"
+                        type="email"
+                        name="contact[email]"
+                        class="typography--body-regular"
+                        value="{{ form.email }}"
+                        aria-required="true"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        autocomplete="email"
+                        {% if form.errors %}
+                          autofocus
+                          aria-invalid="true"
+                          aria-describedby="ContactFooter-error"
+                        {% elsif form.posted_successfully? %}
+                          aria-describedby="ContactFooter-success"
+                        {% endif %}
+                        placeholder="{{ block.settings.newsletter_placeholder }}"
+                        required
+                      >
+                      </div>
+                      
+                      <button
+                        type="submit"
+                        class="newsletter-form__button button button--tag-big typography--body-regular"
+                        name="commit"
+                        id="Subscribe"
+                        aria-label="{{ block.settings.newsletter_button }}"
+                        {% if form.posted_successfully? %} disabled {% endif %}
+                      >
+                      {{ block.settings.newsletter_button }}
+                      </button>
+                  </div>
+                  {%- if form.posted_successfully? -%}
+                    {% style %}
+                    .newsletter-form__button {
+                      cursor: not-allowed !important;
+                      opacity: 0.6;
+                    }
+                    {% endstyle %}
+                    <div
+                      class="footer-newsletter-success-message typography--body-regular"
+                      id="ContactFooter-success"
+                      tabindex="-1"
+                      autofocus
+                    >
+                    <span class="svg-wrapper">
+                      {{- 'icon-successs.svg' | inline_asset_content -}}
+                    </span>
+                      {{ block.settings.success_message }}
+                    </div>
+                  {%- endif -%}
+                {%- endform -%}
+              </ul>
+            </details>
+          </details-utils>
+        {%- endif -%}
       {%- endfor -%}
-      <details-utils class="footer-block__details-content footer-mobile-contact" force-open="(min-width: 1181px)">
-        <details>
-          {%- if section.settings.chat_title != blank
-            or section.settings.call_title != blank
-            or section.settings.email_title
-            or section.settings.feedback_title
-          -%}
-            <summary class="footer-block__details-content-title typography--body-regular-bold">
-              {{ 'footer.contact' | t }}
-              <span aria-hidden="true">
-                {{- 'icon-plus.svg' | inline_asset_content -}}
-                {{- 'icon-minus.svg' | inline_asset_content -}}
-              </span>
-            </summary>
-          {%- endif -%}
-          <ul class="list-unstyled">
-            <li>
-              <button
-                onclick="MedChatApp.expand()"
-                class="link--hover-color-change  typography--body-regular-bold"
-              >
-                {{ 'icon-footer-chat.svg' | inline_asset_content }}
-                <div>
-                  {{ section.settings.chat_title }}
-                  <div class="footer-help-info-text typography--navigation">
-                    {{ section.settings.chat_subtext }}
-                  </div>
-                </div>
-              </button>
-            </li>
-            {% if section.settings.email_title != blank %}
-              <li>
-                <a
-                  href="{{ section.settings.email_link }}"
-                  class="link link--inline-block  link--hover-color-change  typography--body-regular-bold"
-                >
-                  {{ 'icon-footer-email.svg' | inline_asset_content }}
-                  <div>
-                    {{ section.settings.email_title }}
-                    <div class="footer-help-info-text typography--navigation">
-                      {{ section.settings.email_subtext }}
-                    </div>
-                  </div>
-                </a>
-              </li>
-            {% endif %}
-            {% if section.settings.call_title != blank %}
-              <li>
-                <a
-                  href="{{ section.settings.call_link }}"
-                  class="link link--inline-block  link--hover-color-change  typography--body-regular-bold"
-                >
-                  {{ 'icon-footer-call.svg' | inline_asset_content }}
-                  <div>
-                    {{ section.settings.call_title }}
-                    <div class="footer-help-info-text typography--navigation">
-                      {{ section.settings.call_subtext }}
-                    </div>
-                  </div>
-                </a>
-              </li>
-            {% endif %}
-            {% if section.settings.feedback_title != blank %}
-              <li>
-                <a
-                  href="{{ section.settings.feedback_link }}"
-                  target="_blank"
-                  class="link link--inline-block  link--hover-color-change  typography--body-regular-bold"
-                  aria-label="Feedback - {{ 'accessibility.link_messages.new_window' | t }}"
-                >
-                  {{ 'icon-footer-feedback.svg' | inline_asset_content }}
-                  <div>
-                    {{ section.settings.feedback_title }}
-                    <div class="footer-help-info-text typography--navigation">
-                      {{ section.settings.feedback_subtext }}
-                    </div>
-                  </div>
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </details>
-      </details-utils>
     </div>
-  </div>
-
-  <div class="footer-help-center" aria-label="Help center contact options">
-    {% if section.settings.chat_title != blank %}
-      <div class="footer-help-block">
-        <button onclick="MedChatApp.expand()" class="link--hover-color-change">
-          {{- 'icon-footer-chat.svg' | inline_asset_content -}}
-
-          <span class="footer-help-info">
-            <div class="footer-help-info-title typography--body-regular-bold">{{ section.settings.chat_title }}</div>
-            <div class="footer-help-info-text typography--body-small">{{ section.settings.chat_subtext }}</div>
-          </span>
-        </button>
-      </div>
-    {% endif %}
-
-    {% if section.settings.email_title != blank %}
-      <div class="footer-help-block">
-        <a
-          href="{{ section.settings.email_link }}"
-          class="link link--inline-block link--hover-color-change"
-          aria-label="Email us"
-        >
-          <span>
-            {{- 'icon-footer-email.svg' | inline_asset_content -}}
-          </span>
-          <span class="footer-help-info">
-            <div class="footer-help-info-title typography--body-regular-bold">{{ section.settings.email_title }}</div>
-            <div class="footer-help-info-text typography--body-small">{{ section.settings.email_subtext }}</div>
-          </span>
-        </a>
-      </div>
-    {% endif %}
-
-    {% if section.settings.call_title != blank %}
-      <div class="footer-help-block">
-        <a
-          href="{{ section.settings.call_link }}"
-          class="link link--inline-block link--hover-color-change"
-          aria-label="Call us"
-        >
-          <span>
-            {{- 'icon-footer-call.svg' | inline_asset_content -}}
-          </span>
-          <span class="footer-help-info">
-            <div class="footer-help-info-title typography--body-regular-bold">{{ section.settings.call_title }}</div>
-            <div class="footer-help-info-text typography--body-small">{{ section.settings.call_subtext }}</div>
-          </span>
-        </a>
-      </div>
-    {% endif %}
-
-    {% if section.settings.feedback_title != blank %}
-      <div class="footer-help-block">
-        <a
-          href="{{ section.settings.feedback_link }}"
-          class="link link--inline-block link--hover-color-change"
-          aria-label="Feedback - {{ 'accessibility.link_messages.new_window' | t }}"
-          target="_blank"
-        >
-          <span>
-            {{- 'icon-footer-feedback.svg' | inline_asset_content -}}
-          </span>
-          <span class="footer-help-info">
-            <div class="footer-help-info-title typography--body-regular-bold">
-              {{ section.settings.feedback_title }}
-            </div>
-            <div class="footer-help-info-text typography--body-small">{{ section.settings.feedback_subtext }}</div>
-          </span>
-        </a>
-      </div>
-    {% endif %}
   </div>
 
   <div class="footer-bottom typography--body-small">
     <div class="footer-copyright">
       <div class="footer-copyright-name ">{{ shop.name }}@2025</div>
       <div class="footer-copyright-rights ">{{ 'copyright.copyright' | t }}</div>
-      {% if section.settings.url1 != blank %}
-        <a href="{{ section.settings.url1_link }}" class="link link--inline-block link--hover-color-change">
-          {{- section.settings.url1 -}}
-        </a>
-      {% endif %}
-      {% if section.settings.url2 != blank %}
-        <a href="{{ section.settings.url2_link }}" class="link link--inline-block link--hover-color-change">
-          {{- section.settings.url2 -}}
-        </a>
-      {% endif %}
-      {% if section.settings.url3 != blank %}
-        <a href="{{ section.settings.url3_link }}" class="link link--inline-block link--hover-color-change">
-          {{- section.settings.url3 -}}
-        </a>
-      {% endif %}
-      {% if section.settings.footer_tagline %}
-        <a href="{{ section.settings.footer_tag_link }}" class="footer-tagline-mobile link link--inline-block link--hover-color-change">
-            {{-
-              section.settings.footer_tagline
-              | image_url: width: section.settings.footer_tagline.width
-              | image_tag:
-                loading: 'lazy',
-                widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
-                class: 'media',
-                alt: shop.name
-            -}}
-        </a>
-      {% endif %}
-    </div>
-
-    <div class="footer-socials" aria-label="Social media links">
-      {% if settings.social_facebook_link != blank %}
-        <a
-          href="{{ settings.social_facebook_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Facebook - opens a new tab"
-        >
-          <span class="visually-hidden">Facebook</span>
-          {{- 'icon-social-facebook.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_instagram_link != blank %}
-        <a
-          href="{{ settings.social_instagram_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram - opens a new tab"
-        >
-          <span class="visually-hidden">Instagram</span>
-          {{- 'icon-social-instagram.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_twitter_link != blank %}
-        <a
-          href="{{ settings.social_twitter_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">Twitter</span>
-          {{- 'icon-social-twitter.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_linkedin_link != blank %}
-        <a
-          href="{{ settings.social_linkedin_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">LinkedIn</span>
-          {{- 'icon-social-linkedin.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_pinterest_link != blank %}
-        <a
-          href="{{ settings.social_pinterest_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Pinterest - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">Pinterest</span>
-          {{- 'icon-social-pinterest.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_youtube_link != blank %}
-        <a
-          href="{{ settings.social_youtube_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="YouTube - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">YouTube</span>
-          {{- 'icon-social-youtube.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_tiktok_link != blank %}
-        <a
-          href="{{ settings.social_tiktok_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="TikTok - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">TikTok</span>
-          {{- 'icon-social-tiktok.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
-      {% if settings.social_snapchat_link != blank %}
-        <a
-          href="{{ settings.social_snapchat_link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Snapchat - {{ 'accessibility.link_messages.new_window' | t }}"
-        >
-          <span class="visually-hidden">Snapchat</span>
-          {{- 'icon-social-snapchat.svg' | inline_asset_content -}}
-        </a>
-      {% endif %}
     </div>
 
     <div class="footer-payments">
@@ -451,108 +175,6 @@
   </div>
 </footer>
 
-{% style %}
-  .footer-help-block svg path, .footer-mobile-contact svg path{
-    fill: {{ section.settings.footer_help_icon_color }};
-  }
-{% endstyle %}
-
-<script>
-  document.querySelector('.footer-newsletter-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    footerNewsletterSubmit();
-  });
-
-  // hide error messages when change in input field
-  document.querySelector('#newsletter-email').addEventListener('input', function () {
-    document.querySelector('.footer-newsletter-error-format-message').classList.add('visually-hidden');
-    document.querySelector('.footer-newsletter-error-message').classList.add('visually-hidden');
-  });
-
-  async function footerNewsletterSubmit() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+1\d{10}$/;
-
-    let base_url = 'https://api.hsforms.com/submissions/v3/integration/submit';
-
-    let portal_id = '{{ section.settings.portal_id }}';
-
-    let form_id = '{{ section.settings.form_id }}';
-
-    let request_url = base_url + '/' + portal_id + '/' + form_id;
-
-    var email = document.getElementById('newsletter-email').value;
-
-    if (!emailRegex.test(email) && !phoneRegex.test(email)) {
-      document.querySelector('.footer-newsletter-error-format-message').classList.remove('visually-hidden');
-
-      document.querySelector('.footer-newsletter-form').addEventListener('input', function () {
-        document.querySelector('.footer-newsletter-error-message').classList.add('visually-hidden');
-      });
-      return;
-    }
-
-    if (emailRegex.test(email)) {
-      console.log('valid email format');
-
-      var body = {
-        submittedAt: new Date().getTime(),
-        fields: [
-          {
-            objectTypeId: '0-1',
-            name: 'email',
-            value: email,
-          },
-        ],
-      };
-    } else if (phoneRegex.test(email)) {
-      console.log('valid phone format');
-      var body = {
-        submittedAt: new Date().getTime(),
-        fields: [
-          {
-            name: 'phone',
-            value: email,
-          },
-        ],
-      };
-    }
-
-    await fetch(request_url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then(function (response) {
-        if (response.status === 200) {
-          // If the response is OK, show a success message
-          console.log('response1', response);
-          successTimout = document
-            .querySelector('.footer-newsletter-success-message')
-            .getAttribute('data-success-timer');
-
-          document.querySelector('.footer-newsletter-success-message').classList.remove('visually-hidden');
-          document.querySelector('.footer-newsletter-form').reset();
-          setTimeout(function () {
-            document.querySelector('.footer-newsletter-success-message').classList.add('visually-hidden');
-          }, successTimout * 1000);
-        } else {
-          // If the response is not OK, show an error message
-          console.log('response2', response);
-        }
-      })
-      .catch(function (error) {
-        console.error('Error:', error);
-
-        document.querySelector('.footer-newsletter-error-message').classList.remove('visually-hidden');
-      });
-  }
-</script>
-
 {% schema %}
 {
   "name": "Footer",
@@ -565,217 +187,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "Footer Logo"
-    },
-    {
-      "type": "range",
-      "id": "footer_logo_width",
-      "label": "Footer Logo Width",
-      "min": 80,
-      "max": 250,
-      "step": 2,
-      "unit": "px",
-      "default": 108
-    },
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "footer_help_icon_color",
-      "label": "Help Icon Color",
-      "default": "#C32032"
+      "content": "Footer Background Color"
     },
     {
       "type": "color",
       "id": "footer_background_color",
-      "label": "Footer Background Color",
+      "label": "Background Color",
       "default": "#ffffff"
-    },
-        {
-      "type": "color",
-      "id": "footer_social_color",
-      "label": "Footer Social Icon Colors",
-      "default": "#000000"
-    },
-    {
-      "type": "header",
-      "content": "Newsletter"
-    },
-    {
-      "type": "text",
-      "id": "portal_id",
-      "label": "Portal ID",
-      "info": "This is the ID of the form you want to use. You can find it in the HubSpot form when you create an embed form. It looks like this: '9328207'",
-      "default": "9328207"
-    },
-    {
-      "type": "text",
-      "id": "form_id",
-      "label": "Form ID",
-      "info": "This is the ID of the form you want to use. You can find it in the HubSpot form when you create an embed form. It looks like this: 'df2fc5eb-eb4e-427d-b6f0-7853519bb4b2'.",
-      "default": "df2fc5eb-eb4e-427d-b6f0-7853519bb4b2"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_title",
-      "label": "Newsletter Title",
-      "default": "Join our newsletter to enjoy more exclusive offers and the latest updates."
-    },
-    {
-      "type": "html",
-      "id": "newsletter_subtext",
-      "label": "Newsletter Subtext"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_placeholder",
-      "label": "Newsletter Placeholder",
-      "default": "Enter your email or phone number"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_button",
-      "label": "Newsletter Button",
-      "default": "Subscribe to Newsletter"
-    },
-    {
-      "type": "richtext",
-      "id": "success_message",
-      "label": "Success Message",
-      "default": "<p>Thankyou for Subscribing</p>"
-    },
-    {
-      "type": "range",
-      "id": "success_message_timeout",
-      "label": "Success Message Timeout (in seconds)",
-      "default": 10,
-      "min": 1,
-      "max": 60,
-      "step": 1
-    },
-    {
-      "type": "html",
-      "id": "error_message",
-      "label": "Error Message",
-      "default": "There seems to be an error while submitting, please try again."
-    },
-    {
-      "type": "header",
-      "content": "Tagline"
-    },
-    {
-      "type": "image_picker",
-      "id": "footer_tagline",
-      "label": "Footer Tagline"
-    },
-    {
-      "type": "url",
-      "id": "footer_tag_link",
-      "label": "Footer Tagline Link"
-    },
-    {
-      "type": "header",
-      "content": "Help Center"
-    },
-    {
-      "type": "text",
-      "id": "chat_title",
-      "label": "Chat Title",
-      "default": "Chat"
-    },
-    {
-      "type": "text",
-      "id": "chat_subtext",
-      "label": "Chat Subtext",
-      "default": "Mon-Sat: 8am-7pm ET"
-    },
-    {
-      "type": "text",
-      "id": "email_title",
-      "label": "Email Title",
-      "default": "Email"
-    },
-    {
-      "type": "text",
-      "id": "email_subtext",
-      "label": "Email Subtext",
-      "default": "We usually reply within 24 hours"
-    },
-    {
-      "type": "url",
-      "id": "email_link",
-      "label": "Email Link"
-    },
-
-    {
-      "type": "text",
-      "id": "call_title",
-      "label": "Call Title",
-      "default": "Call us"
-    },
-    {
-      "type": "text",
-      "id": "call_subtext",
-      "label": "Call Subtext",
-      "default": "Mon-Sat: 8am-7pm ET"
-    },
-    {
-      "type": "url",
-      "id": "call_link",
-      "label": "Call Link"
-    },
-    {
-      "type": "text",
-      "id": "feedback_title",
-      "label": "Feedback Title",
-      "default": "Feedback"
-    },
-    {
-      "type": "text",
-      "id": "feedback_subtext",
-      "label": "Feedback Subtext",
-      "default": "Give us a feedback"
-    },
-    {
-      "type": "url",
-      "id": "feedback_link",
-      "label": "Feedback Link"
-    },
-    {
-      "type": "header",
-      "content": "Policies"
-    },
-    {
-      "type": "text",
-      "id": "url1",
-      "label": "URL 1"
-    },
-    {
-      "type": "url",
-      "id": "url1_link",
-      "label": "URL 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "url2",
-      "label": "URL 2"
-    },
-    {
-      "type": "url",
-      "id": "url2_link",
-      "label": "URL 2 Link"
-    },
-    {
-      "type": "text",
-      "id": "url3",
-      "label": "URL 3"
-    },
-    {
-      "type": "url",
-      "id": "url3_link",
-      "label": "URL 3 Lin"
     },
 
     {
@@ -841,6 +259,47 @@
           "type": "link_list",
           "id": "menu",
           "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Newsletter",
+          "label": "Heading"
+        },
+        {
+          "type": "header",
+          "content": "Newsletter"
+        },
+        {
+          "type": "text",
+          "id": "newsletter_title",
+          "label": "Newsletter Title",
+          "default": "Sign up to our newsletter to receive exclusive offers."
+        },
+        {
+          "type": "text",
+          "id": "newsletter_placeholder",
+          "label": "Newsletter Placeholder",
+          "default": "Enter your email"
+        },
+        {
+          "type": "text",
+          "id": "newsletter_button",
+          "label": "Newsletter Button",
+          "default": "Subscribe"
+        },
+        {
+          "type": "richtext",
+          "id": "success_message",
+          "label": "Success Message",
+          "default": "<p>Thankyou for Subscribing</p>"
         }
       ]
     }
