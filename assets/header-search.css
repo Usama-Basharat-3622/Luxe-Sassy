@@ -113,15 +113,15 @@ details[open] .header-search-modal-overlay {
 }
 
 .header-search-modal-close > .icon {
-  width: 2.4rem;
+  width: 2.7rem;
 }
 
 .header-search-search > .icon {
-  width: 2.4rem;
+  width: 2.7rem;
 }
 
 .header-search-reset > .icon {
-  width: 1.8rem;
+  width: 2rem;
 }
 
 @media screen and (min-width: 768px) {

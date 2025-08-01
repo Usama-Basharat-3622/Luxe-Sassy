@@ -676,6 +676,9 @@ button * {
 
   .link--hover-color-change:hover {
     color: rgb(var(--color-text-hover)) !important;
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.1rem;
   }
 
   .link--hover-color-change svg {
@@ -1506,13 +1509,13 @@ details:not([open]) > .summary-with-overlay::before {
 ********************************/
 
 .icon {
-  width: 2.4rem;
+  width: 2.7rem;
   pointer-events: none;
 }
 
 @media screen and (max-width: 767px) {
   .icon {
-    width: 2.4rem;
+    width: 2.7rem;
   }
 }
 
