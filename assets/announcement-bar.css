@@ -1,0 +1,51 @@
+.announcement-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+announcement-bar-slider .swiper-wrapper {
+  transition-timing-function: linear !important; /* smooth, constant speed */
+}
+
+announcement-bar-slider .swiper-button-next .icon, announcement-bar-slider .swiper-button-prev .icon {
+    width: .7rem !important;
+}
+announcement-bar-slider .swiper-button-next, announcement-bar-slider .swiper-button-prev {
+    width: .7rem !important;
+}
+@media screen and (min-width: 1025px) {
+  .announcement-bar {
+    padding: .2rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .announcement-bar {
+    padding: 0.6rem 1.6rem;
+    justify-content: center;
+  }
+}
+
+announcement-bar-slider {
+  display: block;
+}
+
+.announcement-bar-slider {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 50rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 540px) {
+  .announcement-bar-slider {
+    max-width: 100%;
+  }
+}
+
+.announcement-bar-slide {
+  padding: 0.4rem;
+  white-space: nowrap;
+}

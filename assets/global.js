@@ -1666,14 +1666,13 @@ class PromoBarSlider extends HTMLElement {
         disableOnInteraction: false,
       },
       navigation: {
-        prevEl: this.swiper.querySelector(".swiper-nav-button--prev"),
-        nextEl: this.swiper.querySelector(".swiper-nav-button--next"),
-        disabledClass: "hidden",
+        prevEl: this.swiper.querySelector(".swiper-button-prev"),
+        nextEl: this.swiper.querySelector(".swiper-button-next"),
       },
     });
   }
 }
-customElements.define("promo-bar-slider", PromoBarSlider);
+customElements.define("announcement-bar-slider", PromoBarSlider);
 
 class HpColorCarousel extends HTMLElement {
   constructor() {

@@ -1,16 +1,10 @@
-{{ 'promo-bar.css' | asset_url | stylesheet_tag }}
+{{ 'announcement-bar.css' | asset_url | stylesheet_tag }}
 
-<div id="promo-bar" class="promo-bar" data-id="{{ section.id }}">
-  <!-- Side Menu (Left) -->
-  {% render 'promo-bar-menu',
-    linklist: section.settings.promo_bar_side_menu_left_desktop,
-    class: 'promo-bar-menu--left'
-  %}
-
+<div id="announcement-bar" class="announcement-bar" data-id="{{ section.id }}">
   <!-- Slider -->
-  <promo-bar-slider
-    id="promo-bar-slider-{{ section.id }}"
-    class="promo-bar-slider"
+  <announcement-bar-slider
+    id="announcement-bar-slider-{{ section.id }}"
+    class="announcement-bar-slider"
     role="region"
   >
     <div class="swiper">
@@ -18,15 +12,15 @@
         {%- for block in section.blocks -%}
           {%- if block.settings.text != blank -%}
             <div
-              class="promo-bar-slide swiper-slide"
+              class="announcement-bar-slide swiper-slide"
               data-swiper-autoplay="{{ block.settings.promo_bar_slider_interval | times: 1000 }}"
               {{ block.shopify_attributes }}
             >
               {%- if block.settings.link != blank -%}
-                <a class="link link--inline-block" href="{{ block.settings.link }}">
+                <a class="link link--inline-block link--hover-color-change" href="{{ block.settings.link }}">
               {%- endif -%}
 
-              <span class="typography--navigation link--hover-color-change">
+              <span class="typography--navigation">
                 {{ block.settings.text }}
               </span>
 
@@ -38,36 +32,30 @@
         {%- endfor -%}
       </div>
       <button
-        class="swiper-button-prev hidden"
+        class="swiper-button-prev hidden≤767"
         type="button"
         name="previous"
         aria-label="{{ 'accessibility.previous' | t }}"
-        aria-controls="promo-bar-slider-{{ section.id }}"
+        aria-controls="announcement-bar-slider-{{ section.id }}"
       >
         {{- 'icon-caret_left.svg' | inline_asset_content -}}
       </button>
 
       <button
-        class="swiper-button-next hidden"
+        class="swiper-button-next hidden≤767"
         type="button"
         name="next"
         aria-label="{{ 'accessibility.next' | t }}"
-        aria-controls="promo-bar-slider-{{ section.id }}"
+        aria-controls="announcement-bar-slider-{{ section.id }}"
       >
         {{- 'icon-caret_right.svg' | inline_asset_content -}}
       </button>
     </div>
-  </promo-bar-slider>
-
-  <!-- Side Menu (Right) -->
-  {% render 'promo-bar-menu',
-    linklist: section.settings.promo_bar_side_menu_right_desktop,
-    class: 'promo-bar-menu--right'
-  %}
+  </announcement-bar-slider>
 </div>
 
 {% style %}
-  .promo-bar {
+  .announcement-bar {
     color: {{ section.settings.promo_bar_text_color }};
     background-color: {{ section.settings.promo_bar_background_color }};
   }
@@ -77,7 +65,7 @@
 {
   "name": "Promo Bar",
   "tag": "section",
-  "class": "section--promo-bar",
+  "class": "section--announcement-bar",
   "limit": 1,
   "enabled_on": {
     "groups": ["header"]
@@ -87,27 +75,13 @@
       "type": "color",
       "id": "promo_bar_text_color",
       "label": "Promo Bar Text Color",
-      "default": "#201F1E"
+      "default": "#000000"
     },
     {
       "type": "color",
       "id": "promo_bar_background_color",
       "label": "Promo Bar Background Color",
       "default": "#F5F5F5"
-    },
-    {
-      "type": "header",
-      "content": "Promo Bar Side Menu"
-    },
-    {
-      "type": "link_list",
-      "id": "promo_bar_side_menu_left_desktop",
-      "label": "Promo Bar Side Menu Left Desktop"
-    },
-    {
-      "type": "link_list",
-      "id": "promo_bar_side_menu_right_desktop",
-      "label": "Promo Bar Side Menu Right Desktop"
     },
     {
       "type": "header",
@@ -126,7 +100,7 @@
   ],
   "blocks": [
     {
-      "type": "promo-bar-slide",
+      "type": "announcement-bar-slide",
       "name": "Promo Bar Slide",
       "settings": [
         {

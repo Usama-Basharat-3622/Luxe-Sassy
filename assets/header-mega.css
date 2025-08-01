@@ -23,16 +23,13 @@
   gap: 1.6rem;
 }
 
-.header-mega-menu-item-link {
-  /* font-size: clamp(12px, 5vw + -30px, 30px) !important; */
-}
-
 .header-dropdown-toggle {
   gap: 0.4rem;
 }
 
 .header-dropdown-toggle > .icon {
-  width: 0.5rem;
+  width: 1rem;
+  padding-top: .2rem;
 }
 
 .header-dropdown.open .header-dropdown-toggle {
