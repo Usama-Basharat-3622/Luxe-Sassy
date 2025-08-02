@@ -805,6 +805,45 @@ button * {
   background-color: rgb(var(--color-white));
 }
 
+.button--primary {
+  gap: 0.6rem;
+
+  padding: 0.9rem 1.6rem;
+  border: 0.1rem solid rgb(var(--color-grey));
+  border-radius: 0.5rem;
+
+  color: rgb(var(--color-white));
+  background-color: rgb(var(--color-black));
+}
+
+.button--primary > .icon {
+  width: 1.2rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .button--primary {
+    padding: 0.9rem 1.4rem;
+  }
+}
+
+@media (any-hover: hover) {
+  .button--primary:hover {
+    border-color: #999;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.button--primary:active {
+ border-color: #999;
+ box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.button--primary:disabled {
+  border-color: rgb(var(--color-grey-medium));
+  color: rgb(var(--color-grey-medium));
+  background-color: rgb(var(--color-white));
+}
+
 .button--tag-big {
   padding: 1rem 1.6rem;
   border: 0.1rem solid rgb(var(--color-border-button-tag-big));
@@ -966,7 +1005,7 @@ button * {
   position: relative;
   display: block;
 
-  border: 0.1rem solid rgb(var(--color-grey));
+  border: 0.1rem solid rgb(var(--color-grey-medium));
   border-radius: 0.5rem;
   width: 100%;
   padding: 1.2rem 1.6rem;

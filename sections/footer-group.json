@@ -49,7 +49,7 @@
         "link_list_8n3WTh"
       ],
       "settings": {
-        "footer_background_color": "#ffffff",
+        "footer_background_color": "#f5f5f5",
         "visa": true,
         "mastercard": true,
         "paypal": true,

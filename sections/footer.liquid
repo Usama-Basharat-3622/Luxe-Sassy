@@ -2,16 +2,8 @@
 
 {% style %}
 
-.footer-logo img{
-  width: {{ section.settings.footer_logo_width }}px;
-}
-
 .footer{
   background-color: {{ section.settings.footer_background_color }};
-}
-
-.footer-top{
-  background-color: rgb(var(--color-white));
 }
 
 .footer-payments svg{
@@ -99,7 +91,7 @@
                       
                       <button
                         type="submit"
-                        class="newsletter-form__button button button--tag-big typography--body-regular"
+                        class="newsletter-form__button button button--primary typography--body-regular"
                         name="commit"
                         id="Subscribe"
                         aria-label="{{ block.settings.newsletter_button }}"
