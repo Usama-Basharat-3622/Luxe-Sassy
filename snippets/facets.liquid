@@ -26,23 +26,6 @@
   assign enable_sorting = true
 -%}
 
-{% style %}
-
-
-  {% if alternate_cta == false %}
-    .mobile-facets__open-label{
-      background-color: {{ alternate_cta_color }};
-      padding: 0.8rem 1.6rem;
-      border-radius: 0.6rem;
-    }
-  {% else %}
-    .mobile-facets__open-label{
-      background-color: rgb(var(--color-black));
-    }
-  {% endif %}
-
-{% endstyle %}
-
 <div class="facets-container facets-container-drawer {% unless enable_sorting %}sort-hidden{% endunless %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
 
 
@@ -55,10 +38,10 @@
       <details class="mobile-facets__disclosure disclosure-has-popup">
         <summary class="mobile-facets__open-wrapper focus-offset typography--navigation">
           <span class="mobile-facets__open">
-            <span class="mobile-facets__open-label mobile-facets__open-label-show button-label button {% if alternate_cta %} button--small {% else %} button--primary {% endif %}"> Show filters </span>
-            <span class="mobile-facets__open-label mobile-facets__open-label-hide button-label button {% if alternate_cta %} button--small {% else %} button--primary {% endif %}"> Hide filters </span>
+            <span class="mobile-facets__open-label mobile-facets__open-label-show button-label button button--primary"> Show filters </span>
+            <span class="mobile-facets__open-label mobile-facets__open-label-hide button-label button button--primary"> Hide filters </span>
           </span>
-          <span tabindex="0" class="mobile-facets__close">Close</span>
+          {% comment %} <span tabindex="0" class="mobile-facets__close">Close</span> {% endcomment %}
         </summary>
 
         {%- liquid
@@ -289,10 +272,10 @@
 
                                   {%- capture text_value -%}
                                     <span class="facet-checkbox__text" aria-hidden="true">
-                                      <span class="facet-checkbox__text-label">{{- value.label | escape }}</span>
+                                      <span class="facet-checkbox__text-label">{{- value.label | escape }} ({{- value.count -}})</span>
                                     </span>
                                     <span class="visually-hidden">
-                                      {{- value.label | escape }} 
+                                      {{- value.label | escape }} ({{- value.count -}}) 
                                     </span>
                                   {%- endcapture -%}
 

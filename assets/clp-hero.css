@@ -32,7 +32,7 @@
 @media screen and (min-width: 1025px) {
 
   .clp-hero .clp-hero-text {
-    flex: 0 0 32.6%;
+    flex: 0 0 42.6%;
 
     /* background-color: rgb(var(--color-white)); */
   }
@@ -57,14 +57,15 @@
 
 
 .clp-hero .collection-nav-carousel .swiper-slide {
-  width: 22.7rem;
+  width: 18.7rem;
 }
 
 .clp-hero-menu-link {
-  border: 0.1rem solid rgb(var(--color-grey));
-  background: rgb(var(--color-white));
-  border-radius: 0.5rem;
-  height: 6.8rem;
+  border: .1rem solid rgb(var(--color-border-button-tag-big));
+  border-radius: .5rem;
+  color: rgb(var(--color-text-button-tag-big));
+  background-color: rgb(var(--color-background-button-tag-big));
+  height: 5rem;
   display: flex;
   align-items: center;
   text-align: center;
@@ -123,7 +124,7 @@
   }
 }
 .clp-hero .swiper-slide{
-  height: 6.8rem;
+  height: 5rem;
 }
 
 .clp-hero-content {
@@ -144,7 +145,7 @@
 }
 
 .collection-nav-carousel{
-  flex: 0 0 66.2%
+  flex: 0 0 56.2%
 }
 
 

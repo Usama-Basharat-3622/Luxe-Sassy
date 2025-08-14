@@ -44,8 +44,6 @@
           enable_sorting: section.settings.enable_sorting,
           enable_breadcrumbs: section.settings.enable_breadcrumbs,
           enable_grid_switcher: section.settings.enable_grid_switcher,
-          alternate_cta: section.settings.alternate_cta,
-          alternate_cta_color: section.settings.alternate_cta_color,
           context: 'collection',
           paginate: paginate
         %}
@@ -68,7 +66,7 @@
                   <br>
                   {{
                     'collection.use_fewer_filters_html'
-                    | t: link: collection.url, class: 'underlined-link link'
+                    | t: link: collection.url, class: 'link link--hover-color-change'
                   }}
                 </h2>
               </div>
@@ -176,18 +174,6 @@
       "max": 50,
       "step": 1,
       "default": 48
-    },
-    {
-      "type": "checkbox",
-      "id": "alternate_cta",
-      "default": true,
-      "label": "Use alternate CTA style"
-    },
-    {
-      "type": "color",
-      "id": "alternate_cta_color",
-      "default": "#000000",
-      "label": "Alternate CTA color"
     }
   ]
 }
