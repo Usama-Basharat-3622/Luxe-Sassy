@@ -5,38 +5,28 @@
     "promo-bar": {
       "type": "promo-bar",
       "blocks": {
-        "promo_bar_slide_kzwX3X": {
-          "type": "promo-bar-slide",
+        "announcement_bar_slide_33KkyD": {
+          "type": "announcement-bar-slide",
           "settings": {
-            "text": "Shop Contact Lenses",
+            "text": "Promo Bar Slide Text",
             "link": ""
           }
         },
-        "promo_bar_slide_xKmfmx": {
-          "type": "promo-bar-slide",
+        "announcement_bar_slide_Tc7jGr": {
+          "type": "announcement-bar-slide",
           "settings": {
-            "text": "Shop the latest styles and elevate your look!",
-            "link": ""
-          }
-        },
-        "promo_bar_slide_DrxnVk": {
-          "type": "promo-bar-slide",
-          "settings": {
-            "text": "Enjoy free shipping and returns!",
+            "text": "All rights reserved.",
             "link": ""
           }
         }
       },
       "block_order": [
-        "promo_bar_slide_kzwX3X",
-        "promo_bar_slide_xKmfmx",
-        "promo_bar_slide_DrxnVk"
+        "announcement_bar_slide_33KkyD",
+        "announcement_bar_slide_Tc7jGr"
       ],
       "settings": {
         "promo_bar_text_color": "#201f1e",
         "promo_bar_background_color": "#f5f5f5",
-        "promo_bar_side_menu_left_desktop": "",
-        "promo_bar_side_menu_right_desktop": "",
         "promo_bar_slider_interval": 5
       }
     },
@@ -44,17 +34,10 @@
       "type": "header-main",
       "settings": {
         "main_menu_desktop": "main-menu",
-        "main_menu_mobile": "",
-        "side_menu_top_mobile": "",
-        "side_menu_bottom_mobile": "",
-        "mini_menu_mobile": "",
-        "cta_text": "",
-        "cta_link": "",
+        "main_menu_mobile": "main-menu-mobile",
         "menu_1_title": "Popular searches",
-        "menu_1": "",
-        "menu_2_title": "Useful pages",
-        "menu_2": "",
-        "richtext": "",
+        "menu_1": "popular-searches",
+        "richtext": "<p>Shine like never before. Explore the pieces everyone’s loving right now.</p>",
         "product_list_title": "Trending products",
         "product_list": [
           "macaron-color-fashion-bracelet-jewelry",
