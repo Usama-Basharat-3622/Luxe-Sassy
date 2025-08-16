@@ -155,7 +155,7 @@
 }
 
 .clp-hero-breadcrumbs {
-  margin-bottom: 5.2rem;
+  margin-bottom: 3.4rem;
 }
 .clp-hero-breadcrumbs-inner a:first-child {
     color: rgb(var(--color-grey-dark));
@@ -171,11 +171,10 @@
   }
 
   .clp-hero-breadcrumbs{
-    margin-bottom: 3.2rem;
+    margin-bottom: 2.6rem;
     padding-left: 1.6rem;
   }
   .clp-hero .swiper-wrapper{
-
     padding: 0 1.6rem;
     display: flex;
     flex-flow: row nowrap;
