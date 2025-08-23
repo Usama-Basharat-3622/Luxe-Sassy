@@ -5,11 +5,11 @@
       "type": "404-main",
       "settings": {
         "bg_color": "#ffffff",
-        "text_color": "#201f1e",
+        "text_color": "#000000",
         "title": "404",
         "paragraph": "<p>This page does not exist.</p>",
         "cta_text": "Continue Shopping",
-        "cta_link": "shopify://collections/all-contacts",
+        "cta_link": "shopify://collections/all",
         "content_width": 800,
         "text_placement_hor": "center",
         "text_alignment": "center",

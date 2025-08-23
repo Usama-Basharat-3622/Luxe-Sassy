@@ -16,7 +16,7 @@
 <product-card class="product-card isolate">
   <div class="product-card-top">
     <div class="product-card-album">
-      <div class="ratio ratio--3-2" data-product-card-media>
+      <div class="ratio ratio--4-3" data-product-card-media>
         <img
           srcset="{% render 'image-srcset', image: card_product.images[0] %}"
           sizes="{{ card_image_sizes }}"
@@ -101,18 +101,16 @@
     <div class="product-card-info">
       <div class="product-card-line">
         <a
-          class="product-card-vendor typography--navigation link link--block link--hover-color-change"
+          class="product-card--title typography--navigation link link--block link--hover-color-change"
           href="{{ card_product.url | within: collection }}"
           data-product-card-bottom-link
           data-wk-pc-target
         >
-          <h3>{{ card_product.vendor }}</h3>
+          <h3>{{ card_product.title }}</h3>
         </a>
       </div>
 
       <div class="product-card-line">
-        <h4 class="product-card-title typography--navigation">{{ card_product.title }}</h4>
-
         {%- if has_swatch -%}
           {%- render 'product-card-swatch-picker',
             swatch_option: card_product.options_by_name[swatch_option_name],

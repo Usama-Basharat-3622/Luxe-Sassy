@@ -203,16 +203,13 @@ details[open] .header-search-modal-overlay {
 
 .predictive-search-landing-menu-1 {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
   gap: 0.8rem;
   max-width: 55rem;
 }
 
-.predictive-search-landing-menu-2 {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 1.2rem;
-  max-width: 55rem;
+li.predictive-search-landing-menu-item {
+  max-width: fit-content;
 }
 
 @media screen and (min-width: 1025px) {

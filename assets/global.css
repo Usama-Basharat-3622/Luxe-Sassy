@@ -1646,11 +1646,12 @@ details:not([open]) > .summary-with-overlay::before {
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   text-decoration-skip-ink: none;
+  color: rgb(var(--color-grey-dark));
 }
 
 .price-item--sale,
 .pryce-item--sale {
-  color: rgb(var(--color-grey-dark));
+  color: rgb(var(--color-black)); 
 }
 
 /********************************
@@ -2032,6 +2033,10 @@ product-card {
     gap: 0.4rem;
     margin: 1.6rem 0rem 0.4rem;
   }
+}
+
+.product-card-info .product-card--title:hover{
+  text-decoration: none;
 }
 
 /********************************
