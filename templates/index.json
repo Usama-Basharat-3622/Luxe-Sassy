@@ -2,9 +2,55 @@
   "layout": "theme",
   "wrapper": "div.index-template-sections-wrapper.template-sections-wrapper",
   "sections": {
+    "global_editorial_50_50_3RPCtY": {
+      "type": "global-editorial-50-50",
+      "name": "Editorial 50-50",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": true,
+        "media_type": "image",
+        "image": "shopify://shop_images/banner-image-2.png",
+        "image_alter": "shopify://shop_images/banner-image-2.png",
+        "flex_direction": "row-reverse",
+        "flex_direction_alter": "column",
+        "title": "The Wedding Shop",
+        "paragraph": "<p>Your one-stop shop for your wedding jewelry.</p>",
+        "paragraph_size": "regular",
+        "cta_text": "Shop Wedding Jewelry",
+        "cta_link": "shopify://collections/wedding-jewellery",
+        "text_max_width": 400,
+        "text_color": "#000000",
+        "background_color": "#f8f8f8",
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
     "hp_product_list_kjUqrh": {
       "type": "hp-product-list",
       "blocks": {
+        "tab_RcRheX": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Necklaces",
+            "source_type": "product_list",
+            "product_list": [
+              "round-pearl-long-earrings",
+              "s925-silver-retro-fashion-high-carbon-diamond-texture-jewelry",
+              "macaron-color-fashion-bracelet-jewelry",
+              "pearl-necklace",
+              "fashion-rose-girl-ornament-necklace",
+              "heart-of-the-sea-necklace-matching-jewelry-gold-plated-necklace"
+            ],
+            "collection": "necklaces"
+          }
+        },
         "tab_RzYM9c": {
           "type": "tab",
           "settings": {
@@ -19,40 +65,22 @@
               "pearl-necklace",
               "ria-initial-letter-gold-necklace",
               "round-pearl-long-earrings",
-              "s925-silver-retro-fashion-high-carbon-diamond-texture-jewelry",
-              "simple-pearl-double-layer-choker-fashion-gold-color-necklaces-chain-small-bow-pendant-necklace-jewelry-gifts-for-women-fashion-jewelry-valentines-day-gifts"
+              "s925-silver-retro-fashion-high-carbon-diamond-texture-jewelry"
             ],
-            "collection": ""
-          }
-        },
-        "tab_RcRheX": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Necklaces",
-            "source_type": "product_list",
-            "product_list": [
-              "round-pearl-long-earrings",
-              "s925-silver-retro-fashion-high-carbon-diamond-texture-jewelry",
-              "simple-pearl-double-layer-choker-fashion-gold-color-necklaces-chain-small-bow-pendant-necklace-jewelry-gifts-for-women-fashion-jewelry-valentines-day-gifts",
-              "macaron-color-fashion-bracelet-jewelry",
-              "pearl-necklace",
-              "crystal-water-drop-pendant-necklace-womens-fine-jewelry-adjustable-short-accessories-jewelry-gift",
-              "fashion-rose-girl-ornament-necklace"
-            ],
-            "collection": ""
+            "collection": "all-jewellery"
           }
         },
         "tab_z3HMRR": {
           "type": "tab",
           "settings": {
             "tab_title": "Earrings",
-            "source_type": "product_list",
+            "source_type": "collection",
             "product_list": [
               "pearl-necklace",
               "fashion-rose-girl-ornament-necklace",
               "round-pearl-long-earrings"
             ],
-            "collection": "earrings"
+            "collection": "all-jewellery"
           }
         },
         "tab_JLdmfx": {
@@ -62,7 +90,6 @@
             "source_type": "product_list",
             "product_list": [
               "heart-of-the-sea-necklace-matching-jewelry-gold-plated-necklace",
-              "macaron-color-fashion-bracelet-jewelry",
               "ria-initial-letter-gold-necklace",
               "round-pearl-long-earrings"
             ],
@@ -71,15 +98,120 @@
         }
       },
       "block_order": [
-        "tab_RzYM9c",
         "tab_RcRheX",
+        "tab_RzYM9c",
         "tab_z3HMRR",
         "tab_JLdmfx"
       ],
       "settings": {
         "title": "Our best sellers",
-        "cta_text": "View All",
-        "cta_link": "shopify://collections/pearl",
+        "cta_text": "",
+        "cta_link": "",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "padding_top_alter": 40,
+        "padding_bottom_alter": 40
+      }
+    },
+    "global_editorial_50_50_PqAizt": {
+      "type": "global-editorial-50-50",
+      "name": "Editorial 50-50",
+      "settings": {
+        "show_border_top": true,
+        "show_border_bottom": true,
+        "media_type": "image",
+        "image": "shopify://shop_images/image-1.png",
+        "image_alter": "shopify://shop_images/image-1.png",
+        "flex_direction": "row",
+        "flex_direction_alter": "column",
+        "title": "Summer Staples",
+        "paragraph": "<p>Shine like never before. Explore the pieces everyone’s loving right now.</p>",
+        "paragraph_size": "regular",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 400,
+        "text_color": "#000000",
+        "background_color": "#f8f8f8",
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "start",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
+    "global_content_blocks_enPP6q": {
+      "type": "global-content-blocks",
+      "blocks": {
+        "content_blocks_cExmXw": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/1623806728266_ef88649b-ffe3-49b8-b128-909df01eec37.jpg",
+            "image_alter": "shopify://shop_images/1623806728266_ef88649b-ffe3-49b8-b128-909df01eec37.jpg",
+            "title": "Necklaces",
+            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "cta_text": "Shop Now",
+            "cta_link": "shopify://collections/necklaces",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_VUqWk8": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/9648f640-a0c0-4c6b-b44f-b69c31b21800.jpg",
+            "image_alter": "shopify://shop_images/9648f640-a0c0-4c6b-b44f-b69c31b21800.jpg",
+            "title": "Rings",
+            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "cta_text": "Shop Now",
+            "cta_link": "#",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_anarac": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/5754942885_669265057.jpg",
+            "image_alter": "shopify://shop_images/5754942885_669265057.jpg",
+            "title": "Earrings",
+            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "cta_text": "Shop Now",
+            "cta_link": "#",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_kENpUj": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/1521046583947.jpg",
+            "image_alter": "shopify://shop_images/1521046583947.jpg",
+            "title": "Bracelets",
+            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "cta_text": "Shop Now",
+            "cta_link": "#",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        }
+      },
+      "block_order": [
+        "content_blocks_cExmXw",
+        "content_blocks_VUqWk8",
+        "content_blocks_anarac",
+        "content_blocks_kENpUj"
+      ],
+      "name": "Content Blocks",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Shop All Collections",
         "padding_top": 50,
         "padding_bottom": 50,
         "padding_top_alter": 40,
@@ -88,6 +220,9 @@
     }
   },
   "order": [
-    "hp_product_list_kjUqrh"
+    "global_editorial_50_50_3RPCtY",
+    "hp_product_list_kjUqrh",
+    "global_editorial_50_50_PqAizt",
+    "global_content_blocks_enPP6q"
   ]
 }

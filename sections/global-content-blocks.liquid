@@ -52,24 +52,11 @@
   role="region"
   data-block-count="{{ section.blocks.size }}"
 >
-  {%- if section.settings.title != blank or section.settings.paragraph != blank -%}
+  {%- if section.settings.title != blank -%}
     <div class="header-content">
-      {%- if section.settings.title != blank -%}
         <h2 class="content-blocks-carousel-title typography--heading-1">
           {{ section.settings.title }}
         </h2>
-      {%- endif -%}
-      {%- if section.settings.paragraph != blank -%}
-        <div class="content-blocks-carousel-paragraph typography--body-regular">
-          {{
-            section.settings.paragraph
-            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
-            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
-            | replace: '<strong', "<strong class='typography--body-regular-bold'"
-            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
-          }}
-        </div>
-      {%- endif -%}
     </div>
   {%- endif -%}
 
@@ -122,7 +109,7 @@
 
             <div class="content-block-info">
               {%- if block.settings.title != blank -%}
-                <div class="content-block-title typography--body-regular">
+                <div class="content-block-title typography--body-regular-bold">
                   {{ block.settings.title }}
                 </div>
               {%- endif -%}
@@ -134,7 +121,7 @@
                   </div>
                   {%- if block.settings.cta_link == blank and block.settings.cta_text == blank -%}
                     <button
-                      class="view-more-button link link--underline link--hover-color-change typography--navigation"
+                      class="view-more-button link link--hover-color-change typography--navigation"
                       style="display: none;"
                     >
                       View more
@@ -225,12 +212,7 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "Career opportunities"
-    },
-    {
-      "type": "richtext",
-      "id": "paragraph",
-      "label": "Paragraph"
+      "default": "Content Blocks"
     },
     {
       "type": "header",
@@ -283,7 +265,7 @@
   ],
   "blocks": [
     {
-      "name": "Content Blocks",
+      "name": "Tab",
       "type": "content-blocks",
       "settings": [
         {
@@ -304,7 +286,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Retail"
+          "default": "Necklaces"
         },
         {
           "type": "textarea",

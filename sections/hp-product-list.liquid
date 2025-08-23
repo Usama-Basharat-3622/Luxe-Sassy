@@ -99,7 +99,7 @@
 {% endstyle %}
 {% schema %}
 {
-  "name": "Product List",
+  "name": "Product Carousel",
   "tag": "section",
   "class": "section--hp-product-list",
   "enabled_on": {
@@ -123,7 +123,7 @@
     },
     {
       "type": "header",
-      "content": "Section Padding"
+      "content": "Padding Desktop"
     },
     {
       "type": "range",
@@ -146,13 +146,17 @@
       "default": 0
     },
     {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
       "type": "range",
       "id": "padding_top_alter",
       "min": 0,
       "max": 200,
       "step": 2,
       "unit": "px",
-      "label": "Padding Top (Mobile)",
+      "label": "Padding Top",
       "default": 0
     },
     {
@@ -162,7 +166,7 @@
       "max": 200,
       "step": 2,
       "unit": "px",
-      "label": "Padding bottom (Mobile)",
+      "label": "Padding bottom",
       "default": 0
     }
   ],
@@ -208,7 +212,7 @@
   ],
   "presets": [
     {
-      "name": "Product List"
+      "name": "Product Carousel"
     }
   ]
 }

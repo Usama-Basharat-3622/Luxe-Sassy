@@ -665,7 +665,7 @@ button * {
 
 .link--underline {
   text-decoration: underline;
-  text-underline-offset: 0.2rem;
+  text-underline-offset: 0.3rem;
   text-decoration-thickness: 0.1rem;
 }
 
