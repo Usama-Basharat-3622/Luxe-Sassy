@@ -40,7 +40,7 @@
       <!-- Account -->
       <li class="header-side-menu-item hidden-header-drawer-open">
         <a
-          href="{{ section.settings.cta_link }}"
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           class="header-side-menu-link"
         >
           {{ 'icon-account.svg' | inline_asset_content }}
@@ -71,19 +71,6 @@
       </li>
     </ul>
   </div>
-  <!-- Mini Menu -->
-  <ul class="header-mini-menu scrollbar-hidden hidden≥1025" role="navigation">
-    {%- for link in section.settings.mini_menu_mobile.links -%}
-      <li class="header-mini-menu-item">
-        <a
-          href="{{ link.url }}"
-          class="header-mini-menu-link link link--block link--hover-color-change typography--navigation"
-        >
-          {{ link.title | escape }}
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
 </div>
 
 <script type="application/ld+json">
