@@ -997,143 +997,230 @@ button * {
 .field--input {
   position: relative;
 }
-.field--input > * + * {
-  margin-top: 0.4rem;
-}
 
 .field--input input {
   position: relative;
   display: block;
-
-  border: 0.1rem solid rgb(var(--color-grey-medium));
-  border-radius: 0.5rem;
+  border: .1rem solid rgb(var(--color-grey-medium));
   width: 100%;
-  padding: 1.2rem 1.6rem;
-
-  font-size: 1.6rem;
-
+  height: 4.6rem;
+  padding: 2rem 1.1rem 0;
   color: rgb(var(--color-black));
-  background-color: transparent;
-
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
-  transition-property: color, background-color, border-color;
-  transition-timing-function: ease;
-  transition-duration: 300ms;
-}
-
-.field--input input::placeholder {
-  color: rgb(var(--color-grey-dark));
+  font-size: 1.3rem;
+  font-weight: 500;
+  font-family: var(--font-avenir);
+  border-radius: .5rem;
+  max-width: 42.7rem;
 }
 
 .field--input input:hover {
-  color: rgb(var(--color-black));
-  border-color: rgb(var(--color-black));
+  border: 1px solid rgb(var(--color-black));
 }
 
 .field--input input:focus {
-  color: rgb(var(--color-black));
-  border-color: rgb(var(--color-black));
+  border: 1px solid rgb(var(--color-black));
 }
 
-.field--input input:disabled {
-  color: rgb(var(--color-grey-medium));
-  border-color: rgb(var(--color-grey));
-  cursor: not-allowed;
+.field-line label{
+  pointer-events: none;
+  position: absolute;
+  top: 2.3rem;
+  left: 1.1rem;
+  transform: translateY(-50%);
+  transition: top .1s ease;
+  font-size: 1.3rem;
+  font-weight: 500;
+  font-family: var(--font-avenir);
 }
-.field--input input:disabled::placeholder {
-  color: rgb(var(--color-grey-medium));
+
+.field--input label {
+  color: rgb(var(--color-grey-dark));
 }
+
+.field--input .field-line input::placeholder,
+.field--input .field-line input::placeholder {
+  opacity: 0;
+}
+
+.field--input .field-line input:focus ~ label,
+.field--input .field-line input:not(:placeholder-shown) ~ label {
+  top: 1.5rem;
+  left: 1.1rem;
+}
+
+.input-error {
+  display: flex;
+  color: rgb(var(--color-accent-red));
+  gap: .5rem;
+  margin: .8rem 0 -2.6rem;
+  align-items: center;
+  border: 1px solid rgb(var(--color-accent-red));
+  width: fit-content;
+  border-radius: 1.5rem;
+  padding: 0.4rem 1rem;
+  font-style: italic;
+  letter-spacing: -0.2px;
+}
+
+.field-line:has(+.input-error:not(.hidden)) input {
+  border-color: rgb(var(--color-accent-red));
+}
+
+/********************************
+    Component
+    Select
+********************************/
+
+.field--select {
+  position: relative;
+}
+
+.field--select select {
+  position: relative;
+  display: block;
+  border: .1rem solid rgb(var(--color-grey-medium));
+  width: 100%;
+  height: 4.6rem;
+  padding: 1.5rem 1.6rem 0;
+  color: rgb(var(--color-black));
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition-timing-function: ease;
+  transition-duration: 300ms;
+  cursor: pointer;
+  border-radius: .5rem;
+}
+
+.field--select select:hover {
+  border: 1px solid rgb(var(--color-black));
+}
+
+.field--select select:focus {
+  border: 1px solid rgb(var(--color-black));
+}
+
+.field--select label {
+  pointer-events: none;
+  position: absolute;
+  top: 28%;
+  transform: translateY(-50%);
+  left: 1.6rem;
+  color: rgb(var(--color-anthracite));
+  font-size: 1.2rem;
+  color: rgb(var(--color-grey-dark));
+}
+
+.field-line select + label {
+  pointer-events: none;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  transition-timing-function: ease;
+  transition-duration: 120ms;
+}
+
+.field--select select ~ .icon {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
+  width: 1.6rem;
+}
+
+
 
 /********************************
     Component
     Input Checkbox
 ********************************/
 
-.field--checkbox {
-  display: inline-flex;
-  align-items: center;
-}
-
-.field--checkbox > * + * {
-  margin-left: 0.8rem;
-}
-
-.field--checkbox input[type="checkbox"] {
-  position: relative;
-
-  display: inline-block;
-  flex-shrink: 0;
-  margin: 0;
-
-  border: 0.1rem solid rgb(var(--color-black));
-  border-radius: 0.3rem;
-
-  width: 1.6rem;
-  height: 1.6rem;
-
-  background-color: rgba(var(--color-white));
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.field--checkbox input[type="checkbox"]:after {
-  content: "";
-  position: absolute;
-  left: 5px;
-  top: 1px;
-  display: block;
-  width: 5px;
-  height: 9px;
-  border: 1px solid rgb(var(--color-input-checkbox-tick));
-  border-top: 0;
-  border-left: 0;
-  transform: rotate(40deg);
-}
-
-/* .field--checkbox input[type="checkbox"]:not(:disabled):hover {
-  border-width: 0.2rem;
+/* .field--checkbox input[type=checkbox]:focus+label span.checkbox-icon {
+  outline: .2rem solid #00f;
+  outline-offset: .3rem;
 } */
 
-.field--checkbox input[type="checkbox"]:focus {
-  --color-input-checkbox-border: var(--color-grey-medium);
+.field--checkbox label {
+  margin: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
 }
-
-.field--checkbox input[type="checkbox"]:checked {
-  background-color: rgb(var(--color-checkbox-background));
+.field--checkbox label span {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translate3d(0, 0, 0);
 }
-
-.field--checkbox input[type="checkbox"]:after {
-  opacity: 0;
+.field--checkbox label span:first-child {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 3px;
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid rgb(var(--color-grey-dark));
+  transition: all 0.2s ease;
 }
-.field--checkbox input[type="checkbox"]:checked:after {
+.field--checkbox label span:first-child svg {
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+  transform: translate3d(0, 0, 0);
+}
+.field--checkbox label span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: rgb(var(--color-black));
+  display: block;
+  transform: scale(0);
   opacity: 1;
+  border-radius: 50%;
+}
+.field--checkbox label span:last-child {
+  padding-left: 4px;
+}
+.field--checkbox:has(input:disabled) label span:first-child {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.field--checkbox label:hover span:first-child {
+  border-color: rgb(var(--color-black));
 }
 
-/********************************
-    Component
-    Error message
-********************************/
-
-.error-message {
-  display: inline-flex;
-  flex-flow: row nowrap;
-  align-items: center;
-
-  border: 1px solid rgb(var(--color-warning));
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  color: rgb(var(--color-warning));
-  text-transform: uppercase;
+.field--checkbox input:checked + label span:first-child {
+  background: rgb(var(--color-black));
+  border-color: rgb(var(--color-black));
+  animation: wave-46 0.4s ease;
+}
+.field--checkbox input:checked + label span:first-child svg {
+  stroke-dashoffset: 0;
 }
 
-.error-message > .icon {
-  margin-right: 0.7rem;
-  width: 1.6rem;
+.visually-hidden-checkbox {
+  position: absolute!important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal!important;
 }
 
 /********************************

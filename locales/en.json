@@ -126,69 +126,97 @@
   "customer": {
     "account": {
       "title": "Account",
+      "greetings": "Hello, {{ name }}",
       "details": "Account details",
       "view_addresses": "View addresses",
       "return": "Return to Account details"
     },
-    "breadcrumbs": {
-      "home": "Home",
-      "login": "Log in",
-      "register": "Join",
-      "reset_password": "Reset Password",
-      "my_account": "My Account",
-      "order": "My Orders",
-      "addresses": "My Addresses",
-      "activate_account": "Activate Account"
-    },
     "account_fallback": "Account",
+    "activate_account": {
+      "title": "Activate account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "submit": "Activate account",
+      "cancel": "Decline invitation"
+    },
     "addresses": {
       "title": "Addresses",
-      "empty_address": "You haven't added any addresses yet.",
-      "default": "Default",
-      "add_new": "Add a new address",
-      "add_new_desc": "Please fill in the information below:",
+      "phone_number": "Phone Number",
+      "accepts_marketing_text": "I’ve read and accept the",
+      "accepts_marketing_link_text": " Terms & Conditions",
+      "accepts_marketing_link": "/pages/terms-condition",
+      "default": "Default Address",
+      "shipping": "Shipping Address",
+      "add_new": "Add address",
       "edit_address": "Edit address",
-      "first_name": "First Name *",
-      "last_name": "Last Name *",
-      "address1": "Address 1 *",
-      "address2": "Address 2",
-      "city": "City *",
-      "country": "Country *",
-      "province": "State *",
-      "zip": "ZIP Code *",
-      "phone": "Phone Number *",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apt/Floor/Suite",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Zip code",
+      "phone": "Phone",
       "set_default": "Set as default address",
-      "add": "Save Address",
+      "add": "Add address",
       "update": "Update address",
       "cancel": "Cancel",
+      "return_to_addresses": "Back to addresses",
+      "cancel_addaddress": "Cancel Add Address Form",
+      "cancel_editaddress": "Cancel Edit Address Form",
       "edit": "Edit",
       "delete": "Delete",
-      "delete_confirm": "Are you sure you wish to delete this address?"
+      "delete_disclaimer_text": "Are you sure you want to delete this address? It will be permanent and you will not be able to undo.",
+      "delete_address": "Delete Address",
+      "delete_confirm": "Confirm",
+      "no_addresses_yet": "You have not added any addresses yet."
     },
     "log_in": "Log in",
     "log_out": "Log out",
     "login_page": {
       "cancel": "Cancel",
-      "create_account": "Create account",
-      "email": "Email address *",
-      "forgot_password": "Forgot your password?",
+      "cancel_label": "Back to Login",
+      "reset_password": "Reset Password",
+      "create_account": "Sign Up",
+      "email": "Email",
+      "forgot_password": "Forgot password?",
       "guest_continue": "Continue",
       "guest_title": "Continue as a guest",
-      "password": "Password *",
+      "password": "Password",
       "title": "Log in",
-      "sign_in": "Log in",
+      "sign_in": "Sign in",
       "submit": "Submit",
-      "error": "cannot be blank",
-      "required": "Required field",
-      "error_email": "Invalid Email Address"
+      "alternate_provider_separator": "or",
+      "error_messages": {
+        "invalid_emailpattern": "Please enter a valid email address (e.g., example@gmail.com)"
+      }
     },
-    "login_register_placeholder": {
-      "title": "Why Join",
-      "point1": "Check order history and status",
-      "point2": "Store and manage your delivery addresses",
-      "point3": "Update your personal preferences",
-      "point4": "",
-      "register": "Join now"
+    "register": {
+      "title": "Register",
+      "first_name": "First name",
+      "first_name_error": "Enter your first name",
+      "last_name": "Last name",
+      "last_name_error": "Enter your last name",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "password_match_error": "Passwords do not match",
+      "password_empty_error": "Enter a valid password",
+      "accepts_marketing": "I agree to receive exclusive sales and offers.",
+      "privacy_html": "<p class=\"light\">By creating an account, you agree to our</p> <a class=\"{{ class }}\" href=\"{{ link }}\" target=\"_blank\">Privacy Policy</a>.",
+      "submit": "Register",
+      "privacy_policy_link": "/pages/privacy-policy",
+      "error_messages": {
+        "invalid_email": "Invalid Email Address",
+        "invalid_emailpattern": "Please enter a valid email address (e.g., example@gmail.com)",
+        "passwordsDoNotMatchAndMinLength": "Passwords do not match and must be at least 5 characters",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "passwordMinLength": "Password must be at least 5 characters",
+        "invalidEmailShopifyForms": "Please enter a valid email address"
+      }
     },
     "order": {
       "title": "Order {{ name }}",
@@ -201,7 +229,8 @@
       "fulfillment_status": "Fulfillment Status",
       "discount": "Discount",
       "shipping": "Shipping",
-      "tax": "Tax",
+      "free_shipping": "Free",
+      "tax": "Estimated Tax",
       "product": "Product",
       "sku": "SKU",
       "price": "Price",
@@ -215,102 +244,33 @@
       "tracking_number": "Tracking number",
       "subtotal": "Subtotal",
       "total_duties": "Duties",
-      "back_to_orders": "Back",
-      "order_number": "Order",
-      "order_again": {
-        "title": "Order again?",
-        "text": "Only products that are available will be added to your cart.",
-        "button": "Order again"
-      },
-      "need_help": {
-        "title": "Need help?",
-        "text": "Call customer services free on 0808 1781188."
-      },
-      "order_status": {
-        "paid": "paid",
-        "fulfilled": "fulfilled",
-        "unfulfilled": "unfulfilled",
-        "pending": "pending",
-        "authorized": "authorized",
-        "refunded": "refunded",
-        "partial":"partial"
-      }
+      "back_to_all_orders": "Back to all orders"
     },
     "orders": {
-      "title": "My Orders",
+      "title": "Orders",
       "order_number": "Order Number",
       "order_number_link": "Order number {{ number }}",
-      "date": "Date",
+      "date": "Order Date",
       "payment_status": "Payment status",
       "fulfillment_status": "Fulfillment status",
-      "total": "Total",
-      "none": "You haven't placed any orders yet. Please click the link below to continue shopping.",
-      "go_shopping": "Go Shopping!"
-    },
-    "navigation": {
-      "personal_details": "Account Details",
-      "order_history": "Orders",
-      "order_history_mobile": "Orders",
-      "address_book": "Addresses",
-      "logout": "Log out"
-    },
-    "personal_details": {
-      "title": "Account Details",
-      "info_html": "To change any of your personal information, please contact us at <a href=\"mailto:help@shopredone.com\">help@shopredone.com<\/a>."
+      "total": "Order Total",
+      "none": "You haven't placed any orders yet.",
+      "shop_now": "Start Shopping",
+      "shop_now_link": "/collections/all",
+      "view_order": "View Order",
+      "view_order_number": "View Order Number {{ order_number }}"
     },
     "recover_password": {
-      "title": "Reset Password",
-      "subtext": "Please enter your email address and we will send you an email containing your login details.",
-      "success": "Your password has now been sent. Please check your email inbox.",
-      "submit": "Submit",
-      "back_to_login": "Back to log In"
-    },
-    "register": {
-      "title": "Join",
-      "first_name": "First name *",
-      "last_name": "Last name *",
-      "email": "Email address *",
-      "invoice": "Do you want an invoice?",
-      "vat": "VAT number - required for invoices *",
-      "sdi": "SDI code - required for invoice *",
-      "password": "Password *",
-      "submit": "Join now",
-      "login_link": "Log in",
-      "errors": {
-        "invalid": "cannot be blank",
-        "email_invalid": "Invalid Email Address",
-        "terms_invalid": "Please agree with our terms and conditions"
-      },
-      "communication_preferences": {
-        "communication_title": "Communication preferences",
-        "communication_description": "Be the first to hear about our latest news, private sales and exclusive events.",
-        "communication_checkbox": "I would like to receive email communication from",
-        "privacy_title":"Terms and conditions",
-        "privacy_checkbox_html":"I accept the <a class=\"{{ class }}\" href=\"{{ link }}\">Terms & Conditions<\/a> *"
-      }
+      "title": "Reset password",
+      "subtext": "Please enter your email below. If there is an associated account, you will receive a message with a link to reset your passsword.",
+      "success": "Check your inbox, an email with a password reset is on its way."
     },
     "reset_password": {
-      "title": "Reset password",
-      "subtext": "Please enter your new password.",
+      "title": "Reset account password",
+      "subtext": "Enter a new password",
       "password": "Password",
       "password_confirm": "Confirm password",
-      "password_length": "Password length must be greater than 5",
-      "password_mismatch": "Password does not match",
       "submit": "Reset password"
-    },
-    "activate_account": {
-      "title": "Activate Account",
-      "subtext": "Please enter your password.",
-      "password": "Password",
-      "password_confirm": "Confirm password",
-      "submit": "Submit",
-      "cancel": "Cancel"
-    },
-    "account_addresses": {
-      "default_address": "Default Address",
-      "add_address": "Add Address",
-      "edit_address": "Edit",
-      "delete_address": "Delete"
     }
   },
   "header": {

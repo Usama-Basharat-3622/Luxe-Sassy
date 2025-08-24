@@ -1,0 +1,298 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  @media screen and (max-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-width">
+  <div class="customer login section-{{ section.id }}-padding">
+    <div id="RecoverPasswordForm" style="display: none;">
+      <div class="recover-password-form">
+        <h1 id="recover" class="button button--tertiary active typography--body-regular">
+          {{ 'customer.recover_password.title' | t }}
+        </h1>
+      </div>
+
+      <div>
+        <div class="recover-password-subtext typography--body-regular">
+          <p>
+            {{ 'customer.recover_password.subtext' | t }}
+          </p>
+        </div>
+
+        {%- form 'recover_customer_password' -%}
+          {% assign recover_success = form.posted_successfully? %}
+          <div class="field field--input typography--body-regular">
+            <div class="field-line">
+              <input
+                type="email"
+                value=""
+                name="email"
+                id="RecoverEmail"
+                data-label="{{ 'customer.login_page.email' | t | replace: 'ENTER', '' | replace: '*', '' }}"
+                placeholder="{{ 'customer.login_page.email' | t }}"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                {% if form.errors %}
+                  aria-invalid="true"
+                  aria-describedby="RecoverEmail-email-error"
+                  autofocus
+                {% endif %}
+                required
+                pattern="^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$"
+                title="{{ 'customer.login_page.error_messages.invalid_emailpattern' | t }}"
+              >
+              <label for="RecoverEmail">
+                {{ 'customer.login_page.email' | t }}
+              </label>
+            </div>
+          </div>
+
+          <div class="login-footer-container">
+            {%- if form.errors -%}
+              <div id="RecoverEmail-email-error" class="form-error-message typography--uppercase" tabindex="-1" autofocus>
+                <span>
+                  {{ 'warning-icon.svg' | inline_asset_content }}
+                </span>
+                <h3>{{ form.errors.messages.form }}</h3>
+              </div>
+            {%- endif -%}
+
+            <div class="field">
+              <button class="button button--primary typography--body-regular"> {{ 'customer.login_page.reset_password' | t }} </button>
+            </div>
+          </div>
+
+          <div class="field back-to-login">
+            <a
+              href="javascript:void(0);"
+              onclick="showLoginForm()"
+              class="recover-link link link--block link--underline link--hover-color-change typography--navigation"
+              aria-label="{{ 'customer.login_page.cancel_label' | t }}"
+            >
+              <span>{{ 'customer.login_page.cancel_label' | t }}</span>
+            </a>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+
+    <div id="CustomerLoginForm">
+      <div class="account-nav typography--body-regular">
+        <div
+          id="login"
+          class="customer-login"
+          tabindex="-1"
+        >
+          <a
+            href="{{ routes.account_login_url }}"
+            class="link button button--tertiary {% if request.path == routes.account_login_url %}active{% endif %}"
+            aria-label="{{ 'customer.login_page.title' | t }}"
+          >
+            {{ 'customer.login_page.title' | t }}
+          </a>
+        </div>
+        <div
+          id="Register"
+          class="customer-create-account"
+          tabindex="-1"
+        >
+          <a
+            href="{{ routes.account_register_url }}"
+            class="link button button--tertiary {% if request.path == routes.account_register_url %}active{% endif %}"
+            aria-label="{{ 'customer.register.title' | t }}"
+          >
+            {{ 'customer.register.title' | t }}
+          </a>
+        </div>
+      </div>
+      <div>
+        {%- if recover_success == true -%}
+          <div class="recover-password-form recover-password-success-form">
+            <div class="nav-cta">
+              {{ 'customer.recover_password.title' | t }}
+            </div>
+          </div>
+          <p class="form__message recover_password_success typography--body-regular" tabindex="-1" autofocus>
+            {{ 'customer.recover_password.success' | t }}
+          </p>
+          <div class="form-grid recover-success__back-to-login">
+            {% assign log_in = 'customer.login_page.title' | t %}
+            {%- render 'button', href: routes.account_login_url, content: log_in, secondary: false, aria-label: log_in -%}
+          </div>
+        {%- endif -%}
+
+        {%- form 'customer_login', class: 'field-block' -%}
+          <div class="field field--input typography--body-regular">
+            <!-- placeholder is required to make the animation work -->
+            <div class="field-line">
+              <input
+                type="email"
+                name="customer[email]"
+                id="customer_login_email"
+                data-label="{{ 'customer.login_page.email' | t | replace: 'ENTER', '' | replace: '*', '' }}"
+                placeholder="{{ 'customer.login_page.email' | t }}"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+                {% if form.errors contains 'form' %}
+                  aria-invalid="true"
+                {% endif %}
+                pattern="^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$"
+                title="{{ 'customer.login_page.error_messages.invalid_emailpattern' | t }}"
+              >
+              <label for="RecoverEmail">
+                {{ 'customer.login_page.email' | t }}
+              </label>
+            </div>
+          </div>
+
+          {%- if form.password_needed -%}
+            <div class="field field--input typography--body-regular">
+              <!-- placeholder is required to make the animation work -->
+              <div class="field-line">
+                <input
+                  type="password"
+                  name="customer[password]"
+                  id="customer_login_password"
+                  autocomplete="current-password"
+                  data-label="{{ 'customer.login_page.password' | t | replace: 'ENTER', '' | replace: '*', '' }}"
+                  placeholder="{{ 'customer.login_page.password' | t }}"
+                  minlength="5"
+                  required
+                >
+                <label for="customer_login_password">
+                  {{ 'customer.login_page.password' | t }}
+                </label>
+              </div>
+            </div>
+
+            <div class="forgot-password">
+              <a
+                href="javascript:void(0);"
+                onclick="showRecoverForm()"
+                class="recover-link link link--underline link--block link--hover-color-change typography--navigation"
+                aria-label="Forgot password"
+              >
+                <span>{{ 'customer.login_page.forgot_password' | t }}</span>
+              </a>
+            </div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="form-error-message" tabindex="-1" autofocus>
+              <small class="input-error typography--body-small">
+                {{ 'warning-icon.svg' | inline_asset_content }}
+                <span>{{ form.errors | default_errors }}</span>
+              </small>
+            </div>
+          {%- endif -%}
+          <div class="login-footer-container">
+            <button class="button button--primary typography--body-regular" aria-label="{{ 'customer.login_page.title' | t }}"> {{ 'customer.login_page.title' | t }} </button>
+          </div>
+        {%- endform -%}
+
+        {% comment %}
+          <div class="form-grid recover_success">
+            {% capture login_page_title %}{{ 'customer.login_page.title' | t }}{% endcapture %}
+            {% capture login_redirect %}window.location.href='{{ routes.account_login_url }}'{% endcapture %}
+              {% render 'button',
+                content: login_page_title | t,
+                aria_label: login_page_title | t,
+                onclick: login_redirect
+              %}
+          </div>
+        {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const forgot_email = document.getElementById('RecoverEmail');
+  const login_email = document.getElementById('customer_login_email');
+  const recoverForm = document.getElementById('RecoverPasswordForm');
+  const loginForm = document.getElementById('CustomerLoginForm');
+
+  window.onload = () => {
+    toggleForms(window.location.hash === '#recover');
+  };
+
+  function toggleForms(isRecover) {
+    recoverForm.style.display = isRecover ? 'block' : 'none';
+    loginForm.style.display = isRecover ? 'none' : 'block';
+    recoverForm.setAttribute('data-form-state', isRecover ? 'visible' : 'hidden');
+    (isRecover ? forgot_email : login_email).focus();
+    history.pushState(null, null, isRecover ? '#recover' : '#login');
+  }
+
+  function showRecoverForm() {
+    toggleForms(true);
+  }
+
+  function showLoginForm() {
+    toggleForms(false);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-login.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

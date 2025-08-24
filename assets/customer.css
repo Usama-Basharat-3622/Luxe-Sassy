@@ -1,14 +1,19 @@
-.customer:not(.account):not(.order) {
+.customer {
   margin: 0 auto;
-  max-width: 33.4rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  max-width: 36rem;
   text-align: center;
+  min-height: calc(100svh - var(--header-bottom-position));
+}
+
+.customer:is(.addresses, .account) {
+  height: max-content;
+  min-height: calc(100svh - var(--header-bottom-position));
+  width: 100%;
 }
 
 @media screen and (min-width: 750px) {
-  .customer:not(.account):not(.order) {
-    max-width: 47.8rem;
+  .customer {
+    max-width: 42.7rem;
   }
 }
 
@@ -18,18 +23,7 @@
 }
 
 .customer form {
-  margin-top: 4rem;
-}
-
-.customer button {
-  margin: 4rem 0 1.5rem;
-}
-
-.customer ul {
-  line-height: calc(1 + 0.6 / var(--font-body-scale));
-  padding-left: 4.4rem;
-  text-align: left;
-  margin-bottom: 4rem;
+  margin-top: 3rem;
 }
 
 .customer ul a {
@@ -38,7 +32,7 @@
 
 .customer strong {
   font-weight: normal;
-  color: rgb(var(--color-black));
+  color: rgb(var(--color-foreground));
 }
 
 .customer h2.form__message {
@@ -51,8 +45,14 @@
   }
 }
 
-.customer .field {
-  margin: 2rem 0 0 0;
+.customer .field,
+.customer .forgot-password,
+.login-footer-container {
+  margin: 1.5rem 0 0 0;
+}
+
+.form-error-message {
+  margin: 1rem 0 0 0;
 }
 
 .customer .field:first-of-type {
@@ -63,7 +63,7 @@
 .customer table {
   table-layout: auto;
   border-collapse: collapse;
-  border-bottom: 0.01rem solid rgba(var(--color-black), 0.08);
+  border-bottom: 0.01rem solid rgba(var(--color-foreground), 0.08);
   box-shadow: none;
   width: 100%;
   font-size: 1.6rem;
@@ -73,7 +73,7 @@
 @media screen and (min-width: 750px) {
   .customer table {
     border: none;
-    box-shadow: 0 0 0 0.1rem rgba(var(--color-black), 0.08);
+    box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.08);
   }
 }
 
@@ -85,7 +85,7 @@
 }
 
 .customer tbody {
-  color: rgb(var(--color-black));
+  color: rgb(var(--color-foreground));
 }
 
 .customer th,
@@ -160,7 +160,7 @@
 }
 
 .customer tbody tr {
-  border-top: 0.01rem solid rgba(var(--color-black), 0.08);
+  border-top: 0.01rem solid rgba(var(--color-foreground), 0.08);
 }
 
 @media screen and (min-width: 750px) {
@@ -216,7 +216,7 @@
   display: block;
   position: absolute;
   left: 0;
-  background: rgba(var(--color-black), 0.08);
+  background: rgba(var(--color-foreground), 0.08);
 }
 
 @media screen and (forced-colors: active) {
@@ -240,7 +240,7 @@
   }
 
   .customer td::before {
-    color: rgba(var(--color-black), 0.75);
+    color: rgba(var(--color-foreground), 0.75);
     content: attr(data-label);
     font-size: 1.4rem;
     padding-right: 2rem;
@@ -329,10 +329,11 @@
 }
 
 /* Login */
-.login a {
+.login a,
+.register a,
+.account-nav a {
   display: block;
   margin: 0 auto;
-  width: fit-content;
 }
 
 .login a[href="#recover"] {
@@ -345,7 +346,7 @@
 }
 
 .login p {
-  margin: 1.5rem 0;
+  margin: 2.5rem 0;
 }
 
 .login h3 {
@@ -361,6 +362,13 @@
 #recover,
 #recover + div {
   display: none;
+}
+
+[data-form-state="visible"] #recover ,
+.recover-password-success-form .button--tertiary,
+.reset-password .button--tertiary{
+  display: block;
+  pointer-events: none;
 }
 
 #recover:target {
@@ -388,7 +396,10 @@
 .activate button[name="decline"],
 .addresses li > button,
 .addresses form button[type] {
-  background-color: rgba(var(--color-white), var(--alpha-button-background));
+  background-color: rgba(
+    var(--color-background),
+    var(--alpha-button-background)
+  );
   color: rgb(var(--color-link));
 }
 
@@ -400,33 +411,13 @@
 }
 
 /* Account/Order */
-:is(.account, .order) {
-  margin: 0 auto;
-  max-width: var(--page-width);
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
 
-@media screen and (min-width: 750px) {
-  :is(.account, .order) {
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
-}
-
-@media screen and (min-width: 990px) {
-  :is(.account, .order) > div:nth-of-type(2) {
-    display: flex;
-    margin-top: 5rem;
-  }
-}
-
-@media screen and (min-width: 990px) {
-  :is(.account, .order) > div:nth-of-type(2) > div:first-of-type {
+/* @media screen and (min-width: 990px) {
+  :is(.account, .order)>div:nth-of-type(2)>div:first-of-type {
     flex-grow: 1;
     padding-right: 3.2rem;
   }
-}
+} */
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
   .order > div:nth-of-type(2) > div:last-of-type {
@@ -438,7 +429,7 @@
   }
 }
 
-:is(.account, .order) p {
+/* :is(.account, .order) p {
   margin: 0 0 2rem;
   font-size: 1.6rem;
 }
@@ -450,15 +441,15 @@
 :is(.account, .order) h2 {
   margin-top: 4rem;
   margin-bottom: 1rem;
-}
+} */
 
-@media screen and (min-width: 990px) {
+/* @media screen and (min-width: 990px) {
   :is(.account, .order) h2 {
     margin-top: 0;
   }
-}
+} */
 
-.account h1 + a {
+/* .account h1+a {
   display: inline-flex;
   align-items: center;
 }
@@ -467,7 +458,7 @@
   width: 1.5rem;
   margin-bottom: -0.03rem;
   margin-right: 1rem;
-}
+} */
 
 @media screen and (min-width: 750px) {
   .account thead th:last-child,
@@ -551,7 +542,7 @@
 
 .order .fulfillment {
   width: fit-content;
-  border: 0.01rem solid rgba(var(--color-black), 0.2);
+  border: 0.01rem solid rgba(var(--color-foreground), 0.2);
   padding: 1rem;
   margin-top: 1rem;
   font-size: 1.4rem;
@@ -622,7 +613,7 @@
 
 .order .svg-wrapper {
   width: 1.1rem;
-  color: rgb(var(--color-black));
+  color: rgb(var(--color-foreground));
   margin-right: 0.5rem;
 }
 
@@ -636,7 +627,7 @@
 }
 
 .order dd s {
-  color: rgba(var(--color-black), 0.7);
+  color: rgba(var(--color-foreground), 0.7);
 }
 
 .order .unit-price {
@@ -645,7 +636,7 @@
   line-height: calc(1 + 0.2 / var(--font-body-scale));
   margin-top: 0.2rem;
   text-transform: uppercase;
-  color: rgba(var(--color-black), 0.7);
+  color: rgba(var(--color-foreground), 0.7);
 }
 
 .order .regular-price {
@@ -682,6 +673,7 @@ label[for="AddressProvinceNew"] {
 
 .addresses form {
   display: flex;
+  justify-content: space-between;
   flex-flow: row wrap;
 }
 
@@ -697,7 +689,7 @@ label[for="AddressProvinceNew"] {
 }
 
 li[data-address] {
-  margin-top: 5rem;
+  /* margin-top: 2.5rem; */
 }
 
 .addresses [aria-expanded="false"] ~ div[id] {
@@ -735,7 +727,7 @@ li[data-address] > h2 {
 
 @media only screen and (min-width: 750px) {
   .addresses form > div:nth-of-type(1) {
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
   }
 
   .addresses form > div:nth-of-type(2) {
@@ -745,11 +737,650 @@ li[data-address] > h2 {
   .addresses form > div:nth-of-type(1),
   .addresses form > div:nth-of-type(2) {
     box-sizing: border-box;
-    flex-basis: calc(50% - 1rem);
+    flex-basis: calc(50% - 0.5rem);
   }
 }
 
 .addresses form > div:nth-of-type(7),
 .addresses form > div:nth-of-type(7) + div[id] {
+  /* margin-top: 1.5rem; */
+}
+
+/* Login Style */
+
+.account-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.login .account-nav a.button--tertiary {
+  padding-inline: 3.626rem;
+}
+
+.login .account-nav a.button--tertiary.active {
+  padding-inline: 3.626rem;
+}
+.customer .button--tertiary.active {
+    border-color: rgb(var(--color-black));
+    color: rgb(var(--color-black));
+    background-color: rgb(var(--color-background));
+}
+
+.login .account-nav div.button--tertiary {
+  padding-inline: 3.3rem;
+}
+
+.login .customer-create-account,
+.register .customer-login {
+  --color-primary: var(--color-guava-pink);
+}
+
+.recover-password-form {
+  --color-primary: var(--color-guava-pink);
+  display: flex;
+  justify-content: center;
+}
+
+.customer-login,
+.customer-create-account {
+  cursor: pointer;
+}
+
+.recover-link {
+  width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.forgot-password,
+.back-to-login {
+  max-width: fit-content;
+}
+
+.form-error-message .input-error {
+  margin: unset;
+}
+
+.form-error-message ul {
+  margin: unset;
+  padding: unset;
+  list-style: none;
+}
+
+.login-footer-container .button {
+  width: 100%;
+  margin: unset;
+}
+
+/* Recovery Form */
+
+.register .account-nav .customer-login .button--tertiary {
+  padding-inline: 3.626rem;
+}
+
+.register .account-nav .customer-create-account .button--tertiary {
+  padding-inline: 3.265rem;
+}
+
+.recover-password-subtext {
+  text-align: left;
+}
+
+#RecoverPasswordForm .field--input input,
+#CustomerLoginForm .field--input input {
+  max-width: 100%;
+}
+
+body:has(.login .recover_password_success) .field-block,
+body:has(.login .recover_password_success) .account-nav,
+body:not(:has(.login .recover_password_success)) .recover_success {
+  display: none !important;
+}
+
+body:not(:has(.login .recover_password_success)) .field-block {
+  display: block;
+}
+
+body:not(:has(.login .recover_password_success)) .account-nav {
+  display: flex;
+}
+
+.recover_password_success {
+  text-align: left;
+}
+
+.recover-success__back-to-login a {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Register */
+
+.submit-button-wrapper button {
+  width: 100%;
+  max-width: 100%;
+}
+
+.register .privacy-content {
   margin-top: 1.5rem;
+  text-align: left;
+}
+
+.register .light.typography--body-small{
+  color: rgb(var(--color-grey-dark));
+}
+
+.register .privacy-content p ,
+.register .privacy-content a {
+  display: inline-block;
+}
+
+.register .form-error-message {
+  display: none;
+}
+
+.register .fields-columns-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.register .fields-columns-wrapper .field {
+  flex: 1;
+  margin: unset;
+}
+
+.register .field--input .invalid-input {
+  border-color: rgba(var(--color-accent-red), 1);
+}
+
+.register .invalid-input + .form-error-message {
+  display: block;
+}
+
+.register .invalid-input ~ .form-error-message .input-error {
+  margin-bottom: unset;
+}
+
+.register .field--checkbox input[type="checkbox"]:focus + label span {
+  border-color: rgb(var(--color-black));
+}
+
+.register .field--checkbox {
+  text-align: left;
+  display: flex;
+}
+
+.register #acceptsMarketing + label {
+  display: grid;
+  margin-inline: unset;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.6rem;
+}
+
+/* Account/Order */
+
+.account .account-nav,
+.account .orders-none p {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.account .orders-none .button {
+  width: 100%;
+}
+
+.account .button--tertiary:is(.active) {
+  padding-inline: 3.28rem;
+}
+
+.account .button--tertiary:not(.active) {
+  --color-primary: var(--color-guava-pink);
+  padding-inline: 2.13rem;
+}
+
+.accounts-info {
+  padding: 1.2rem 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .accounts-info {
+    margin-bottom: 3.6rem;
+  }
+}
+
+.accounts-info .button {
+  min-width: 1.05rem;
+}
+
+.order-info-container .order-info,
+.customer-order-detail .order-info {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 2.8rem;
+}
+
+.order-info-container .order-info .order-number,
+.order-info-container .order-info .order-total,
+.order-info-container .order-info .order-date-innerr,
+.customer-order-detail .order-info .order-number,
+.customer-order-detail .order-info .order-total,
+.customer-order-detail .order-info .order-date-innerr {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.order-info-container .order-info .order-date,
+.customer-order-detail .order-info .order-date {
+  display: flex;
+  justify-content: center;
+}
+
+.order-info-container .order-info .order-date-inner,
+.customer-order-detail .order-info .order-date-inner {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+.order-info-container .order-info .order-date-inner span,
+.customer-order-detail .order-info .order-date-inner span {
+  display: block;
+  width: 100%;
+}
+
+.order-info-container .order-info .order-total,
+.customer-order-detail .order-info .order-total {
+  text-align: right;
+}
+
+.order-info-container .order-cancelled,
+.customer-order-detail .order-cancelled {
+  margin-bottom: 2.8rem;
+}
+
+.order-info-container .order-detailed-info .button,
+.customer-order-detail .order-detailed-info .button {
+  width: 100%;
+}
+
+.return-to-order-info,
+.return-to-button {
+  display: flex;
+  margin-bottom: 2.5rem;
+  text-transform: unset;
+  column-gap: 0.8rem;
+  align-items: center;
+}
+
+.return-to-order-info:before,
+.return-to-button:before {
+  content: unset;
+}
+
+.return-to-order-info:hover svg,
+.return-to-button:hover svg {
+  fill: rgb(var(--color-primary));
+}
+
+.return-to-order-info:hover span,
+.return-to-button:hover span {
+  transform: unset;
+}
+
+.return-to-button {
+  margin-top: 2.5rem;
+  border: unset;
+  background: unset;
+  padding: unset;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 7.3rem 1fr;
+  place-items: center;
+  align-items: center;
+  column-gap: 2.1rem;
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
+  border-width: 0.1rem;
+  border-bottom-style: dashed;
+}
+
+.order-item > a {
+  padding-bottom: 125%;
+  position: relative;
+  width: 100%;
+  height: 9.9rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--color-card-bg);
+}
+
+.order-item > a .order-item-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.order-info-container:not(:last-of-type) {
+  padding-bottom: 4.4rem;
+  margin-bottom: 4.4rem;
+  border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
+  border-width: 0.1rem;
+  border-bottom-style: dashed;
+}
+
+.order-item-details {
+  width: 100%;
+}
+
+.order-item-details .order-item-inner {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.2rem;
+  text-align: left;
+}
+
+.order-item-details .order-item-inner .order-item-inner__row {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  column-gap: 1rem;
+}
+
+.order-item-details .order-item-inner .order-item-inner__row .line-item-price {
+  text-wrap: nowrap;
+  margin-top: 0.8rem;
+}
+
+.order-item-details .order-item-inner .order-item-inner__row .line-item-price dl {
+  display: flex;
+  column-gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.order-summary-rows-wrapper,
+.order-summary__row--total {
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
+  border-width: 0.1rem;
+  border-bottom-style: dashed;
+}
+
+.order-summary-rows-wrapper .order-summary__row,
+.order-summary__row--total .order-summary__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.order-summary-rows-wrapper .order-summary__row:last-of-type,
+.order-summary__row--total .order-summary__row:last-of-type {
+  margin-bottom: unset;
+}
+
+.order-summary__row--total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-toggle {
+  display: flex;
+  column-gap: 0.3rem;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-content {
+  margin-block: 0.6rem;
+  text-align: left;
+}
+
+.accordion-content .order-summary__row {
+  gap: 5rem;
+}
+
+.order-details:has(.order-shipping, .order-billing) {
+  display: grid;
+  grid-template-columns: 12.8rem 10.9rem;
+  gap: 3.5rem;
+  text-align: left;
+}
+
+@media (min-width: 990px) {
+  #MainContent:has(.order-viewed),
+  #MainContent:has(.customer.account) {
+    position: relative;
+  }
+
+  #MainContent:has(.order-viewed, .customer.account , .customer.addresses) .accounts-info {
+    position: sticky;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .accounts-info {
+    padding: 2.2rem 2.4rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .accounts-info .button {
+    min-width: 1.05rem;
+  }
+}
+/* ADDRESSES */
+
+.addresses .address-edit-form button svg,
+.addresses .address-form button svg {
+  width: 7px;
+}
+
+.addresses .button--tertiary:is(.active) {
+  padding-inline: 2.13rem;
+}
+
+.addresses .button--tertiary:not(.active) {
+  --color-primary: var(--color-guava-pink);
+  padding-inline: 3.3rem;
+}
+
+.no-addresses-yet {
+  margin-block: 2.5rem;
+  text-align: left;
+}
+
+.addresses:has(.no-addresses-yet) [data-address] button {
+  width: 100%;
+}
+
+.customer.addresses:has(.add-new-address-button[aria-expanded="true"]) :where(.add-new-address-button, .no-addresses-yet, .customer-addresses-list) {
+  display: none;
+}
+
+.add-new-address-button,
+.addresses .address-edit-form.active button,
+.addresses .addresses-page__form-buttons button {
+  width: 100%;
+}
+
+.addresses .address-edit-form.active button {
+  width: 100%;
+  margin-right: unset;
+}
+
+.addresses .address-edit-form.active button.return-to-button {
+  width: fit-content;
+}
+
+.city-zip-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+
+.customer.addresses:has(.customer-addresses-list) .customer-addresses-forms-list .address-edit-form:not(.active) {
+  display: none;
+}
+
+.customer-addresses-list {
+  margin-block: 2.5rem;
+}
+
+.customer-addresses-list .address-wrapper-main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 2rem;
+  text-align: left;
+}
+
+.customer-addresses-list .address-wrapper-main:not(:last-of-type) {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
+  border-width: 0.1rem;
+  border-bottom-style: dashed;
+}
+
+.customer.addresses:has(.address-edit-form.active) :is(.customer-addresses-list, .customer-addresses-list + div button),
+.addresses:has(.add-new-address-button[aria-expanded="true"]) .single-address-form {
+  display: none;
+}
+
+.edit-delete-addresses-buttons {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6rem;
+}
+
+.custom-edit-button,
+.custom-delete-button {
+  background: unset;
+  border: unset;
+  cursor: pointer;
+  padding: unset;
+}
+
+.custom-edit-button:hover,
+.custom-delete-button:hover {
+  opacity: 1;
+}
+
+.modal.delete-address-modal:not(.open) {
+  display: none;
+}
+
+.modal.delete-address-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  top: 0;
+  left: 0;
+}
+
+.modal.delete-address-modal .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 3rem);
+  max-width: 44rem;
+  z-index: 102;
+  background-color: rgb(var(--color-white));
+  padding: 2.5rem;
+  border-radius: 2rem;
+}
+
+@media (min-width: 768px) {
+  .modal.delete-address-modal .modal-content {
+    width: 100%;
+  }
+}
+
+.modal.delete-address-modal .modal-content .disclaimer-text {
+  max-width: 25.45rem;
+  padding-left: 3.64px;
+  padding-top: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal.delete-address-modal .modal-content .disclaimer-text {
+    max-width: 31.1rem;
+    padding-left: 1rem;
+  }
+}
+
+.modal.delete-address-modal .modal-content .close {
+  padding: unset;
+  background-color: unset;
+  border: unset;
+  cursor: pointer;
+  position: absolute;
+  right: 2.5rem;
+}
+
+.modal.delete-address-modal .modal-content .button {
+  width: 100%;
+}
+
+.default-address-field > input {
+  position: absolute !important;
+  overflow: hidden;
+  width: 0.1rem;
+  height: 0.1rem;
+  margin: -0.1rem;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+.modal.delete-address-modal:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--color-black), 0.5);
+  z-index: 1;
+}
+
+/* Password Reset Page */
+
+.reset-password .input-error {
+  margin-bottom: unset;
+  text-align: left;
+}
+
+.reset-password .reset-button-wrapper .button {
+  width: 100%;
 }

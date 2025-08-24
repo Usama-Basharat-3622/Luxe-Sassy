@@ -1,0 +1,550 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+  @media screen and (max-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-width">
+  <div class="customer account section-{{ section.id }}-padding">
+    <div class="accounts-info hidden≥768">
+      {% if customer %}
+        {%- assign customer_first_name = customer.first_name -%}
+        <span class="typography--body-regular">{{ 'customer.account.greetings' | t: name: customer_first_name }}</span>
+      {% endif %}
+      <a href="{{ routes.account_logout_url }}" class="link link--block link--underline link--hover-color-change" aria-label="{{ 'customer.log_out' | t }}"> {{ 'customer.log_out' | t }} </a>
+    </div>
+
+    <div class="account-nav typography--body-regular">
+      <h1 id="Orders" class="customer-orders" tabindex="-1">
+        <a
+          href="{{ routes.account_url }}"
+          class="link button button--tertiary {% if request.path == routes.account_url %}active{% endif %}"
+          aria-label="{{ 'customer.orders.title' | t }}"
+        >
+          {{ 'customer.orders.title' | t }}
+        </a>
+      </h1>
+      <h1 id="Addresses" class="customer-addresses" tabindex="-1">
+        <a
+          href="{{ routes.account_addresses_url }}"
+          class="link button button--tertiary {% if request.path == routes.account_addresses_url %}active{% endif %}"
+          aria-label="{{ 'customer.addresses.title' | t }}"
+        >
+          {{ 'customer.addresses.title' | t }}
+        </a>
+      </h1>
+    </div>
+
+    <div class="orders-main-container">
+      {%- if customer.orders.size > 0 -%}
+        {%- for order in customer.orders -%}
+          <div class="order-info-container">
+            <div class="order-info">
+              <div class="order-number typography--body-regular">
+                <span class="light">{{ 'customer.orders.order_number' | t }}</span>
+                <span>{{ order.name | remove: '#' }}</span>
+              </div>
+              <div class="order-date typography--body-regular">
+                <div class="order-date-inner">
+                  <span class="light">{{ 'customer.orders.date' | t }}</span>
+                  <span>{{ order.created_at | date: '%m/%d/%y' }}</span>
+                </div>
+              </div>
+              <div class="order-total typography--body-regular">
+                <span class="light">{{ 'customer.orders.total' | t }}</span>
+                <span>{{ order.total_net_amount | money }}</span>
+              </div>
+            </div>
+
+            <div class="order-detailed-info">
+              <div class="form-grid">
+                {% capture view_order_label %}{{ 'customer.orders.view_order_number' | t: order_number: order.name }}{% endcapture %}
+                {% capture view_order_content %}{{ 'customer.orders.view_order' | t }}{% endcapture %}
+                {%
+                  render 'button',
+                  class: 'view-order-details',
+                  content: view_order_content | t,
+                  aria_label: view_order_label | t,
+                  data_order_name: order.name
+                %}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="orders-none">
+          <p class="typography--body-regular">{{ 'customer.orders.none' | t }}</p>
+          <a href="{{ 'customer.orders.shop_now_link' | t  }}" class="link button button--primary typography--body-regular shop-now-button" aria-label="{{ 'customer.orders.shop_now' | t }}"> {{ 'customer.orders.shop_now' | t }} </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if customer.orders.size > 0 -%}
+      {%- for order in customer.orders -%}
+        <div class="customer-order-detail hidden" data-order-name="{{ order.name }}" tabindex="-1">
+          <a href="" class="return-to-order-info text-cta link--no-underline" aria-label="Back to all orders">
+            <svg width="6" height="12" viewBox="0 0 6 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.54262e-07 5.99916L5.25 0.803009L5.25 11.1953L4.54262e-07 5.99916Z" fill="black"/>
+            </svg>
+            <span>{{ 'customer.order.back_to_all_orders' | t }}</span>
+          </a>
+
+          <div class="order-info">
+            <div class="order-number typography--body-regular">
+              <span class="light">{{ 'customer.orders.order_number' | t }}</span>
+              <span>{{ order.name | remove: '#' }}</span>
+            </div>
+            <div class="order-date typography--body-regular">
+              <div class="order-date-inner">
+                <span class="light">{{ 'customer.orders.date' | t }}</span>
+                <span>{{ order.created_at | date: '%m/%d/%y' }}</span>
+              </div>
+            </div>
+            <div class="order-total typography--body-regular">
+              <span class="light">{{ 'customer.orders.total' | t }}</span>
+              <span>{{ order.total_net_amount | money }}</span>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <div class="order-cancelled typography--body-2 light">
+                {%- if order.cancelled -%}
+                  {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+                  <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+                  <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+                {%- endif -%}
+              </div>
+
+              <div class="order-line-item-properties">
+                {%- for line_item in order.line_items -%}
+                  <div class="order-item">
+                    {%- if line_item.image -%}
+                      <a tabindex="-1" href="{{ line_item.url }}">
+                        {% comment %} {{ line_item.image |  image_url: width: 73 |  image_tag: class: "order-item-image" , alt: line_item.title |  escape }} {% endcomment %}
+                        <img
+                          class="order-item-image"
+                          src="{{ line_item.image | image_url: width: 100 }}"
+                          alt="{{ line_item.title | escape }}"
+                          sizes="(min-width: {{ settings.page_width }}px) 73px, (min-width: 990px) 73px, (min-width: 750px) 73px, 73px"
+                          width="{{line_item.image.width}}"
+                          height="{{line_item.image.height}}"
+                        >
+                      </a>
+                    {%- endif -%}
+
+                    <div class="order-item-details">
+                      <div class="order-item-inner">
+                        <div class="order-item-inner__row">
+                          {%- if line_item.url != blank -%}
+                            <a href="{{ line_item.url }}" class="link--no-underline typography--heading-3">
+                              {{- line_item.product.title | escape -}}
+                            </a>
+                          {%- else -%}
+                            <h3 class="typography--heading-3">{{ line_item.product.title | escape }}</h3>
+                          {%- endif -%}
+
+                          <div class="line-item-price typography--body-2">
+                            {%- if line_item.original_line_price != line_item.final_line_price -%}
+                              <dl>
+                                <dt>
+                                  <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                                </dt>
+                                <dd class="regular-price">
+                                  <s>{{ line_item.original_line_price | money }}</s>
+                                </dd>
+                                <dt>
+                                  <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                                </dt>
+                                <dd>
+                                  <span>{{ line_item.final_line_price | money }}</span>
+                                </dd>
+                              </dl>
+                            {%- else -%}
+                              {{ line_item.original_line_price | money }}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                        <div class="order-item-inner__row">
+                          <div class="line-item-quantity typography--body-2">
+                            <span>
+                              {{- 'customer.order.quantity' | t }}
+                              {{ line_item.quantity -}}
+                            </span>
+                          </div>
+                        </div>
+                        {%- if line_item.line_level_discount_allocations != blank -%}
+                          <ul role="list" aria-label="{{ 'customer.order.discount' | t }}" class="typography--body-2">
+                            {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                              <li>
+                                {{- discount_allocation.discount_application.title | escape }} (-
+                                {{- discount_allocation.amount | money -}}
+                                )
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              <div class="order-summary typography--body-regular">
+                <div class="order-summary-rows-wrapper">
+                  <div class="order-summary__row" id="RowSubtotal" role="rowgroup">
+                    <div class="order-summary__label" role="rowheader">
+                      {{ 'customer.order.subtotal' | t }}
+                    </div>
+                    <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
+                      {{ order.line_items_subtotal_price | money }}
+                    </div>
+                  </div>
+
+                  {%- if order.cart_level_discount_applications != blank -%}
+                    {%- for discount_application in order.cart_level_discount_applications -%}
+                      <div class="order-summary__row" id="RowDiscount" role="rowgroup">
+                        <div class="order-summary__label" role="rowheader">
+                          {{ 'customer.order.discount' | t }}
+                          <span class="cart-discount">
+                            {{- discount_application.title | escape -}}
+                          </span>
+                        </div>
+                        <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.discount' | t }}">
+                          <span>-{{ discount_application.total_allocated_amount | money }}</span>
+                          <span class="cart-discount">
+                            {{- discount_application.title | escape -}}
+                          </span>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  {%- endif -%}
+                  {%- if order.tax_lines.size <= 1 -%}
+                    {%- for tax_line in order.tax_lines -%}
+                      <div class="order-summary__row" id="RowTax" role="rowgroup">
+                        <div class="order-summary__label" role="rowheader">
+                          {{ 'customer.order.tax' | t }}
+                        </div>
+                        <div
+                          class="order-summary__value"
+                          role="cell"
+                          data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title | escape }} {{ tax_line.rate | times: 100 }}%)"
+                        >
+                          {% if tax_line.price and tax_line.price > 0 %}
+                            {{ tax_line.price | money }}
+                          {% else %}
+                            —
+                          {% endif %}
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  {%- else -%}
+                  
+                  <script src="{{ 'tax-accordion-main-account.js' | asset_url }}" defer></script>
+                  
+                    {% assign total_tax = 0 %}
+                    {%- for tax_line in order.tax_lines -%}
+                      {% assign total_tax = total_tax | plus: tax_line.price %}
+                    {%- endfor -%}
+                    <div class="order-summary__row" id="RowTax" role="rowgroup">
+                      <div class="order-summary__label" role="rowheader">
+                        <estimated-tax-accordion
+                          class="accordion-toggle"
+                          aria-expanded="false"
+                          aria-controls="tax-details"
+                          role="button"
+                          tabindex="0"
+                          aria-label="{{ 'customer.order.tax' | t }} - click to expand or collapse tax details"
+                        >
+                          <span>{{ 'customer.order.tax' | t }}</span>
+                          <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.09096 6.09961L0.894806 0.849608L11.2871 0.849609L6.09096 6.09961Z" fill="currentColor"></path>
+                          </svg>
+                        </estimated-tax-accordion>
+                      </div>
+                      <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.tax' | t }}">
+                        {{ total_tax | money }}
+                      </div>
+                    </div>
+                    <div class="accordion-content light" id="tax-details" style="display: none;">
+                      {%- for tax_line in order.tax_lines -%}
+                        <div class="order-summary__row order-summary__row--sub" role="rowgroup">
+                          <div class="order-summary__label" role="rowheader">
+                            {{ tax_line.title | escape }} ({{ tax_line.rate | times: 100 }}%)
+                          </div>
+                          <div
+                            class="order-summary__value"
+                            role="cell"
+                            data-label="{{ tax_line.title | escape }} ({{ tax_line.rate | times: 100 }}%)"
+                          >
+                            {% if tax_line.price and tax_line.price > 0 %}
+                              {{ tax_line.price | money }}
+                            {% else %}
+                              —
+                            {% endif %}
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+
+                  {%- for shipping_method in order.shipping_methods -%}
+                    <div class="order-summary__row" id="RowShipping" role="rowgroup">
+                      <div class="order-summary__label" role="rowheader">
+                        {{ 'customer.order.shipping' | t }}
+                      </div>
+                      <div
+                        class="order-summary__value"
+                        role="cell"
+                        data-label="{{ 'customer.order.shipping' | t }} ({{ shipping_method.title | escape }})"
+                      >
+                        {%- if shipping_method.price == 0 -%}
+                          {{ 'customer.order.free_shipping' | t }}
+                        {%- else -%}
+                          {{ shipping_method.price | money }}
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  {%- endfor -%}
+
+                  {%- if order.total_duties -%}
+                    <div class="order-summary__row" id="RowDuties" role="rowgroup">
+                      <div class="order-summary__label" role="rowheader">
+                        {{ 'customer.order.total_duties' | t }}
+                      </div>
+                      <div
+                        class="order-summary__value"
+                        role="cell"
+                        data-label="{{ 'customer.order.total_duties' | t }}"
+                      >
+                        {{ order.total_duties | money }}
+                      </div>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if order.total_refunded_amount > 0 -%}
+                    <div class="order-summary__row" id="RowTotalRefund" role="rowgroup">
+                      <div class="order-summary__label" role="rowheader">
+                        {{ 'customer.order.total_refunded' | t }}
+                      </div>
+                      <div
+                        class="order-summary__value"
+                        role="cell"
+                        data-label="{{ 'customer.order.total_refunded' | t }}"
+                      >
+                        -{{ order.total_refunded_amount | money }}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                </div>
+                <div class="order-summary__row--total" id="RowTotal" role="rowgroup">
+                  <div class="order-summary__label" role="rowheader">
+                    {{ 'customer.order.total' | t }}
+                  </div>
+                  <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.total' | t }}">
+                    {{ order.total_net_amount | money }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-details typography--body-regular">
+              <div class="order-shipping">
+                <h2 class="order-section-title light">{{ 'customer.order.shipping_address' | t }}</h2>
+                <div class="order-address">
+                  {{ order.shipping_address | format_address }}
+                </div>
+              </div>
+
+              <div class="order-billing">
+                <h2 class="order-section-title light">{{ 'customer.order.billing_address' | t }}</h2>
+                <div class="order-address">
+                  {{ order.billing_address | format_address }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+{% if customer %}
+<div class="accounts-info hidden≤767">  
+    {%- assign customer_first_name = customer.first_name -%}
+    <span class="typography--body-regular">{{ 'customer.account.greetings' | t: name: customer_first_name }}</span> 
+    <a href="{{ routes.account_logout_url }}" class="link link--block link--underline link--hover-color-change" aria-label="{{ 'customer.log_out' | t }}"> {{ 'customer.log_out' | t }} </a>
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".view-order-details");
+    const backButtons = document.querySelectorAll(".return-to-order-info");
+    const ordersContainer = document.querySelector(".orders-main-container");
+    const orderDetails = document.querySelectorAll(".customer-order-detail");
+
+    let previouslyFocusedElement = null; 
+
+    function showOrderFromURL() {
+      const url = new URL(window.location);
+      const orderParam = url.searchParams.get("order");
+
+      if (orderParam) {
+        ordersContainer.classList.add("hidden");
+
+        let found = false;
+        orderDetails.forEach((detail) => {
+          const orderName = detail.getAttribute("data-order-name")?.replace("#", "");
+          if (orderName === orderParam) {
+            detail.classList.remove("hidden");
+            detail.classList.add("order-viewed");
+            trapFocus(detail, detail.querySelector(".return-to-order-info"));
+            found = true;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            detail.classList.add("hidden");
+            detail.classList.remove("order-viewed");
+          }
+        });
+
+        if (!found) {
+          url.searchParams.delete("order");
+          window.history.replaceState({}, "", url);
+        }
+      }
+    }
+
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", function () {
+        const orderName = this.getAttribute("data-order-name").replace("#", "");
+        previouslyFocusedElement = document.activeElement; 
+
+        ordersContainer.classList.add("hidden");
+        orderDetails.forEach((detail) => {
+          detail.classList.add("hidden");
+          detail.classList.remove("order-viewed");
+        });
+
+        if (orderDetails[index]) {
+          orderDetails[index].classList.remove("hidden");
+          orderDetails[index].classList.add("order-viewed");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          trapFocus(orderDetails[index], orderDetails[index].querySelector(".return-to-order-info"));
+        }
+
+        const url = new URL(window.location);
+        url.searchParams.set("order", orderName);
+        window.history.pushState({}, "", url);
+      });
+    });
+
+    backButtons.forEach((button) => {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const orderDetail = this.closest(".customer-order-detail");
+        if (orderDetail) {
+          orderDetail.classList.add("hidden");
+          orderDetail.classList.remove("order-viewed");
+        }
+
+        ordersContainer.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        if (previouslyFocusedElement) {
+          previouslyFocusedElement.focus();
+        }
+
+        const url = new URL(window.location);
+        url.searchParams.delete("order");
+        window.history.pushState({}, "", url);
+      });
+    });
+
+    showOrderFromURL();
+  });
+
+    window.addEventListener('load', () => {
+      typeof CustomerAddresses !== 'undefined' && new CustomerAddresses();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var logoutLinks = document.querySelectorAll('a[href*="/account/logout"]');
+
+    logoutLinks.forEach(function (logoutLink) {
+        logoutLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        fetch(logoutLink.href)
+            .then(function () {
+            window.location.href = '/account/login';
+            });
+        });
+    });
+    });
+</script>
+{% schema %}
+{
+  "name": "t:sections.main-account.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}
