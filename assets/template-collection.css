@@ -77,7 +77,7 @@ ul.breadcrumbs a {
   #product-grid {
     row-gap: 4.4rem;
     column-gap: 1.9rem;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .product-grid-container {
     padding-bottom: 5rem;
@@ -222,4 +222,10 @@ ul.breadcrumbs a {
 
 .pagination-wrapper .opacity-6 {
   color: rgb(var(--color-grey-dark));
+}
+
+@media screen and (max-width: 768px){
+  #product-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
