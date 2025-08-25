@@ -72,15 +72,7 @@
 
             <div class="order-detailed-info">
               <div class="form-grid">
-                {% capture view_order_label %}{{ 'customer.orders.view_order_number' | t: order_number: order.name }}{% endcapture %}
-                {% capture view_order_content %}{{ 'customer.orders.view_order' | t }}{% endcapture %}
-                {%
-                  render 'button',
-                  class: 'view-order-details',
-                  content: view_order_content | t,
-                  aria_label: view_order_label | t,
-                  data_order_name: order.name
-                %}
+                <button class="view-order-details link button button--primary" data-order-name="{{ order.name }}" aria-label="{{ 'customer.orders.view_order_number' | t: order_number: order.name }}"> {{ 'customer.orders.view_order' | t }} </button>
               </div>
             </div>
           </div>
@@ -96,10 +88,8 @@
     {%- if customer.orders.size > 0 -%}
       {%- for order in customer.orders -%}
         <div class="customer-order-detail hidden" data-order-name="{{ order.name }}" tabindex="-1">
-          <a href="" class="return-to-order-info text-cta link--no-underline" aria-label="Back to all orders">
-            <svg width="6" height="12" viewBox="0 0 6 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.54262e-07 5.99916L5.25 0.803009L5.25 11.1953L4.54262e-07 5.99916Z" fill="black"/>
-            </svg>
+          <a href="" class="return-to-order-info text-cta link link--hover-color-change" aria-label="Back to all orders">
+            {{- 'icon-caret_left.svg' | inline_asset_content -}}
             <span>{{ 'customer.order.back_to_all_orders' | t }}</span>
           </a>
 
@@ -122,7 +112,7 @@
 
           <div>
             <div>
-              <div class="order-cancelled typography--body-2 light">
+              <div class="order-cancelled typography--body-small light">
                 {%- if order.cancelled -%}
                   {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
                   <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
@@ -151,14 +141,14 @@
                       <div class="order-item-inner">
                         <div class="order-item-inner__row">
                           {%- if line_item.url != blank -%}
-                            <a href="{{ line_item.url }}" class="link--no-underline typography--heading-3">
+                            <a href="{{ line_item.url }}" class="link link--block link--hover-color-change typography--body-regular-bold">
                               {{- line_item.product.title | escape -}}
                             </a>
                           {%- else -%}
                             <h3 class="typography--heading-3">{{ line_item.product.title | escape }}</h3>
                           {%- endif -%}
 
-                          <div class="line-item-price typography--body-2">
+                          <div class="line-item-price typography--body-regular">
                             {%- if line_item.original_line_price != line_item.final_line_price -%}
                               <dl>
                                 <dt>
@@ -180,7 +170,7 @@
                           </div>
                         </div>
                         <div class="order-item-inner__row">
-                          <div class="line-item-quantity typography--body-2">
+                          <div class="line-item-quantity typography--body-small">
                             <span>
                               {{- 'customer.order.quantity' | t }}
                               {{ line_item.quantity -}}
@@ -188,7 +178,7 @@
                           </div>
                         </div>
                         {%- if line_item.line_level_discount_allocations != blank -%}
-                          <ul role="list" aria-label="{{ 'customer.order.discount' | t }}" class="typography--body-2">
+                          <ul role="list" aria-label="{{ 'customer.order.discount' | t }}" class="typography--body-small">
                             {%- for discount_allocation in line_item.line_level_discount_allocations -%}
                               <li>
                                 {{- discount_allocation.discount_application.title | escape }} (-
@@ -207,7 +197,7 @@
               <div class="order-summary typography--body-regular">
                 <div class="order-summary-rows-wrapper">
                   <div class="order-summary__row" id="RowSubtotal" role="rowgroup">
-                    <div class="order-summary__label" role="rowheader">
+                    <div class="order-summary__label light" role="rowheader">
                       {{ 'customer.order.subtotal' | t }}
                     </div>
                     <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
@@ -218,7 +208,7 @@
                   {%- if order.cart_level_discount_applications != blank -%}
                     {%- for discount_application in order.cart_level_discount_applications -%}
                       <div class="order-summary__row" id="RowDiscount" role="rowgroup">
-                        <div class="order-summary__label" role="rowheader">
+                        <div class="order-summary__label light" role="rowheader">
                           {{ 'customer.order.discount' | t }}
                           <span class="cart-discount">
                             {{- discount_application.title | escape -}}
@@ -236,7 +226,7 @@
                   {%- if order.tax_lines.size <= 1 -%}
                     {%- for tax_line in order.tax_lines -%}
                       <div class="order-summary__row" id="RowTax" role="rowgroup">
-                        <div class="order-summary__label" role="rowheader">
+                        <div class="order-summary__label light" role="rowheader">
                           {{ 'customer.order.tax' | t }}
                         </div>
                         <div
@@ -261,7 +251,7 @@
                       {% assign total_tax = total_tax | plus: tax_line.price %}
                     {%- endfor -%}
                     <div class="order-summary__row" id="RowTax" role="rowgroup">
-                      <div class="order-summary__label" role="rowheader">
+                      <div class="order-summary__label light" role="rowheader">
                         <estimated-tax-accordion
                           class="accordion-toggle"
                           aria-expanded="false"
@@ -283,7 +273,7 @@
                     <div class="accordion-content light" id="tax-details" style="display: none;">
                       {%- for tax_line in order.tax_lines -%}
                         <div class="order-summary__row order-summary__row--sub" role="rowgroup">
-                          <div class="order-summary__label" role="rowheader">
+                          <div class="order-summary__label light" role="rowheader">
                             {{ tax_line.title | escape }} ({{ tax_line.rate | times: 100 }}%)
                           </div>
                           <div
@@ -304,7 +294,7 @@
 
                   {%- for shipping_method in order.shipping_methods -%}
                     <div class="order-summary__row" id="RowShipping" role="rowgroup">
-                      <div class="order-summary__label" role="rowheader">
+                      <div class="order-summary__label light" role="rowheader">
                         {{ 'customer.order.shipping' | t }}
                       </div>
                       <div
@@ -323,7 +313,7 @@
 
                   {%- if order.total_duties -%}
                     <div class="order-summary__row" id="RowDuties" role="rowgroup">
-                      <div class="order-summary__label" role="rowheader">
+                      <div class="order-summary__label light" role="rowheader">
                         {{ 'customer.order.total_duties' | t }}
                       </div>
                       <div
@@ -338,7 +328,7 @@
 
                   {%- if order.total_refunded_amount > 0 -%}
                     <div class="order-summary__row" id="RowTotalRefund" role="rowgroup">
-                      <div class="order-summary__label" role="rowheader">
+                      <div class="order-summary__label light" role="rowheader">
                         {{ 'customer.order.total_refunded' | t }}
                       </div>
                       <div
@@ -352,7 +342,7 @@
                   {%- endif -%}
                 </div>
                 <div class="order-summary__row--total" id="RowTotal" role="rowgroup">
-                  <div class="order-summary__label" role="rowheader">
+                  <div class="order-summary__label typography--body-regular-bold" role="rowheader">
                     {{ 'customer.order.total' | t }}
                   </div>
                   <div class="order-summary__value" role="cell" data-label="{{ 'customer.order.total' | t }}">

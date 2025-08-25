@@ -62,7 +62,7 @@
       {%- if default_address -%}
         <li data-address class="address-wrapper-main">
           <div class="address-wrapper">
-            <span class="default-address typography--body-regular light">{{ 'customer.addresses.default' | t }}</span>
+            <span class="default-address typography--body-regular-bold">{{ 'customer.addresses.default' | t }}</span>
             <span class="typography--body-regular">
               {{- default_address | format_address -}}
             </span>
@@ -74,7 +74,7 @@
               aria-controls="EditAddress_{{ default_address.id }}"
               aria-expanded="false"
               data-address-id="{{ default_address.id }}"
-              class="custom-edit-button typography--body-regular link--underline light"
+              class="custom-edit-button typography--body-regular link link--block link--underline link--hover-color-change"
               role="button"
               data-edit-address-button
             >
@@ -87,7 +87,7 @@
               data-target="{{ default_address.url }}"
               data-delete-message="{{ 'customer.addresses.delete' | t }}"
               data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
-              class="custom-delete-button typography--body-regular link--underline light"
+              class="custom-delete-button typography--body-regular link link--block link--underline link--hover-color-change"
             >
               {{ 'customer.addresses.delete' | t }}
             </button>
@@ -99,7 +99,7 @@
         {%- unless address == customer.default_address -%}
           <li data-address class="address-wrapper-main">
             <div class="address-wrapper">
-              <span class="shipping-address typography--body-regular light">{{ 'customer.addresses.shipping' | t }}</span>
+              <span class="shipping-address typography--body-regular-bold">{{ 'customer.addresses.shipping' | t }}</span>
               <span class="typography--body-regular">
                 {{- address | format_address -}}
               </span>
@@ -111,7 +111,7 @@
                 aria-controls="EditAddress_{{ address.id }}"
                 aria-expanded="false"
                 data-address-id="{{ address.id }}"
-                class="custom-edit-button typography--body-regular link--underline light"
+                class="custom-edit-button typography--body-regular link link--block link--underline link--hover-color-change"
                 role="link"
                 data-edit-address-button
               >
@@ -123,7 +123,7 @@
                 data-target="{{ address.url }}"
                 data-delete-message="{{ 'customer.addresses.delete' | t }}"
                 data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
-                class="custom-delete-button typography--body-regular link--underline light"
+                class="custom-delete-button typography--body-regular link link--block link--underline link--hover-color-change"
               >
                 {{ 'customer.addresses.delete' | t }}
               </button>
@@ -148,7 +148,7 @@
             <button
               type="reset"
               id="CancelAddAddressButton"
-              class="return-to-button typography--uppercase text-cta link--no-underline"
+              class="return-to-button typography--uppercase text-cta link--hover-color-change"
               aria-label="{{ 'customer.addresses.return_to_addresses' | t }}"
             >
             {{- 'icon-caret_left.svg' | inline_asset_content -}}
@@ -310,7 +310,7 @@
               </span>
             </label>
           </div> {% endcomment %}
-          <div class="field field--checkbox default-address-field typography--body-2">
+          <div class="field field--checkbox default-address-field typography--body-small">
             {{ form.set_as_default_checkbox }}
             <label for="address_default_address_new" class="">
               <span class="checkbox-icon">
@@ -343,7 +343,7 @@
               type="reset"
               id="CancelEditAddressButton"
               data-cancel-edit-address-button
-              class="return-to-button cancel-edit-address-button typography--uppercase text-cta link--no-underline"
+              class="return-to-button cancel-edit-address-button typography--uppercase text-cta link--hover-color-change"
               aria-label="{{ 'customer.addresses.return_to_addresses' | t }}"
             >
             {{- 'icon-caret_left.svg' | inline_asset_content -}}
@@ -437,21 +437,34 @@
                   </div>
                 </div>
               </div>
-              <div class="field field--input typography--body-regular">
+              <div class="field field--select typography--body-regular">   
                 <div class="field-line">
-                  <input
+                  <select
                     id="AddressCountryNew"
                     name="address[country]"
                     data-default="{{ form.country }}"
-                    value="{{ form.country }}"
                     autocomplete="country"
-                    placeholder="{{ 'customer.addresses.country' | t }}"
-                    required
                   >
+                    {{ all_country_option_tags }}
+                  </select>
                   <label for="AddressCountryNew">{{ 'customer.addresses.country' | t }}</label>
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="icon icon-arrow-down" fill="none"><path d="m4 8 8 8 8-8" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="1.5"></path></svg>
                 </div>
               </div>
-          <div class="field field--checkbox default-address-field typography--body-2">
+
+              <div id="AddressProvinceContainerNew" style="display: none" class="field field--select typography--body-regular">
+                <div class="field-line">
+                  <select
+                    id="AddressProvinceNew"
+                    name="address[province]"
+                    data-default="{{ form.province }}"
+                    autocomplete="address-level1"
+                  ></select>
+                  <label for="AddressProvinceNew">{{ 'customer.addresses.province' | t }}</label>
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="icon icon-arrow-down" fill="none"><path d="m4 8 8 8 8-8" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                </div>
+              </div>
+          <div class="field field--checkbox default-address-field typography--body-small">
             {{ form.set_as_default_checkbox }}
             <label for="address_default_address_{{ form.id }}" class="">
               <span class="checkbox-icon">
@@ -465,13 +478,7 @@
             </label>
           </div>
               <div class="field addresses-page__form-buttons">
-                {% capture update_address %}{{ 'customer.addresses.update' | t }}{% endcapture %}
-                {%
-                  render 'button',
-                  content: update_address | t,
-                  aria_label: update_address | t
-                %}
-
+                <button class="button button--primary typography--body-regular" aria-label="{{ 'customer.addresses.update' | t }}"> {{ 'customer.addresses.update' | t }} </button>
                 <button
                   class="cancel-button cancel-button-edit-form hidden typography--uppercase link--underline"
                   aria-label="{{ 'customer.addresses.cancel_editaddress' | t }}"

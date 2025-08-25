@@ -16,7 +16,13 @@
     max-width: 42.7rem;
   }
 }
-
+@media screen and (max-width: 749px) {
+  .customer {
+    max-width: 45rem;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+  }
+}
 .customer > h1,
 .customer__title {
   margin-top: 0;
@@ -922,6 +928,14 @@ body:not(:has(.login .recover_password_success)) .account-nav {
 
 /* Account/Order */
 
+.account .customer-order-detail a svg {
+  width: 7px;
+}
+
+.return-to-order-info{
+  max-width: fit-content;
+}
+
 .account .account-nav,
 .account .orders-none p {
   margin-bottom: 2.5rem;
@@ -1047,7 +1061,7 @@ body:not(:has(.login .recover_password_success)) .account-nav {
 
 .order-item {
   display: grid;
-  grid-template-columns: 7.3rem 1fr;
+  grid-template-columns: 8.3rem 1fr;
   place-items: center;
   align-items: center;
   column-gap: 2.1rem;
@@ -1056,6 +1070,10 @@ body:not(:has(.login .recover_password_success)) .account-nav {
   border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
   border-width: 0.1rem;
   border-bottom-style: dashed;
+}
+
+.order-item:last-of-type{
+  margin-bottom: 1.5rem;
 }
 
 .order-item > a {
@@ -1106,7 +1124,7 @@ body:not(:has(.login .recover_password_success)) .account-nav {
 
 .order-item-details .order-item-inner .order-item-inner__row .line-item-price {
   text-wrap: nowrap;
-  margin-top: 0.8rem;
+  margin-top: 0.4rem;
 }
 
 .order-item-details .order-item-inner .order-item-inner__row .line-item-price dl {
@@ -1117,8 +1135,8 @@ body:not(:has(.login .recover_password_success)) .account-nav {
 
 .order-summary-rows-wrapper,
 .order-summary__row--total {
-  padding-bottom: 2.5rem;
-  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
   border-bottom: 0.1rem dotted rgba(var(--color-black), 0.2);
   border-width: 0.1rem;
   border-bottom-style: dashed;
@@ -1164,7 +1182,7 @@ body:not(:has(.login .recover_password_success)) .account-nav {
 
 .order-details:has(.order-shipping, .order-billing) {
   display: grid;
-  grid-template-columns: 12.8rem 10.9rem;
+  grid-template-columns: 1fr 1fr;
   gap: 3.5rem;
   text-align: left;
 }

@@ -511,6 +511,10 @@ button * {
   }
 }
 
+.light {
+  color: rgb(var(--color-grey-dark));
+}
+
 .typography--body-regular-bold {
   font-family: var(--font-family-body-regular);
   font-weight: var(--font-weight-body-regular-bold);
