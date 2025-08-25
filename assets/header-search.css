@@ -70,7 +70,7 @@ details[open] .header-search-modal-overlay {
 
 @media screen and (min-width: 1025px) {
   .header-search-form {
-    width: 50%;
+    width: 41.5%;
   }
 }
 
@@ -127,30 +127,8 @@ details[open] .header-search-modal-overlay {
 @media screen and (min-width: 768px) {
   .predictive-search-landing {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 40% 60%;
     gap: 2.4rem 2.4rem;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "Menu1 Products"
-      "Menu2 Products"
-      "Richtext Products";
-  }
-
-  .predictive-search-landing-section--menu-1 {
-    grid-area: Menu1;
-  }
-
-  .predictive-search-landing-section--menu-2 {
-    grid-area: Menu2;
-  }
-
-  .predictive-search-landing-section--richtext {
-    grid-area: Richtext;
-    align-self: end;
-  }
-
-  .predictive-search-landing-section--products {
-    grid-area: Products;
   }
 }
 @media screen and (max-width: 767px) {
@@ -201,11 +179,19 @@ details[open] .header-search-modal-overlay {
   }
 }
 
-.predictive-search-landing-menu-1 {
+.predictive-search-landing-section--menu-1.predictive-search-landing-section {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.predictive-search-landing-menu-1 {
+  display: flex;
+  flex-flow: row wrap;
   gap: 0.8rem;
-  max-width: 55rem;
+  max-width: 45rem;
+  margin-top: 1.2rem;
 }
 
 li.predictive-search-landing-menu-item {

@@ -1,27 +1,28 @@
 <div class="predictive-search-landing">
   <div class="predictive-search-landing-section--menu-1 predictive-search-landing-section">
-    {%- if section.settings.menu_1_title != blank -%}
-      <h3 class="predictive-search-landing-section-title typography--body-regular-bold">
-        {{ section.settings.menu_1_title }}
-      </h3>
-    {%- endif -%}
-    {%- if section.settings.menu_1 -%}
-      <ul class="predictive-search-landing-menu-1" role="list">
-        {%- for link in section.settings.menu_1.links -%}
-          <li class="predictive-search-landing-menu-item">
-            <a
-              href="{{ link.url }}"
-              class="predictive-search-landing-menu-link--tag predictive-search-landing-menu-link link link--block link--hover-color-change typography--body-regular"
-            >
-              {{- link.title | escape -}}
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
-  </div>
-  <div class="predictive-search-landing-section--richtext predictive-search-landing-section">
+    <div class="predictive-search-landing-wrapper-1">
+      {%- if section.settings.menu_1_title != blank -%}
+        <h3 class="predictive-search-landing-section-title typography--body-regular-bold">
+          {{ section.settings.menu_1_title }}
+        </h3>
+      {%- endif -%}
+      {%- if section.settings.menu_1 -%}
+        <ul class="predictive-search-landing-menu-1" role="list">
+          {%- for link in section.settings.menu_1.links -%}
+            <li class="predictive-search-landing-menu-item">
+              <a
+                href="{{ link.url }}"
+                class="predictive-search-landing-menu-link--tag predictive-search-landing-menu-link link button button--tag-big typography--body-small"
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
     <div class="richtext">{{ section.settings.richtext }}</div>
+    
   </div>
   <div class="predictive-search-landing-section--products predictive-search-landing-section">
     {%- if section.settings.product_list_title != blank -%}
@@ -31,7 +32,7 @@
     {%- endif -%}
     {%- if section.settings.product_list -%}
       <ul class="predictive-search-landing-product-list" role="list">
-        {%- for product in section.settings.product_list limit: 2 -%}
+        {%- for product in section.settings.product_list limit: 3 -%}
           <li class="predictive-search-landing-product-list-item">
             {% render 'product-card',
               card_product: product,
