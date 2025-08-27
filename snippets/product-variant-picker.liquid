@@ -12,7 +12,7 @@
         {%- if swatch_count > 0 -%}
           <fieldset class="product-option product-option--swatch product-form__input product-form__input--swatch">
             <legend class="product-option-title typography--body-regular">
-              <span>{{ option.name }}:</span>
+              <span class="typography--heading-2">{{ option.name }}:</span>
               <span data-selected-value>
                 {{- option.selected_value -}}
               </span>
@@ -23,8 +23,8 @@
           <fieldset class="product-option product-option--pill product-form__input product-form__input--pill">
             <div class="product-option-heading">
               <legend class="product-option-title typography--body-regular">
-                <span>{{ option.name }}:</span>
-                <span class="visually-hidden" data-selected-value>
+                <span class="typography--heading-2">{{ option.name }}:</span>
+                <span class="typography--body-regular" data-selected-value>
                   {{- option.selected_value -}}
                 </span>
               </legend>

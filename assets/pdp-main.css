@@ -158,17 +158,17 @@
   gap: 1.6rem;
 }
 
-.pdp-heading-subtitle {
+/* .pdp-heading-subtitle {
   margin-top: 0.4rem;
   color: rgb(var(--color-grey-dark));
-}
+} */
 
 .pdp-info-tag-list {
   margin-top: 1.2rem;
 }
 
 .pdp-price {
-  margin-top: 3.2rem;
+  margin-top: 2.5rem;
 }
 
 .pdp-product-picker {
@@ -208,7 +208,7 @@
 
 .product-variant-picker {
   display: block;
-  margin-top: 1.6rem;
+  margin-top: 2.5rem;
 }
 
 .product-variant-picker .product-option-list > * + * {
@@ -216,7 +216,7 @@
 }
 
 .product-variant-picker .product-option > * + * {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .product-variant-picker .product-option-heading {
@@ -230,7 +230,7 @@
 .product-variant-picker .product-option-value-list {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.8rem;
+  gap: 1.2rem;
 }
 
 .product-variant-picker .product-option--swatch .swatch {
@@ -241,23 +241,40 @@
   display: block;
   min-width: 4.5rem;
   border: 0.1rem solid rgb(var(--color-grey-medium));
-  border-radius: 1.6rem;
-  padding: 0.5rem 1.4rem 0.4rem;
+  padding: 1px;
+  box-sizing: border-box; 
+  /* border-radius: 1.6rem; */
+  /* padding: 0.5rem 1.4rem 0.4rem; */
   text-align: center;
+  transform: translateZ(0);
+}
+
+.product-variant-picker legend.product-option-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: .6rem;
+}
+
+.product-variant-picker .pdp-variant-image img{
+  display: block;
+  width: 48px;
+  height: 48px;
 }
 
 .product-variant-picker
   .product-option--pill
   input[type="radio"]:checked
   + label {
-  border-color: rgb(var(--color-black));
+  border: 0.1rem solid rgb(var(--color-black));
 }
 
 .product-variant-picker
   .product-option--pill
   input[type="radio"]:not(:checked)
   + label:hover {
-  border-color: rgb(var(--color-black));
+  border: 0.1rem solid rgb(var(--color-black));
 }
 
 .product-form__buttons {
@@ -498,6 +515,20 @@
   }
 }
 
+/* Quantity Picker */
+.quantity-picker-pdp{
+  height: 4rem;
+  max-width: fit-content;
+}
+
+.product-form__quantity {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
 .quantity-selector__cl_container .quantity-selector-label {
   padding-top: 2.4rem;
   padding-bottom: 1.2rem;
@@ -568,4 +599,11 @@
   padding: 0.9rem 1.2rem 1rem 1.2rem;
   border-radius: 0.5rem;
   margin-top: 0.8rem;
+}
+
+.pdp-desc .pdp-desc-description {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }

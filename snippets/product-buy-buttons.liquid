@@ -73,14 +73,6 @@
         </span>
         {%- render 'loading-spinner' -%}
       </button>
-      {%- if block.settings.link_title != blank -%}
-        <a
-          href="{{ block.settings.link_url }}"
-          class="link link--block link--underline link--hover-color-change typography--body-regular"
-        >
-          {{ block.settings.link_title }}
-        </a>
-      {%- endif -%}
     </div>
   {%- endform -%}
 </product-form>

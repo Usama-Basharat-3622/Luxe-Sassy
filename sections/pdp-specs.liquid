@@ -1,4 +1,11 @@
 {{ 'pdp-specs.css' | asset_url | stylesheet_tag }}
+<script type="application/json" id="VariantWeights-{{ product.id }}">
+{
+{% for v in product.variants %}
+  "{{ v.id }}": {{ v.weight | default: 0 }}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+}
+</script>
 
 {% if section.settings.title != blank and section.blocks.size > 0 %}
   <div
@@ -31,19 +38,29 @@
                 {%- assign field_value = product.selected_or_first_available_variant.metafields[field_handle_part_1][field_handle_part_2].value -%}
             {%- endcase -%}
 
-            <li class="pdp-spec-item-{{ block.id }} pdp-spec-item" {{ block.shopify_attributes }}>
-              <div class="pdp-spec-title typography--body-regular">{{ block.settings.title }}</div>
-              {%- if field_value != blank -%}
-                <div class="pdp-spec-value typography--body-regular">{{ field_value }}</div>
-              {%- endif -%}
-            </li>
+            {%- if block.settings.title != blank and field_value != blank -%}
+              <li class="pdp-spec-item-{{ block.id }} pdp-spec-item" {{ block.shopify_attributes }}>
+                <div class="pdp-spec-title typography--body-regular">{{ block.settings.title }}</div>
+                {%- if field_value != blank -%}
+                  {% if block.settings.handle == "weight" %}
+                    <div class="pdp-spec-value typography--body-regular" data-variant-weight>
+                      {{ product.selected_or_first_available_variant.weight }} g
+                    </div>
+                  {% else %}
+                    <div class="pdp-spec-value typography--body-regular">
+                      {{ field_value }}
+                    </div>
+                  {% endif %}
+                {%- endif -%}
+              </li>
+            {% endif %}
+          
           {%- endfor -%}
         </ul>
       </details>
     </details-utils>
   </div>
 {% endif %}
-
 {% style %}
   @media screen and (min-width: 992px) {
     .pdp-specs-{{ section.id }}{
@@ -166,6 +183,11 @@
           "label": "Handle"
         }
       ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Specs (Product)"
     }
   ]
 }

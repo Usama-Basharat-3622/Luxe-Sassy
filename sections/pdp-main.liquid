@@ -153,8 +153,7 @@
           {%- when 'heading' -%}
             <div class="pdp-heading" data-wk-pdp-target {{ block.shopify_attributes }}>
               <div>
-                <h1 class="pdp-heading-title typography--heading-1-bold">{{ block.settings.title }}</h1>
-                <h2 class="pdp-heading-subtitle typography--heading-2">{{ block.settings.subtitle }}</h2>
+                <h2 class="pdp-heading-subtitle typography--heading-2-bold">{{ block.settings.subtitle }}</h2>
               </div>
             </div>
           {%- when 'tag' -%}
@@ -201,50 +200,12 @@
           {%- when 'variant_picker' -%}
             {%- render 'product-variant-picker', product: product, block: block -%}
           {%- when 'buy_buttons' -%}
-            {%- if product.type == 'Eyeglasses' -%}
-              {%- case settings.eyeglasses_pdp_primary_cta -%}
-                {%- when 'add-to-cart' -%}
-                  {%- render 'product-buy-buttons',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section_id: section.id
-                  -%}
-                {%- when 'virtual-try-on' -%}
-                  {%- render 'product-vto-button', block: block -%}
-                {%- when 'custom' -%}
-                  {%- render 'product-custom-button',
-                    block: block,
-                    cta_text: settings.eyeglasses_custom_cta_text,
-                    cta_link: settings.eyeglasses_custom_cta_link
-                  -%}
-              {%- endcase -%}
-            {%- elsif product.type == 'Sunglasses' -%}
-              {%- case settings.sunglasses_pdp_primary_cta -%}
-                {%- when 'add-to-cart' -%}
-                  {%- render 'product-buy-buttons',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section_id: section.id
-                  -%}
-                {%- when 'virtual-try-on' -%}
-                  {%- render 'product-vto-button', block: block -%}
-                {%- when 'custom' -%}
-                  {%- render 'product-custom-button',
-                    block: block,
-                    cta_text: settings.sunglasses_custom_cta_text,
-                    cta_link: settings.sunglasses_custom_cta_link
-                  -%}
-              {%- endcase -%}
-            {%- else -%}
               {%- render 'product-buy-buttons',
                 block: block,
                 product: product,
                 product_form_id: product_form_id,
                 section_id: section.id
               -%}
-            {%- endif -%}
           {%- when 'popup' -%}
             <modal-opener
               class="pdp-product-popup-modal-opener modal-opener"
@@ -623,36 +584,9 @@
       "settings": [
         {
           "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "{{ product.vendor }}"
-        },
-        {
-          "type": "text",
           "id": "subtitle",
-          "label": "Subtitle",
+          "label": "Product Title",
           "default": "{{ product.title }}"
-        }
-      ]
-    },
-    {
-      "type": "tag",
-      "name": "Tag",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "metaobject_list",
-          "id": "product_tag_list_dynamic",
-          "label": "Product Tag List (Dynamic)",
-          "metaobject_type": "product_tag",
-          "limit": 4
-        },
-        {
-          "type": "metaobject_list",
-          "id": "product_tag_list_static",
-          "label": "Product Tag List (Static)",
-          "metaobject_type": "product_tag",
-          "limit": 4
         }
       ]
     },
@@ -667,83 +601,16 @@
       "limit": 1
     },
     {
-      "type": "quantity_selector_cl",
-      "name": "Quantity Selector CL",
-      "limit": 1
-    },
-    {
-      "type": "product_picker_cl",
-      "name": "Product Picker CL",
-      "limit": 1
-    },
-    {
       "type": "variant_picker",
       "name": "Variant Picker",
       "limit": 1,
-      "settings": [
-        {
-          "type": "header",
-          "content": "Size Guide"
-        },
-        {
-          "type": "text",
-          "id": "option_handle",
-          "label": "Option Handle"
-        },
-        {
-          "type": "text",
-          "id": "cta_text",
-          "label": "CTA Text"
-        },
-        {
-          "type": "page",
-          "id": "page_dynamic",
-          "label": "Page (Dynamic)"
-        },
-        {
-          "type": "page",
-          "id": "page_static",
-          "label": "Page (Static)"
-        }
-      ]
+      "settings": []
     },
     {
       "type": "buy_buttons",
       "name": "Buy Buttons",
       "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "link_title",
-          "label": "Link Title"
-        },
-        {
-          "type": "url",
-          "id": "link_url",
-          "label": "Link URL"
-        }
-      ]
-    },
-    {
-      "type": "popup",
-      "name": "Popup",
-      "settings": [
-        {
-          "type": "text",
-          "id": "cta_text",
-          "label": "CTA Text"
-        },
-        {
-          "type": "page",
-          "id": "page_dynamic",
-          "label": "Page (Dynamic)"
-        },
-        {
-          "type": "page",
-          "id": "page_static",
-          "label": "Page (Static)"
-        }
-      ]
+      "settings": []
     },
     {
       "type": "custom_liquid",

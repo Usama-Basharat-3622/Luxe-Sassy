@@ -12,6 +12,16 @@
       if value.available
         assign option_disabled = false
       endif
+
+      # Find the variant that matches this option value
+      assign variant_image = blank
+      for variant in product.variants
+        if variant.options contains value
+          assign variant_image = variant.image
+          break
+        endif
+      endfor
+
     -%}
 
     {%- capture input_id -%}
@@ -54,6 +64,7 @@
         %}
       </li>
     {%- elsif picker_type == 'button' -%}
+
       <li class="product-option-value">
         <input
           type="radio"
@@ -69,8 +80,19 @@
           {% endif %}
           {{ input_dataset }}
         >
-        <label for="{{ input_id }}" class="typography--body-small">
-          <span>{{ value }}</span>
+        <label for="{{ input_id }}" class="pdp-variant-image typography--body-small">
+          {%- if variant_image != blank -%}
+            <img 
+              src="{{ variant_image | image_url: width: 48 }}"
+              width="48px"
+              height="48px" 
+              alt="{{ value | escape }}" 
+              class="variant-thumb"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- endif -%}
+          <span class="visually-hidden">{{ value }}</span>
           {{ label_unavailable }}
         </label>
       </li>
