@@ -14,12 +14,9 @@
   >
     <div id="AnchorTarget-{{ section.settings.section_anchor_id }}" class="anchor-target" aria-hidden="true"></div>
 
-    <details-utils force-close="(max-width: 991px)" force-open="(min-width: 992px)">
-      <details class="accordion">
-        <summary class="accordion-title" aria-controls="AccordionContent-{{ section.id }}" role="button">
+        <div class="accordion-title" aria-controls="AccordionContent-{{ section.id }}" role="button">
           <h2 class="pdp-specs-title typography--heading-2">{{ section.settings.title }}</h2>
-          {{- 'icon-plus.svg' | inline_asset_content -}}
-        </summary>
+        </div>
         <ul id="AccordionContent-{{ section.id }}" class="pdp-specs-list accordion-content" role="list">
           {%- for block in section.blocks -%}
             {%- assign field_handle = block.settings.handle -%}
@@ -57,8 +54,6 @@
           
           {%- endfor -%}
         </ul>
-      </details>
-    </details-utils>
   </div>
 {% endif %}
 {% style %}
@@ -154,7 +149,7 @@
           "label": "Title"
         },
         {
-          "type": "radio",
+          "type": "select",
           "id": "object",
           "label": "Object",
           "options": [
@@ -183,11 +178,6 @@
           "label": "Handle"
         }
       ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "PDP Specs (Product)"
     }
   ]
 }
