@@ -44,26 +44,6 @@
     {%- endcapture -%}
 
     {%- if picker_type == 'swatch' -%}
-      {%- capture help_text -%}
-        <span class="visually-hidden">{{ value | escape }}</span>
-        {{ label_unavailable }}
-      {%- endcapture -%}
-
-      <li class="product-option-value">
-        {%
-          render 'swatch-input',
-          id: input_id,
-          name: input_name,
-          value: value | escape,
-          swatch: value.swatch,
-          product_form_id: product_form_id,
-          checked: value.selected,
-          visually_disabled: option_disabled,
-          help_text: help_text,
-          additional_props: input_dataset
-        %}
-      </li>
-    {%- elsif picker_type == 'button' -%}
 
       <li class="product-option-value">
         <input
@@ -93,6 +73,28 @@
             >
           {%- endif -%}
           <span class="visually-hidden">{{ value }}</span>
+          {{ label_unavailable }}
+        </label>
+      </li>
+    {%- elsif picker_type == 'button' -%}
+
+      <li class="product-option-value">
+        <input
+          type="radio"
+          id="{{ input_id }}"
+          name="{{ input_name | escape }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% if value.selected %}
+            checked
+          {% endif %}
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+          {{ input_dataset }}
+        >
+        <label for="{{ input_id }}" class="option-btn typography--body-small">
+          <span>{{ value }}</span>
           {{ label_unavailable }}
         </label>
       </li>

@@ -2332,7 +2332,7 @@ class ProductGallery extends HTMLElement {
           },
           navigation: false, // hide arrows
         },
-        769: { // tablet/desktop
+        992: { // tablet/desktop
           slidesPerView: 1.32,
           spaceBetween: 12,
           pagination: false, // no dots

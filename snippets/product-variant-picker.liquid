@@ -8,15 +8,17 @@
     <div class="product-option-list">
       {%- for option in product.options_with_values -%}
         {%- assign option_handle = option.name | handle -%}
-        {%- assign swatch_count = option.values | map: 'swatch' | compact | size -%}
-        {%- if swatch_count > 0 -%}
-          <fieldset class="product-option product-option--swatch product-form__input product-form__input--swatch">
-            <legend class="product-option-title typography--body-regular">
-              <span class="typography--heading-2">{{ option.name }}:</span>
-              <span data-selected-value>
-                {{- option.selected_value -}}
-              </span>
-            </legend>
+        {%- assign option_handle = option.name | downcase -%}
+        {%- if option_handle == 'color' or option_handle == 'product color' -%}
+          <fieldset class="product-option product-option--pill product-form__input product-form__input--pill">
+            <div class="product-option-heading">
+              <legend class="product-option-title typography--body-regular">
+                <span class="typography--heading-2">{{ option.name }}:</span>
+                <span class="typography--body-regular" style="line-height: 2;" data-selected-value>
+                  {{- option.selected_value -}}
+                </span>
+              </legend>
+            </div>
             {% render 'product-variant-options', product: product, option: option, picker_type: 'swatch' %}
           </fieldset>
         {%- else -%}
@@ -24,28 +26,10 @@
             <div class="product-option-heading">
               <legend class="product-option-title typography--body-regular">
                 <span class="typography--heading-2">{{ option.name }}:</span>
-                <span class="typography--body-regular" data-selected-value>
+                <span class="typography--body-regular" style="line-height: 2;" data-selected-value>
                   {{- option.selected_value -}}
                 </span>
               </legend>
-              {%- if option_handle contains block.settings.option_handle -%}
-                {%- if block.settings.option_handle != blank -%}
-                  <modal-opener
-                    class="pdp-size-guide-modal-opener modal-opener"
-                    data-modal="#PopupModal-{{ block.id }}"
-                    {{ block.shopify_attributes }}
-                  >
-                    <button
-                      id="ProductPopup-{{ block.id }}"
-                      class="pdp-product-popup-modal-button link link--underline link--hover-color-change typography--body-regular"
-                      type="button"
-                      aria-haspopup="dialog"
-                    >
-                      {{ block.settings.cta_text | default: block.settings.page.title }}
-                    </button>
-                  </modal-opener>
-                {%- endif -%}
-              {%- endif -%}
             </div>
             {% render 'product-variant-options', product: product, option: option, picker_type: 'button' %}
           </fieldset>

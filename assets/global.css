@@ -1319,7 +1319,7 @@ details:not([open]) > .summary-with-overlay::before {
   left: 0;
   right: 0;
 
-  background-color: rgba(var(--color-black), 0.2);
+  background-color: rgba(var(--color-white));
   cursor: pointer;
 }
 
