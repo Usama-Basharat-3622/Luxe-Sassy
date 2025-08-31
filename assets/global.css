@@ -1330,7 +1330,7 @@ details:not([open]) > .summary-with-overlay::before {
 }
 
 .dialog-modal-content {
-  position: absolute;
+  /* position: absolute; */
   color: rgb(var(--color-black));
   background-color: rgb(var(--color-white));
   display: flex;

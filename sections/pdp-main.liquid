@@ -9,82 +9,43 @@
   data-url="{{ product.url }}"
 >
   <!-- Gallery -->
-  <product-gallery
+
+ <product-gallery
     id="ProductGallery-{{ section.id }}"
     class="pdp-product-gallery pdp-product-gallery-{{ section.id }} isolate"
     role="region"
     aria-label="{{ 'product.media.gallery_label' | t }}"
   >
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        <div
-          class="swiper-slide"
-        >
-          <div class="ratio ratio--inline">
-            <img
-              srcset="{% render 'image-srcset', image: product.featured_image %}"
-              sizes="(min-width: 992px) 50vw, 100vw"
-              src="{{ product.featured_image | image_url: width: 3840 }}"
-              loading="eager"
-              {% if forloop.first %}
-                fetchpriority="high"
-              {% else %}
-                fetchpriority="low"
-              {% endif %}
-              alt="{{ product.featured_image.alt | escape }}"
-              width="{{ product.featured_image.width }}"
-              height="{{ product.featured_image.height }}"
-              class="media visually-hidden"
-              style="--focal-point-x: {{ product.featured_image.presentation.focal_point.x }}%; --focal-point-y: {{ product.featured_image.presentation.focal_point.y }}%"
-            >
-          </div>
+    <div
+      class="dialog-modal-content"
+      role="dialog"
+      aria-label="Product Zoom Gallery"
+      aria-modal="true"
+      tabindex="-1"
+    >
+
+      <div class="dialog-modal-main isolate">
+        <div class="pdp-product-zoom-slider swiper">
+          <div class="swiper-wrapper"></div>
+           <div class="swiper-pagination"></div>
         </div>
-      </div>
 
-      <div class="swiper-pagination hidden≥992 {% if product.images.size == 1 %}hidden{% endif %}"></div>
+        <div class="pdp-product-zoom-thumbSlider swiper">
+          <div class="swiper-wrapper"></div>
+        </div>
 
-      <div class="swiper-button-container hidden≤991 {% if product.images.size == 1 %}hidden{% endif %}">
-        <button
-          class="swiper-button-prev icon-only-button"
-          type="button"
-          name="previous"
-          aria-label="{{ 'accessibility.previous' | t }}"
-          aria-controls="ProductGallery-{{ section.id }}"
-        >
-          {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
-        </button>
-
-        <button
-          class="swiper-button-next icon-only-button"
-          type="button"
-          name="next"
-          aria-label="{{ 'accessibility.next' | t }}"
-          aria-controls="ProductGallery-{{ section.id }}"
-        >
-          {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
-        </button>
-      </div>
-
-      <template>
-        {% assign product_image_variants = product.variants %}
-        {%- assign product_image_index0 = 0 -%}
-        {%- for product_image in product.images -%}
-          {%- assign product_image_index0 = product_image_index0 | plus: 1 -%}
-          {%- if product_image.attached_to_variant? -%}
-            {% assign product_image_variants = product_image.variants -%}
-            {%- assign product_image_index0 = 0 -%}
-          {%- endif -%}
-          {% for product_image_variant in product_image_variants %}
-            <div
-              class="swiper-slide"
-              data-variant-id="{{ product_image_variant.id }}"
-              data-variant-title="{{ product_image_variant.title }}"
-            >
-              <modal-opener
-                class="product-zoom-gallery-opener modal-opener"
-                data-modal="#ProductZoomGallery-{{ section.id }}"
+        <template class="template--slider">
+          {% assign product_image_variants = product.variants %}
+          {%- for product_image in product.images -%}
+              <div
+                class="swiper-slide"
+                data-media-id="{{ product_image.id }}"
               >
-                <div class="ratio ratio--inline">
+                <modal-opener
+                  class="product-zoom-opener modal-opener"
+                  data-modal="#ProductZoom-{{ section.id }}"
+                >
+                  <div class="ratio ratio--inline">
                   <img
                     srcset="{% render 'image-srcset', image: product_image %}"
                     sizes="(min-width: 992px) 50vw, 100vw"
@@ -101,41 +62,49 @@
                     class="media"
                     style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
                   >
-                </div>
-                <button
-                  class="covering-button cursor--enlarge"
-                  type="button"
-                  aria-haspopup="dialog"
-                  data-media-index="{{ product_image_index0 }}"
+                  </div>
+                  <button
+                    class="covering-button cursor--zoom-in"
+                    type="button"
+                    aria-haspopup="dialog"
+                    data-media-id="{{ product_image.id }}"
+                  >
+                    <span class="visually-hidden">
+                      Open Product Image {{ product_image_index0 | plus: 1 }} in zoom modal
+                    </span>
+                  </button>
+                </modal-opener>
+              </div>
+          {%- endfor -%}
+        </template>
+
+        <template class="template--thumbSlider">
+          {%- for product_image in product.images -%}
+              <div
+                class="swiper-slide"
+                data-media-id="{{ product_image.id }}"
+              >
+                <img
+                  srcset="{% render 'image-srcset', image: product_image %}"
+                  sizes="120px"
+                  src="{{ product_image | image_url: width: 3840 }}"
+                  loading="lazy"
+                  fetchpriority="low"
+                  alt="{{ product_image.alt | escape }}"
+                  width="{{ product_image.width }}"
+                  height="{{ product_image.height }}"
+                  class="media"
+                  style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
                 >
-                  <span class="visually-hidden">
-                    Open Product Image {{ product_image_index0 | plus: 1 }} in slider modal
-                  </span>
-                </button>
-              </modal-opener>
-            </div>
-          {% endfor %}
-        {%- endfor -%}
-      </template>
+              </div>
+          {%- endfor -%}
+        </template>
+
+        <script type="application/json">
+          {{ product.selected_or_first_available_variant | json }}
+        </script>
+      </div>
     </div>
-
-    <script type="application/json">
-      {{ product.selected_or_first_available_variant | json }}
-    </script>
-
-    {% if product.metafields.custom.badge_list.value != blank %}
-      <ul class="pdp-product-badge-list product-badge-list" role="list">
-        {% for badge in product.metafields.custom.badge_list.value %}
-          <li class="product-badge-list-item">
-            <div class="product-badge">
-              <span class="product-badge-text typography--tag">
-                {{- badge.text -}}
-              </span>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
   </product-gallery>
 
   <!-- Info -->
@@ -174,29 +143,9 @@
               </ul>
             {% endif %}
           {%- when 'price' -%}
-            {%- assign price_disabled = false -%}
-            {%- if product.type == 'Eyeglasses' -%}
-              {%- assign price_disabled = true -%}
-              {%- if settings.eyeglasses_price_enabled -%}
-                {%- assign price_disabled = false -%}
-              {%- endif -%}
-            {%- endif -%}
-            {%- if product.type == 'Sunglasses' -%}
-              {%- assign price_disabled = true -%}
-              {%- if settings.sunglasses_price_enabled -%}
-                {%- assign price_disabled = false -%}
-              {%- endif -%}
-            {%- endif -%}
-
-            {%- unless price_disabled -%}
-              {%- render 'pdp-price', product: product, block: block -%}
-            {%- endunless -%}
+            {%- render 'pdp-price', product: product, block: block -%}
           {%- when 'quantity_selector' -%}
             {%- render 'product-quantity-selector', product: product, block: block -%}
-          {%- when 'quantity_selector_cl' -%}
-            {%- render 'product-quantity-selector-cl', product: product, block: block -%}
-          {%- when 'product_picker_cl' -%}
-            {%- render 'pdp-product-picker-cl', product: product, block: block -%}
           {%- when 'variant_picker' -%}
             {%- render 'product-variant-picker', product: product, block: block -%}
           {%- when 'buy_buttons' -%}
@@ -206,21 +155,6 @@
                 product_form_id: product_form_id,
                 section_id: section.id
               -%}
-          {%- when 'popup' -%}
-            <modal-opener
-              class="pdp-product-popup-modal-opener modal-opener"
-              data-modal="#PopupModal-{{ block.id }}"
-              {{ block.shopify_attributes }}
-            >
-              <button
-                id="ProductPopup-{{ block.id }}"
-                class="pdp-product-popup-modal-button link link--underline link--hover-color-change typography--body-regular"
-                type="button"
-                aria-haspopup="dialog"
-              >
-                {{ block.settings.text | default: block.settings.page.title }}
-              </button>
-            </modal-opener>
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when '@app' -%}
@@ -230,236 +164,8 @@
     </div>
   </section>
 
-  <!-- Popups -->
-  {% assign popups = section.blocks | where: 'type', 'popup' %}
-  {%- for block in popups -%}
-    {%- if block.settings.page_dynamic != blank -%}
-      {%- assign popup_page = block.settings.page_dynamic -%}
-    {%- else -%}
-      {%- assign popup_page = block.settings.page_static -%}
-    {%- endif -%}
-
-    <modal-dialog
-      id="PopupModal-{{ block.id }}"
-      class="pdp-product-popup-modal dialog-modal"
-      {{ block.shopify_attributes }}
-    >
-      <div
-        class="dialog-modal-content dialog-modal-content--right"
-        role="dialog"
-        aria-label="{{ block.settings.text }}"
-        aria-modal="true"
-        tabindex="-1"
-      >
-        <div class="dialog-modal-header">
-          <button
-            id="ModalClose-{{ block.id }}"
-            type="button"
-            class="dialog-modal-close"
-            aria-label="{{ 'accessibility.close' | t }}"
-          >
-            {{- 'icon-close.svg' | inline_asset_content -}}
-          </button>
-        </div>
-        <div class="dialog-modal-main">
-          <div class="richtext">
-            {%- assign richtext_html = popup_page.content
-              | strip_newlines
-              | remove: '<br>'
-              | replace: '<h1>', '<h2 class="typography--heading-1">'
-              | replace: '</h1>', '</h2>'
-              | replace: '<h2>', '<h2 class="typography--heading-1">'
-              | replace: '<h3>', '<h3 class="">'
-              | replace: '<h4>', '<h4 class="">'
-              | replace: '<h5>', '<h5 class="">'
-              | replace: '<h6>', '<h6 class="">'
-              | replace: '<p>', '<p class="">'
-            -%}
-            {{ richtext_html }}
-          </div>
-        </div>
-      </div>
-    </modal-dialog>
-  {%- endfor -%}
-
-  <!-- Size Guide Popup -->
-  {% assign size_guide_block = section.blocks | where: 'type', 'variant_picker' | first %}
-  {%- if size_guide_block -%}
-    {%- if size_guide_block.settings.page_dynamic != blank -%}
-      {%- assign popup_page = size_guide_block.settings.page_dynamic -%}
-    {%- else -%}
-      {%- assign popup_page = size_guide_block.settings.page_static -%}
-    {%- endif -%}
-    <modal-dialog
-      id="PopupModal-{{ size_guide_block.id }}"
-      class="pdp-product-popup-modal dialog-modal"
-      {{ size_guide_block.shopify_attributes }}
-    >
-      <div
-        class="dialog-modal-content dialog-modal-content--right"
-        role="dialog"
-        aria-label="{{ size_guide_block.settings.text }}"
-        aria-modal="true"
-        tabindex="-1"
-      >
-        <div class="dialog-modal-header">
-          <button
-            id="ModalClose-{{ size_guide_block.id }}"
-            type="button"
-            class="dialog-modal-close"
-            aria-label="{{ 'accessibility.close' | t }}"
-          >
-            {{- 'icon-close.svg' | inline_asset_content -}}
-          </button>
-        </div>
-        <div class="dialog-modal-main">
-          <div class="richtext">
-            {%- assign richtext_html = popup_page.content
-              | strip_newlines
-              | remove: '<br>'
-              | replace: '<h1>', '<h2 class="typography--heading-1">'
-              | replace: '</h1>', '</h2>'
-              | replace: '<h2>', '<h2 class="typography--heading-1">'
-              | replace: '<h3>', '<h3 class="">'
-              | replace: '<h4>', '<h4 class="">'
-              | replace: '<h5>', '<h5 class="">'
-              | replace: '<h6>', '<h6 class="">'
-              | replace: '<p>', '<p class="">'
-            -%}
-            {{ richtext_html }}
-          </div>
-        </div>
-      </div>
-    </modal-dialog>
-  {%- endif -%}
-
   <!-- Zoom -->
-  <product-zoom-gallery
-    id="ProductZoomGallery-{{ section.id }}"
-    class="pdp-product-zoom-gallery dialog-modal"
-  >
-    <div
-      class="dialog-modal-content"
-      role="dialog"
-      aria-label="Product Zoom Gallery"
-      aria-modal="true"
-      tabindex="-1"
-    >
-      <button
-        id="ModalClose-ProductZoomGallery"
-        type="button"
-        class="dialog-modal-close"
-        aria-label="{{ 'accessibility.close' | t }}"
-      >
-        {{- 'icon-close.svg' | inline_asset_content -}}
-      </button>
-
-      <div class="dialog-modal-main isolate">
-        <div class="pdp-product-zoom-slider swiper">
-          <div class="swiper-wrapper"></div>
-          <button
-            class="swiper-button-prev icon-only-button"
-            type="button"
-            name="previous"
-            aria-label="{{ 'accessibility.previous' | t }}"
-            aria-controls="ProductZoomGallery-{{ section.id }}"
-          >
-            {{- 'icon-arrow-full_left.svg' | inline_asset_content -}}
-          </button>
-          <button
-            class="swiper-button-next icon-only-button"
-            type="button"
-            name="next"
-            aria-label="{{ 'accessibility.next' | t }}"
-            aria-controls="ProductZoomGallery-{{ section.id }}"
-          >
-            {{- 'icon-arrow-full_right.svg' | inline_asset_content -}}
-          </button>
-        </div>
-
-        <div class="pdp-product-zoom-thumbSlider swiper">
-          <div class="swiper-wrapper"></div>
-        </div>
-
-        <template class="template--slider">
-          {% assign product_image_variants = product.variants %}
-          {%- for product_image in product.images -%}
-            {%- if product_image.attached_to_variant? -%}
-              {% assign product_image_variants = product_image.variants -%}
-            {%- endif -%}
-            {% for product_image_variant in product_image_variants %}
-              <div
-                class="swiper-slide"
-                data-variant-id="{{ product_image_variant.id }}"
-                data-variant-title="{{ product_image_variant.title }}"
-              >
-                <modal-opener
-                  class="product-zoom-opener modal-opener"
-                  data-modal="#ProductZoom-{{ section.id }}"
-                >
-                  <img
-                    srcset="{% render 'image-srcset', image: product_image %}"
-                    sizes="100vw"
-                    src="{{ product_image | image_url: width: 3840 }}"
-                    loading="lazy"
-                    fetchpriority="low"
-                    alt="{{ product_image.alt | escape }}"
-                    width="{{ product_image.width }}"
-                    height="{{ product_image.height }}"
-                    class="media"
-                    style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
-                  >
-                  <button
-                    class="covering-button cursor--zoom-in"
-                    type="button"
-                    aria-haspopup="dialog"
-                    data-media-id="{{ product_image.id }}"
-                  >
-                    <span class="visually-hidden">
-                      Open Product Image {{ product_image_index0 | plus: 1 }} in zoom modal
-                    </span>
-                  </button>
-                </modal-opener>
-              </div>
-            {% endfor %}
-          {%- endfor -%}
-        </template>
-
-        <template class="template--thumbSlider">
-          {% assign product_image_variants = product.variants %}
-          {%- for product_image in product.images -%}
-            {%- if product_image.attached_to_variant? -%}
-              {% assign product_image_variants = product_image.variants -%}
-            {%- endif -%}
-            {% for product_image_variant in product_image_variants %}
-              <div
-                class="swiper-slide"
-                data-variant-id="{{ product_image_variant.id }}"
-                data-variant-title="{{ product_image_variant.title }}"
-              >
-                <img
-                  srcset="{% render 'image-srcset', image: product_image %}"
-                  sizes="120px"
-                  src="{{ product_image | image_url: width: 3840 }}"
-                  loading="lazy"
-                  fetchpriority="low"
-                  alt="{{ product_image.alt | escape }}"
-                  width="{{ product_image.width }}"
-                  height="{{ product_image.height }}"
-                  class="media"
-                  style="--focal-point-x: {{ product_image.presentation.focal_point.x }}%; --focal-point-y: {{ product_image.presentation.focal_point.y }}%"
-                >
-              </div>
-            {% endfor %}
-          {%- endfor -%}
-        </template>
-
-        <script type="application/json">
-          {{ product.selected_or_first_available_variant | json }}
-        </script>
-      </div>
-    </div>
-  </product-zoom-gallery>
+ 
 
   <!-- Zoom 2 -->
   <product-zoom
@@ -487,8 +193,8 @@
           {%- for product_image in product.images -%}
             <img
               src="{{ product_image | image_url: width: 3840 }}"
-              loading="lazy"
-              fetchpriority="low"
+              loading="eager"
+              fetchpriority="high"
               alt="{{ product_image.alt | escape }}"
               width="{{ product_image.width }}"
               height="{{ product_image.height }}"
