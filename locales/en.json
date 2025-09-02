@@ -351,6 +351,8 @@
     "checkout_button_label": "Checkout",
     "view_cart_button_label": "View Cart",
     "empty": "Your cart is empty",
+    "empty_btn_label": "Continue Shopping",
+    "empty_btn_link": "/collections/all",
     "cart_error": "There was an error while updating your cart. Please try again.",
     "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
     "cart_discount_error": "Your offer code has been removed."
