@@ -39,44 +39,6 @@
         "gallery_aspect_ratio": "1/1"
       }
     },
-    "pdp-nav": {
-      "type": "pdp-nav",
-      "blocks": {
-        "block_G6TVbJ": {
-          "type": "block",
-          "name": "Description",
-          "settings": {
-            "title": "Description",
-            "section_anchor_id": "description"
-          }
-        },
-        "block_4cPLab": {
-          "type": "block",
-          "name": "Specifications",
-          "settings": {
-            "title": "Specifications",
-            "section_anchor_id": "specifications"
-          }
-        },
-        "block_6B6trC": {
-          "type": "block",
-          "name": "Related Products",
-          "settings": {
-            "title": "Related Products",
-            "section_anchor_id": "related-products"
-          }
-        }
-      },
-      "block_order": [
-        "block_G6TVbJ",
-        "block_4cPLab",
-        "block_6B6trC"
-      ],
-      "settings": {
-        "padding_top": 20,
-        "padding_bottom": 0
-      }
-    },
     "pdp_desc_7RPHQh": {
       "type": "pdp-desc",
       "name": "PDP Description",
@@ -156,7 +118,6 @@
   },
   "order": [
     "pdp-main",
-    "pdp-nav",
     "pdp_desc_7RPHQh",
     "pdp_specs_mCdqjN",
     "pdp-recommendation"

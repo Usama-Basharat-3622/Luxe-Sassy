@@ -5,7 +5,7 @@
   class="pdp-desc-{{ section.id }} pdp-desc"
 >
   <div id="AnchorTarget-{{ section.settings.section_anchor_id }}" class="anchor-target" aria-hidden="true"></div>
-
+  <h2 class="pdp-specs-title typography--heading-2"> {{ section.settings.title }} </h2>
   <div class="pdp-desc-description typography--body-regular">{{ product.description }}</div>
 
   {%- if section.settings.product_tag_list_dynamic != blank -%}
@@ -68,9 +68,9 @@
   "settings": [
     {
       "type": "text",
-      "id": "section_anchor_id",
-      "label": "Section Anchor ID",
-      "default": "description"
+      "id": "title",
+      "label": "Title",
+      "default": "Product Description"
     },
     {
       "type": "header",
