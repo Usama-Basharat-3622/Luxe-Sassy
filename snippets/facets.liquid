@@ -218,7 +218,7 @@
                             <summary
                               class="mobile-facets__summary facets__summary focus-inset typography--body-regular"
                               aria-expanded="true"
-                              aria-label="{{ filter.label }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+                              aria-label="{{ filter.label }} ({{ 'facets.filters_selected.one' | t: count: filter.active_values.size }})"
                             >
                               <div>
                                 <span>
@@ -272,7 +272,7 @@
 
                                   {%- capture text_value -%}
                                     <span class="facet-checkbox__text" aria-hidden="true">
-                                      <span class="facet-checkbox__text-label">{{- value.label | escape }} ({{- value.count -}})</span>
+                                      <span class="facet-checkbox__text-label">{{- value.label | escape }}</span>
                                     </span>
                                     <span class="visually-hidden">
                                       {{- value.label | escape }} ({{- value.count -}}) 
@@ -281,8 +281,8 @@
 
                                   {% assign filter_label_handleize = filter.label | escape | downcase | handleize %}
 
-                                  {%- if filter_label_handleize == 'color' -%}
-                                    <li class="mobile-facets__item list-menu__item typography--body-small mobile-facets__item--color  {% if forloop.index > 12 and value.active != true %} hidden show-more-item {% endif %} ">
+                                  {%- if filter_label_handleize == 'test' -%}
+                                    <li class="mobile-facets__item list-menu__item typography--body-small mobile-facets__item--color ">
                                       {% assign filter_label = filter.label | downcase %}
                                       <div class="{{ label_class }}">
                                         <div class="swatch-input-wrapper">
@@ -302,30 +302,10 @@
                                         {% comment %} {{ text_value | remove: 'color-'  }} {% endcomment %}
                                       </div>
                                     </li>
-
-                                  {%- elsif filter_label_handleize contains 'shape' -%}
-                                    <li class="mobile-facets__item list-menu__item typography--body-small mobile-facets__item--shape  {% if forloop.index > 12 and value.active != true %} hidden show-more-item {% endif %} ">
-                                      {% assign filter_label = filter.label | downcase %}
-                                      <div class="{{ label_class }}">
-                                        <div class="swatch-input-wrapper">
-                                          {% render 'filter-swatch-shape',
-                                            id: input_id,
-                                            type: 'checkbox',
-                                            name: value.param_name,
-                                            value: value.value,
-                                            product_form_id: 'FacetFiltersFormMobile',
-                                            swatch: value.swatch,
-                                            checked: value.active,
-                                            disabled: is_disabled,
-                                            label_class: label_class_swatch
-                                          %}
-                                        </div>
-                                      </div>
-                                    </li>
                                   {%- else -%}
-                                    <li class="mobile-facets__item list-menu__item  typography--body-small {% if forloop.index > 12 and value.active != true %} hidden show-more-item {% endif %}">
+                                    <li class="mobile-facets__item list-menu__item  typography--body-small">
                                       {% assign filter_label = filter.label | downcase %}
-                                      {% if filter_label == 'color' %}
+                                      {% if filter_label == 'test' %}
                                         <div class="{{ label_class }}">
                                           <div class="swatch-input-wrapper">
                                             {% render 'swatch-input',
@@ -379,9 +359,6 @@
                                   {%- endif -%}
                                 {%- endfor -%}
                               </ul>
-                              {% if sorted_values.size > 12 %}
-                                <facet-view-more class="link--underline link--hover-color-change typography--body-small filters-view-more" tabindex="0"> View more</facet-view-more>
-                              {% endif %}
                             </div>
                           </details>
                         {% endif %}
