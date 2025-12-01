@@ -19,7 +19,7 @@
   </div>
 
   <div class="clp-hero-overlay {% if collection.metafields.custom.hero_image_desktop.value != blank %} clp-hero-overlay--has-image {% endif %}">
-    <div class="clp-hero-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+    {% comment %} <div class="clp-hero-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
       <div class="clp-hero-breadcrumbs-inner">
         <a href="{{ routes.root_url }}" class="link link--inline-block typography--body-small link--hover-color-change" >
           Home
@@ -29,7 +29,7 @@
           {{ collection.title | escape }}
         </a>
       </div>
-    </div>
+    </div> {% endcomment %}
     <div class="clp-hero-content">
       <div class="clp-hero-text">
         <h1 class="clp-hero-title typography--heading-2">

@@ -907,10 +907,12 @@ details[open] .mobile-facets__close svg {
   .mobile-facets__main{
     min-height: 200px;
   }
-}
-
-.mobile-facets__main .mobile-facets__details:first-of-type {
-  width: 80% !important;
+  summary.mobile-facets__summary.facets__summary.focus-inset.typography--body-regular {
+    pointer-events: none;
+  }
+  .mobile-facets__main .mobile-facets__details:first-of-type {
+    width: 80% !important;
+  }
 }
 
 /* .mobile-facets__details-filter:last-of-type {
@@ -1371,7 +1373,7 @@ details.sorting.disclosure-dropdown ul li:hover:before {
     align-items: center;
     column-gap: 0;
     justify-content: space-between;
-    padding-top: 1.8rem;
+    padding-top: 1.5rem;
   }
 
   /* facet-filters-form.facets {

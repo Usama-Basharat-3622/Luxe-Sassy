@@ -209,13 +209,15 @@ ul.breadcrumbs a {
   overflow: auto;
 }
 .pagination-list > li:last-child {
-  margin-left: 2.5rem;
+  margin-left: 0.5rem;
+  height: 2rem;
 }
 .pagination-list > li:first-child {
-  margin-right: 2.5rem;
+  margin-right: 0.5rem;
+  height: 2rem;
 }
 .pagination-item--disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   pointer-events: none;
   cursor: default;
 }

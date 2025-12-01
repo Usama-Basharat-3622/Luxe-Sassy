@@ -18,10 +18,9 @@
 
 
   .clp-hero .clp-hero-overlay {
-
-    padding: 2.4rem;
-
+    padding: 4rem 2.4rem 2.4rem;
   }
+  
   .clp-hero .clp-hero-overlay.clp-hero-overlay--has-image{
     position: absolute;
     top: 0;
