@@ -1,5 +1,5 @@
 @media screen and (min-width: 768px) {
-  .hp-product-list-header {
+  .product-list-header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -11,7 +11,7 @@
 }
 
 @media only screen and (max-width: 767px) {
-  .hp-product-list-header {
+  .product-list-header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -22,12 +22,12 @@
   }
 }
 
-.hp-product-list-title {
+.product-list-title {
   white-space: nowrap;
 }
 
 @media screen and (min-width: 768px) {
-  .hp-product-list .tab-button-list {
+  .product-list .tab-button-list {
     display: flex;
     flex-flow: row nowrap;
     gap: 1.6rem;
@@ -38,7 +38,7 @@
 }
 
 @media only screen and (max-width: 767px) {
-  .hp-product-list .tab-button-list {
+  .product-list .tab-button-list {
     display: flex;
     flex-flow: row nowrap;
     gap: 1.2rem;
@@ -48,11 +48,11 @@
   }
 }
 
-.hp-product-list .tab-button[aria-selected="true"] {
+.product-list .tab-button[aria-selected="true"] {
   border-color: rgb(var(--color-black));
 }
 
-.hp-product-carousel .swiper {
+.product-carousel .swiper {
   --swiper-scrollbar-sides-offset: 2.4rem;
   --swiper-scrollbar-bottom: 0;
   --swiper-scrollbar-size: 1px;
@@ -64,7 +64,7 @@
 }
 
 @media only screen and (max-width: 767px) {
-  .hp-product-carousel .swiper {
+  .product-carousel .swiper {
     --swiper-scrollbar-sides-offset: 1.6rem;
   }
 }

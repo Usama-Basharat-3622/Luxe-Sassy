@@ -1818,7 +1818,7 @@ class HpProductCarousel extends HTMLElement {
     });
   }
 }
-customElements.define("hp-product-carousel", HpProductCarousel);
+customElements.define("product-carousel", HpProductCarousel);
 
 class HeaderMega extends HTMLElement {
   constructor() {

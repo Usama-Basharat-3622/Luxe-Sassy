@@ -1,97 +1,64 @@
 {{ 'hp-product-list.css' | asset_url | stylesheet_tag }}
 
 <div
-  id="hp-product-list-{{ section.id }}"
-  class="hp-product-list-{{ section.id }} hp-product-list isolate"
+  id="product-list-{{ section.id }}"
+  class="product-list-{{ section.id }} product-list isolate"
 >
-  <div class="hp-product-list-header">
+  <div class="product-list-header">
     {%- if section.settings.title != blank -%}
-      <h2 class="hp-product-list-title typography--heading-1">
+      <h2 class="product-list-title typography--heading-1">
         {{ section.settings.title }}
       </h2>
     {%- endif -%}
     {%- if section.settings.cta_text != blank -%}
       <a
         href="{{ section.settings.cta_link }}"
-        class="hp-product-list-cta link button button--tertiary typography--body-regular"
+        class="product-list-cta link button button--tertiary typography--body-regular"
       >
         {{- section.settings.cta_text -}}
       </a>
     {%- endif -%}
   </div>
 
-  <tab-list class="tab-list">
-    <ul class="tab-button-list scrollbar-hidden" role="tablist">
-      {%- for block in section.blocks -%}
-        <li {{ block.shopify_attributes }} role="presentation">
-          <a
-            id="tab-button-{{ block.id }}-{{ section.id }}"
-            class="tab-button-{{ block.id }} tab-button link button button--tag-big typography--body-regular"
-            href="#tab-panel-{{ block.id }}-{{ section.id }}"
-            role="tab"
-            {% if forloop.first %}
-              aria-selected="true"
-            {% else %}
-              tabindex="-1"
-            {% endif %}
-          >
-            {{ block.settings.tab_title }}
-          </a>
-        </li>
-      {%- endfor -%}
-    </ul>
-    <div class="tab-panel-list">
-      {%- for block in section.blocks -%}
-        <div
-          id="tab-panel-{{ block.id }}-{{ section.id }}"
-          class="tab-panel-{{ block.id }}-{{ section.id }} tab-panel {% unless forloop.first %}hidden{% endunless %}"
-          role="tabpanel"
-          {% unless forloop.first %}
-            tabindex="-1"
-          {% endunless %}
-        >
-          {%- case block.settings.source_type -%}
-            {%- when 'product_list' -%}
-              {%- assign product_list = block.settings.product_list -%}
-            {%- when 'collection' -%}
-              {%- assign product_list = block.settings.collection.products -%}
-          {%- endcase -%}
+  {%- case section.settings.source_type -%}
+    {%- when 'product_list' -%}
+      {%- assign product_list = section.settings.product_list -%}
+    {%- when 'collection' -%}
+      {%- assign product_list = section.settings.collection.products -%}
+  {%- endcase -%}
 
-          <hp-product-carousel class="hp-product-carousel" role="region" {{ block.shopify_attributes }}>
-            <div class="swiper isolate">
-              <div class="swiper-wrapper">
-                {%- for product in product_list -%}
-                  <div class="swiper-slide">
-                    {%- capture scope_id -%}
-                      {{- section.id -}}-{{- block.id -}}
-                    {%- endcapture -%}
-                    {% render 'product-card',
-                      card_product: product,
-                      card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
-                      scope_id: scope_id
-                    %}
-                  </div>
-                {%- endfor -%}
-              </div>
-              <div class="swiper-scrollbar"></div>
-            </div>
-          </hp-product-carousel>
-        </div>
-      {%- endfor -%}
+  <product-carousel class="product-carousel" role="region" {{ section.shopify_attributes }}>
+    <div class="swiper isolate">
+      <div class="swiper-wrapper">
+        {%- for product in product_list -%}
+          <div class="swiper-slide">
+            {%- capture scope_id -%}
+              {{- section.id -}}-{{- section.id -}}
+            {%- endcapture -%}
+            {% render 'product-card',
+              card_product: product,
+              card_image_sizes: '(min-width: 1200px) calc(100vw / 4), (min-width: 992px) calc(100vw / 3), (min-width: 768px) calc(100vw / 2), calc(100vw / 1)',
+              scope_id: scope_id
+            %}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="swiper-scrollbar"></div>
     </div>
-  </tab-list>
+  </product-carousel>
+
 </div>
 
 {% style %}
   @media screen and (min-width: 768px) {
-    .hp-product-list-{{ section.id }}{
+    .product-list-{{ section.id }}{
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
 
   @media only screen and (max-width: 767px) {
-    .hp-product-list-{{ section.id }}{
+    .product-list-{{ section.id }}{
       padding-top: {{ section.settings.padding_top_alter }}px;
       padding-bottom: {{ section.settings.padding_bottom_alter }}px;
     }
@@ -101,7 +68,7 @@
 {
   "name": "Product Carousel",
   "tag": "section",
-  "class": "section--hp-product-list",
+  "class": "section--product-list",
   "enabled_on": {
     "templates": ["page", "index"]
   },
@@ -120,6 +87,37 @@
       "type": "url",
       "id": "cta_link",
       "label": "CTA Link"
+    },
+    {
+      "type": "header",
+      "content": "Product Carousel"
+    },
+    {
+      "type": "radio",
+      "id": "source_type",
+      "label": "Source Type",
+      "options": [
+        {
+          "value": "product_list",
+          "label": "Product List"
+        },
+        {
+          "value": "collection",
+          "label": "Collection"
+        }
+      ],
+      "default": "product_list"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "limit": 12
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
     },
     {
       "type": "header",
@@ -168,46 +166,6 @@
       "unit": "px",
       "label": "Padding bottom",
       "default": 0
-    }
-  ],
-  "blocks": [
-    {
-      "name": "Tab",
-      "type": "tab",
-      "settings": [
-        {
-          "type": "text",
-          "id": "tab_title",
-          "label": "Tab Title"
-        },
-        {
-          "type": "radio",
-          "id": "source_type",
-          "label": "Source Type",
-          "options": [
-            {
-              "value": "product_list",
-              "label": "Product List"
-            },
-            {
-              "value": "collection",
-              "label": "Collection"
-            }
-          ],
-          "default": "product_list"
-        },
-        {
-          "type": "product_list",
-          "id": "product_list",
-          "label": "Products",
-          "limit": 12
-        },
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Collection"
-        }
-      ]
     }
   ],
   "presets": [
