@@ -1,118 +1,115 @@
-{{ 'announcement-bar.css' | asset_url | stylesheet_tag }}
+{% style %}
+.promo-bar.promo-bar-{{ section.id }} {
+  background: {{ section.settings.bg_color }};
+  color: {{ section.settings.text_color }};
+  overflow: hidden;
+  padding: 8px 0;
+  white-space: nowrap;
+}
 
-<div id="announcement-bar" class="announcement-bar" data-id="{{ section.id }}">
-  <!-- Slider -->
-  <announcement-bar-slider
-    id="announcement-bar-slider-{{ section.id }}"
-    class="announcement-bar-slider"
-    role="region"
-  >
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        {%- for block in section.blocks -%}
-          {%- if block.settings.text != blank -%}
-            <div
-              class="announcement-bar-slide swiper-slide"
-              data-swiper-autoplay="{{ block.settings.promo_bar_slider_interval | times: 1000 }}"
-              {{ block.shopify_attributes }}
-            >
-              {%- if block.settings.link != blank -%}
-                <a class="link link--inline-block link--hover-color-change" href="{{ block.settings.link }}">
-              {%- endif -%}
+.promo-bar-{{ section.id }} .promo-bar__track {
+  display: inline-flex;
+  gap: 150px;
+  will-change: transform;
+}
+.promo-bar-{{ section.id }} .promo-bar__only_item {
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+.promo-bar-{{ section.id }} .promo-bar__item {
+  padding: 0 20px;
+  display: inline-block;
+  white-space: nowrap;
+}
 
-              <span class="typography--navigation">
-                {{ block.settings.text }}
-              </span>
+{% endstyle %}
 
-              {%- if block.settings.link != blank -%}
-                </a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-      <button
-        class="swiper-button-prev hidden≤767"
-        type="button"
-        name="previous"
-        aria-label="{{ 'accessibility.previous' | t }}"
-        aria-controls="announcement-bar-slider-{{ section.id }}"
-      >
-        {{- 'icon-caret_left.svg' | inline_asset_content -}}
-      </button>
+<div class="promo-bar promo-bar-{{ section.id }}">
+  <div class="typography--navigation {% if section.blocks.size > 1 %}promo-bar__track {% endif %}">
+    {% if section.blocks.size <= 1 %}
 
-      <button
-        class="swiper-button-next hidden≤767"
-        type="button"
-        name="next"
-        aria-label="{{ 'accessibility.next' | t }}"
-        aria-controls="announcement-bar-slider-{{ section.id }}"
-      >
-        {{- 'icon-caret_right.svg' | inline_asset_content -}}
-      </button>
-    </div>
-  </announcement-bar-slider>
+      {% for block in section.blocks %}
+        <span class="promo-bar__only_item">{{ block.settings.text }}</span>
+      {% endfor %}
+
+    {% elsif section.blocks.size > 1 %}
+
+      {% for block in section.blocks %}
+        <span class="promo-bar__item">{{ block.settings.text }}</span>
+      {% endfor %}
+
+    {% endif %}
+  </div>
 </div>
 
-{% style %}
-  .announcement-bar {
-    color: {{ section.settings.promo_bar_text_color }};
-    background-color: {{ section.settings.promo_bar_background_color }};
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.promo-bar__track');
+  const bar = document.querySelector('.promo-bar');
+  if (!track || !bar) return;
+
+  // Duplicate content until longer than screen width x 2
+  while (track.scrollWidth < bar.clientWidth * 2.2) {
+    track.innerHTML += track.innerHTML;
   }
-{% endstyle %}
+
+  // Measure final width
+  const totalWidth = track.scrollWidth;
+
+  // Speed: 80px per second (adjustable)
+  const speed = totalWidth / 180;
+
+  // Apply animation using exact width + speed
+  track.style.animation = `scrollMarquee ${speed}s linear infinite`;
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes scrollMarquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-${totalWidth / 2}px); }
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>
+
 
 {% schema %}
 {
   "name": "Promo Bar",
   "tag": "section",
-  "class": "section--announcement-bar",
+  "class": "section--promo-bar",
   "limit": 1,
   "enabled_on": {
     "groups": ["header"]
   },
+  "max_blocks": 10,
   "settings": [
     {
       "type": "color",
-      "id": "promo_bar_text_color",
-      "label": "Promo Bar Text Color",
-      "default": "#000000"
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f8f8f8"
     },
     {
       "type": "color",
-      "id": "promo_bar_background_color",
-      "label": "Promo Bar Background Color",
-      "default": "#F5F5F5"
-    },
-    {
-      "type": "header",
-      "content": "Promo Bar Slider"
-    },
-    {
-      "type": "range",
-      "id": "promo_bar_slider_interval",
-      "min": 3,
-      "max": 10,
-      "step": 1,
-      "unit": "s",
-      "label": "Promo Bar Slider Interval",
-      "default": 5
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
     }
   ],
   "blocks": [
     {
-      "type": "announcement-bar-slide",
-      "name": "Promo Bar Slide",
+      "type": "text",
+      "name": "Text",
       "settings": [
         {
           "type": "text",
           "id": "text",
-          "default": "Promo Bar Slide Text",
-          "label": "Promo Bar Slide Text"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Promo Bar Slide link"
+          "label": "Promo Text",
+          "default": "Free Shipping on Orders Above $50"
         }
       ]
     }
