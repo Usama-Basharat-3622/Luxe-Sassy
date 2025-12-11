@@ -1714,6 +1714,7 @@ details:not([open]) > .summary-with-overlay::before {
 
 .quantity-picker .quantity__input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /********************************
@@ -1830,9 +1831,6 @@ details:not([open]) > .summary-with-overlay::before {
   border-radius: 50%;
 }
 
-.swatch--unavailable {
-}
-
 /********************************
     Component
     Banner
@@ -1897,9 +1895,6 @@ product-card {
   justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
-}
-
-.product-card-vendor {
 }
 
 .product-card-title {
