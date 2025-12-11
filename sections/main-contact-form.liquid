@@ -1,0 +1,273 @@
+{% style %}
+  #gs-content-main-{{ section.id }}{
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+
+      {% if section.settings.show_border_top %}
+          border-top: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+      {% if section.settings.show_border_bottom %}
+          border-bottom: .1rem solid rgb(var(--color-grey));
+      {% endif %}
+  }
+  .gs-content-main-{{ section.id }} {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      text-align: {{ section.settings.text_alignment }};
+  }
+  .gs-content-main-{{ section.id }} .gs-content {
+      width: 100%;
+      max-width: {{ section.settings.content_width }}px;
+      display: flex;
+      flex-direction: column;
+  }
+  .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph > *:not(:first-child){
+      margin-top: 1.6rem;
+  }
+  .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ol, .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ul{
+      list-style-position: outside;
+      padding-left: 2.5rem;
+  }
+  .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ol li, .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ul li{
+      padding-left: 0.2rem;
+  }
+
+  form#ContactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .gs-content-main-{{ section.id }} .filed-50-50 {
+    display: flex;
+    width: 100%;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .gs-content-main-{{ section.id }} .field--input, 
+  .gs-content-main-{{ section.id }} .field--textarea {
+    position: relative;
+    width: 100%;
+  }
+  .field--input input, .field--textarea textarea{
+    max-width: {{ section.settings.content_width }}px;
+  }
+  button.contact-form__button {
+    min-width: 150px;
+  }
+  h2.form-status.form-status-list.form__message {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+  @media screen and (min-width: 768px){
+      .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph {
+          margin-top: 20px;
+      }
+      .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph p > strong{
+          padding-top: .2rem;
+          display: inline-block;
+      }
+  }
+  @media screen and (max-width:767px){
+      #gs-content-main-{{ section.id }}{
+          padding: {{ section.settings.padding_top_mobile }}px 1.6rem {{ section.settings.padding_bottom_mobile }}px;
+      }
+      .gs-content-main-{{ section.id }} {
+          justify-content: center;
+          text-align: {{ section.settings.text_alignment_alter }};
+      }
+      .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph {
+          margin-top: 20px;
+      }
+      h2.form-status.form-status-list.form__message {
+        gap: .5rem;
+      }
+      h2.form-status.form-status-list.form__message .icon {
+        width: 1.8rem !important;
+      }
+  }
+{% endstyle %}
+
+<div id="gs-content-main-{{ section.id }}">
+  <div class="gs-content-main gs-content-main-{{ section.id }}">
+    <div class="gs-content">
+      {% if section.settings.title != blank %}
+        <div class="gs-content-title typography--heading-1" role="heading">{{ section.settings.title }}</div>
+      {% endif %}
+      {% if section.settings.paragraph != blank %}
+        <div class="gs-content-paragraph typography--body-regular">
+          {{
+            section.settings.paragraph
+            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
+            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
+            | replace: '<strong', "<strong class='typography--body-regular-bold'"
+            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
+          }}
+        </div>
+      {% endif %}
+
+      <div class="contact-form-wrapper">
+        {% render 'contact-form' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "tag": "section",
+  "class": "section--gs-contact-form",
+  "enabled_on": {
+    "templates": ["page", "index"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#201F1E"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Show Border Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Show Border Bottom",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 500,
+      "step": 4,
+      "unit": "px",
+      "label": "Content Width",
+      "default": 432
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment",
+      "label": "Text Alignment Desktop",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_alignment_alter",
+      "label": "Text Alignment Mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Padding Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Form"
+    }
+  ]
+}
+{% endschema %}

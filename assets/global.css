@@ -1016,7 +1016,6 @@ button * {
   appearance: none;
   font-size: 1.3rem;
   font-weight: 500;
-  font-family: var(--font-avenir);
   border-radius: .5rem;
   max-width: 42.7rem;
 }
@@ -1038,7 +1037,6 @@ button * {
   transition: top .1s ease;
   font-size: 1.3rem;
   font-weight: 500;
-  font-family: var(--font-avenir);
 }
 
 .field--input label {
@@ -1052,6 +1050,84 @@ button * {
 
 .field--input .field-line input:focus ~ label,
 .field--input .field-line input:not(:placeholder-shown) ~ label {
+  top: 1.5rem;
+  left: 1.1rem;
+}
+
+.input-error {
+  display: flex;
+  color: rgb(var(--color-accent-red));
+  gap: .5rem;
+  margin: .8rem 0 -2.6rem;
+  align-items: center;
+  border: 1px solid rgb(var(--color-accent-red));
+  width: fit-content;
+  border-radius: 1.5rem;
+  padding: 0.4rem 1rem;
+  font-style: italic;
+  letter-spacing: -0.2px;
+}
+
+.field-line:has(+.input-error:not(.hidden)) input {
+  border-color: rgb(var(--color-accent-red));
+}
+
+/********************************
+    Component
+    Textarea
+********************************/
+
+.field--textarea {
+  position: relative;
+}
+
+.field--textarea textarea {
+  position: relative;
+  display: block;
+  border: .1rem solid rgb(var(--color-grey-medium));
+  width: 100%;
+  height: 11rem;
+  padding: 2rem 1.1rem 0;
+  color: rgb(var(--color-black));
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1.3rem;
+  font-weight: 500;
+  border-radius: .5rem;
+  max-width: 42.7rem;
+}
+
+.field--textarea textarea:hover {
+  border: 1px solid rgb(var(--color-black));
+}
+
+.field--textarea textarea:focus {
+  border: 1px solid rgb(var(--color-black));
+}
+
+.field--textarea .field-line label{
+  pointer-events: none;
+  position: absolute;
+  top: 2.3rem;
+  left: 1.1rem;
+  transform: translateY(-50%);
+  transition: top .1s ease;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.field--textarea label {
+  color: rgb(var(--color-grey-dark));
+}
+
+.field--textarea .field-line textarea::placeholder,
+.field--textarea .field-line textarea::placeholder {
+  opacity: 0;
+}
+
+.field--textarea .field-line textarea:focus ~ label,
+.field--textarea .field-line textarea:not(:placeholder-shown) ~ label {
   top: 1.5rem;
   left: 1.1rem;
 }
@@ -1675,8 +1751,6 @@ details:not([open]) > .summary-with-overlay::before {
 
   text-align: center;
   background-color: transparent;
-
-  pointer-events: none;
 
   -webkit-appearance: none;
   appearance: none;

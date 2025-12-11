@@ -1,0 +1,46 @@
+{
+  "layout": "theme",
+  "sections": {
+    "page-main": {
+      "type": "page-main",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201f1e",
+        "show_page_title": false,
+        "show_page_content": false,
+        "content_width": 700,
+        "text_placement_hor": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "main_contact_form_PcLXzX": {
+      "type": "main-contact-form",
+      "name": "Contact Form",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Contact Us",
+        "paragraph": "",
+        "content_width": 432,
+        "text_alignment": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "padding_top_mobile": 50,
+        "padding_bottom_mobile": 50
+      }
+    }
+  },
+  "order": [
+    "page-main",
+    "main_contact_form_PcLXzX"
+  ]
+}
