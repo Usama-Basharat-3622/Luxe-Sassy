@@ -253,7 +253,7 @@
   display: block;
   min-width: 4.5rem;
   border: .1rem solid rgb(var(--color-grey-medium));
-  border-radius: 1.6rem;
+  border-radius: .6rem;
   padding: .5rem 1.4rem .4rem;
   text-align: center;
   transform: translateZ(0);
@@ -401,16 +401,13 @@
 }
 
 .pdp-product-zoom-thumbSlider {
-  position: absolute;
-  bottom: 2.4rem;
   left: 50%;
   transform: translateX(-50%);
-
   max-width: 80rem;
   padding: 1rem;
   background-color: rgb(var(--color-white));
-  border: 0.1rem solid rgb(var(--color-grey));
-  border-radius: 0.5rem;
+  overflow: hidden;
+  touch-action: pan-y;
 }
 
 .pdp-product-zoom-thumbSlider .swiper-wrapper {
@@ -420,20 +417,23 @@
 .pdp-product-zoom-thumbSlider .swiper-slide {
   flex: 0 0 auto;
   width: auto;
-  border: 0.1rem solid transparent;
+  border: 0.1rem solid rgb(var(--color-grey-medium));
+  padding: 2px;
   border-radius: 0.5rem;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .pdp-product-zoom-thumbSlider .swiper-slide.swiper-slide-thumb-active {
-  border: 0.1rem solid rgb(var(--color-grey-dark));
+  border: 0.1rem solid rgb(var(--color-black));
 }
 
 .pdp-product-zoom-thumbSlider .media {
-  width: 4rem;
-  height: 4rem;
+  width: 7rem;
+  height: 7rem;
   object-fit: cover;
   object-position: center center;
+  border-radius: 0.5rem;
 }
 
 .pdp-product-zoom {

@@ -938,7 +938,6 @@ button * {
   z-index: 1;
   height: 100%;
   width: 100%;
-  pointer-events: none;
 }
 
 .covering-button:focus {
@@ -948,6 +947,12 @@ button * {
 
 .covering-button:focus:not(:focus-visible) {
   outline: 0;
+}
+
+@media screen and (max-width: 767px){
+  .covering-button {
+    pointer-events: none;
+  }
 }
 
 /********************************

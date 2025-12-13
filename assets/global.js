@@ -2278,6 +2278,15 @@ class ProductGallery extends HTMLElement {
       slidesPerView: "auto",
       freeMode: true,
       watchSlidesProgress: true,
+      mousewheel: {
+        enabled: true,
+        forceToAxis: false,   // allows natural horizontal trackpad swipe
+        releaseOnEdges: true,
+        sensitivity: 1,
+      },
+
+      simulateTouch: true,
+      grabCursor: true,
     });
 
     // Click a thumb -> go to the corresponding MAIN slide by mediaId
