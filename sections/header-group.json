@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header",
   "type": "header",
@@ -41,10 +50,10 @@
       "settings": {
         "main_menu_desktop": "main-menu",
         "main_menu_mobile": "main-menu-mobile",
-        "menu_1_title": "Popular searches",
+        "menu_1_title": "Trending Now",
         "menu_1": "popular-searches",
         "richtext": "<p>Shine like never before. Explore the pieces everyone’s loving right now.</p>",
-        "product_list_title": "Trending products",
+        "product_list_title": "Popular products",
         "product_list": [
           "hollow-flower-bracelet-armband-geometric-simplicity",
           "simple-and-versatile-baroque-natural-freshwater-pearl-bracelet",
