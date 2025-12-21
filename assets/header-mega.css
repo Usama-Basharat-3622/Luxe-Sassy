@@ -155,14 +155,14 @@
   position: relative;
 }
 
-@media (any-hover: hover) {
+/* @media (any-hover: hover) {
   .header-mega-card .media {
     transition: transform 200ms ease-in;
   }
   .header-mega-card-top:hover .media {
     transform: scale(1.06);
   }
-}
+} */
 
 .header-mega-card-title {
   margin-top: 1.6rem;
