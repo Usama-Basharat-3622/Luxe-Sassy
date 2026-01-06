@@ -28,6 +28,12 @@
 
 <div class="section-{{ section.id }} gradient {{ template.suffix }} {{ collection.all_products_count }}-products">
   {%- assign product_count = section.settings.product_per_page -%}
+  {% assign clp_main = "luxe-sassy-brand.myshopify.com" %}
+  {% if shop.permanent_domain != clp_main %}
+    <style>
+      #main-collection-filters { display: none !important; }
+    </style>
+  {% endif %}
 
   {%- paginate collection.products by product_count -%}
     <div>

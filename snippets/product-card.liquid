@@ -1,7 +1,12 @@
 {%- capture scope_id -%}
 {{- scope_id -}}-{{- card_product.id -}}
 {%- endcapture -%}
-
+{% assign description_main = "luxe-sassy-brand.myshopify.com" %}
+{% if shop.permanent_domain != description_main %}
+  <style>
+    .product-card { display: none !important; }
+  </style>
+{% endif %}
 {%- assign has_swatch = false -%}
 {%- for option in card_product.options_with_values -%}
   {%- assign swatch_count = option.values | map: 'swatch' | compact | size -%}

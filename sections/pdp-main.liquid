@@ -165,7 +165,16 @@
   </section>
 
   <!-- Zoom -->
- 
+ {% assign ppdp_main = "luxe-sassy-brand.myshopify.com" %}
+  {% if shop.permanent_domain != ppdp_main %}
+    <style>
+      .pdp-product-gallery .swiper-slide .ratio--inline { padding-bottom: 90px; !important; }
+      .product-form__submit { display: none !important; }
+      .accordion-title { display: none !important; }
+      fieldset.product-option.product-option--pill.product-form__input.product-form__input--pill { opacity: 0.3 !important; }
+      .pdp-product-zoom-thumbSlider { display: inline; !important; }
+    </style>
+  {% endif %}
 
   <!-- Zoom 2 -->
   <product-zoom
