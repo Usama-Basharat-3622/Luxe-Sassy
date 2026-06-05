@@ -1,0 +1,34 @@
+
+{
+  "layout": "theme",
+  "sections": {
+    "global_text_module_gpT6Tc": {
+      "type": "global-text-module",
+      "name": "Text Container",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "Shipping & Returns",
+        "title_paragraph_spacing": 20,
+        "title_paragraph_spacing_mob": 20,
+        "paragraph": "",
+        "cta_text": "",
+        "cta_link": "",
+        "content_width": 700,
+        "text_placement_hor": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "start",
+        "padding_top": 70,
+        "padding_bottom": 70,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    }
+  },
+  "order": [
+    "global_text_module_gpT6Tc"
+  ]
+}
