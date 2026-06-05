@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "theme",
+  "sections": {
+    "global_multi_column_text_LJhyDH": {
+      "type": "global-multi-column-text",
+      "name": "Multicolumn Text Grid",
+      "settings": {
+        "bg_color": "#f5f5f5",
+        "text_color": "#201f1e",
+        "show_border_top": true,
+        "show_border_bottom": true,
+        "title": "Giving Back",
+        "paragraph": "<h2>test</h2>",
+        "text_alignment": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 54,
+        "padding_bottom_mobile": 54
+      }
+    }
+  },
+  "order": [
+    "global_multi_column_text_LJhyDH"
+  ]
+}
