@@ -106,7 +106,7 @@
             "image": "shopify://shop_images/1623806728266_ef88649b-ffe3-49b8-b128-909df01eec37.jpg",
             "image_alter": "shopify://shop_images/1623806728266_ef88649b-ffe3-49b8-b128-909df01eec37.jpg",
             "title": "Necklaces",
-            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "paragraph": "Discover timeless necklaces designed to add effortless elegance to every look, from delicate everyday styles to statement pieces made to stand out.",
             "cta_text": "Shop Now",
             "cta_link": "shopify://collections/necklaces",
             "text_alignment": "start",
@@ -119,9 +119,9 @@
             "image": "shopify://shop_images/9648f640-a0c0-4c6b-b44f-b69c31b21800.jpg",
             "image_alter": "shopify://shop_images/9648f640-a0c0-4c6b-b44f-b69c31b21800.jpg",
             "title": "Rings",
-            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "paragraph": "Explore beautiful rings crafted to complement your personal style, featuring versatile designs perfect for everyday wear, special occasions, and meaningful moments.",
             "cta_text": "Shop Now",
-            "cta_link": "#",
+            "cta_link": "shopify://collections/rings",
             "text_alignment": "start",
             "text_alignment_alter": "start"
           }
@@ -132,9 +132,9 @@
             "image": "shopify://shop_images/5754942885_669265057.jpg",
             "image_alter": "shopify://shop_images/5754942885_669265057.jpg",
             "title": "Earrings",
-            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "paragraph": "Complete your look with our collection of elegant earrings, featuring versatile styles that bring sophistication, sparkle, and effortless charm to any outfit.",
             "cta_text": "Shop Now",
-            "cta_link": "#",
+            "cta_link": "shopify://collections/earrings",
             "text_alignment": "start",
             "text_alignment_alter": "start"
           }
@@ -145,9 +145,9 @@
             "image": "shopify://shop_images/1521046583947.jpg",
             "image_alter": "shopify://shop_images/1521046583947.jpg",
             "title": "Bracelets",
-            "paragraph": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.",
+            "paragraph": "Adorn your wrist with stylish bracelets designed for everyday elegance, layering, or making a statement with beautifully crafted and timeless jewelry pieces.",
             "cta_text": "Shop Now",
-            "cta_link": "#",
+            "cta_link": "shopify://collections/bracelets",
             "text_alignment": "start",
             "text_alignment_alter": "start"
           }
