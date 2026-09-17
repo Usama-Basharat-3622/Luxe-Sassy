@@ -51,14 +51,10 @@
         "main_menu_desktop": "main-menu",
         "main_menu_mobile": "main-menu-mobile",
         "menu_1_title": "Trending Now",
-        "menu_1": "popular-searches",
+        "menu_1": "",
         "richtext": "<p>Shine like never before. Explore the pieces everyone’s loving right now.</p>",
         "product_list_title": "Popular products",
-        "product_list": [
-          "hollow-flower-bracelet-armband-geometric-simplicity",
-          "simple-and-versatile-baroque-natural-freshwater-pearl-bracelet",
-          "full-diamond-light-luxury-starry-titanium-steel-bracelet"
-        ]
+        "product_list": []
       }
     }
   },
