@@ -1,17 +1,37 @@
 {% style %}
+  /* ---------- Headings: Posterama ---------- */
   @font-face {
-    font-family: 'KarlaText';
-    src: url({{ 'font-Karla-Regular.woff2' | asset_url }}) format('woff2'),
-    url({{ 'font-Karla-Regular.woff' | asset_url }}) format('woff');
+    font-family: 'Posterama';
+    src: url({{ 'posterama-regular.woff2' | asset_url }}) format('woff2'),
+         url({{ 'posterama-regular.ttf' | asset_url }}) format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'KarlaText';
-    src: url({{ 'font-Karla-Bold.woff2' | asset_url }}) format('woff2'),
-    url({{ 'font-Karla-Bold.woff' | asset_url }}) format('woff');
+    font-family: 'Posterama';
+    src: url({{ 'posterama-bold.woff2' | asset_url }}) format('woff2'),
+         url({{ 'posterama-bold.ttf' | asset_url }}) format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ---------- Body: Cairo ---------- */
+  @font-face {
+    font-family: 'Cairo';
+    src: url({{ 'cairo-regular.woff2' | asset_url }}) format('woff2'),
+         url({{ 'cairo-regular.ttf' | asset_url }}) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Cairo';
+    src: url({{ 'cairo-bold.woff2' | asset_url }}) format('woff2'),
+         url({{ 'cairo-bold.ttf' | asset_url }}) format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -21,44 +41,47 @@
 
     /* Font Declaration */
 
-    --font-sans-serif-family: 'KarlaText';
-    --font-serif-family: 'KarlaText';
+    --font-heading-family: 'Posterama', 'Cairo', Arial, sans-serif;
+    --font-body-family: 'Cairo', Arial, sans-serif;
 
+    /* Kept for compatibility with the rest of your theme */
+    --font-sans-serif-family: var(--font-body-family);
+    --font-serif-family: var(--font-body-family);
 
-    --font-family-heading-1: var(--font-sans-serif-family);
+    --font-family-heading-1: var(--font-heading-family);
     --font-weight-heading-1: 400;
     --font-weight-heading-1-bold: 700;
     --font-style-heading-1: normal;
     --font-size-heading-1-desktop: 3.2rem;
-    --line-height-heading-1-desktop: 1.34;
-    --letter-spacing-heading-1-desktop: -0.32px;
+    --line-height-heading-1-desktop: 1.3;
+    --letter-spacing-heading-1-desktop: normal;
     --font-size-heading-1-mobile: 2.6rem;
-    --line-height-heading-1-mobile: 1.5;
-    --letter-spacing-heading-1-mobile: -0.26px;
+    --line-height-heading-1-mobile: 1.35;
+    --letter-spacing-heading-1-mobile: normal;
 
-    --font-family-heading-2: var(--font-sans-serif-family);
+    --font-family-heading-2: var(--font-heading-family);
     --font-weight-heading-2: 400;
     --font-weight-heading-2-bold: 700;
     --font-style-heading-2: normal;
     --font-size-heading-2-desktop: 2.1rem;
-    --line-height-heading-2-desktop: 1.42;
+    --line-height-heading-2-desktop: 1.4;
     --letter-spacing-heading-2-desktop: normal;
     --font-size-heading-2-mobile: 1.8rem;
     --line-height-heading-2-mobile: 1.4;
     --letter-spacing-heading-2-mobile: normal;
 
-    --font-family-body-regular: var(--font-sans-serif-family);
+    --font-family-body-regular: var(--font-body-family);
     --font-weight-body-regular: 400;
     --font-weight-body-regular-bold: 700;
     --font-style-body-regular: normal;
     --font-size-body-regular-desktop: 1.6rem;
-    --line-height-body-regular-desktop: 1.54;
+    --line-height-body-regular-desktop: 1.5;
     --letter-spacing-body-regular-desktop: normal;
     --font-size-body-regular-mobile: 1.4rem;
-    --line-height-body-regular-mobile: 1.54;
+    --line-height-body-regular-mobile: 1.5;
     --letter-spacing-body-regular-mobile: normal;
 
-    --font-family-body-small: var(--font-sans-serif-family);
+    --font-family-body-small: var(--font-body-family);
     --font-weight-body-small: 400;
     --font-style-body-small: normal;
     --font-size-body-small-desktop: 1.3rem;
@@ -68,18 +91,18 @@
     --line-height-body-small-mobile: 1.4;
     --letter-spacing-body-small-mobile: normal;
 
-    --font-family-nav: var(--font-sans-serif-family);
+    --font-family-nav: var(--font-body-family);
     --font-weight-nav: 400;
     --font-style-nav: normal;
     --font-size-nav-desktop: 1.5rem;
-    --line-height-nav-desktop: 1.54;
+    --line-height-nav-desktop: 1.5;
     --letter-spacing-nav-desktop: normal;
     --font-size-nav-mobile: 1.2rem;
-    --line-height-nav-mobile: 1.54
+    --line-height-nav-mobile: 1.5;
     --letter-spacing-nav-mobile: normal;
 
-    --font-family-cta: var(--font-sans-serif-family);
-    --font-weight-cta: 400;
+    --font-family-cta: var(--font-heading-family);
+    --font-weight-cta: 700;
     --font-style-cta: normal;
     --font-size-cta-desktop: 1.4rem;
     --line-height-cta-desktop: 1.36;
@@ -88,7 +111,7 @@
     --line-height-cta-mobile: 1.36;
     --letter-spacing-cta-mobile: 0.84px;
 
-    --font-family-tag: var(--font-sans-serif-family);
+    --font-family-tag: var(--font-body-family);
     --font-weight-tag: 400;
     --font-style-tag: normal;
     --font-size-tag-desktop: 1.1rem;

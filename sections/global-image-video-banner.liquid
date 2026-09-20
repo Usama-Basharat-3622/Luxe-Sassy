@@ -18,6 +18,17 @@
       margin-top: 1.6rem;
   }
 
+  {% if section.settings.heading_color != blank %}
+    .gs-banner-{{ section.id }} .banner-heading {
+        color: {{ section.settings.heading_color }};
+    }
+  {% endif %}
+  {% if section.settings.paragraph_color != blank %}
+    .gs-banner-{{ section.id }} .banner-paragraph {
+        color: {{ section.settings.paragraph_color }};
+    }
+  {% endif %}
+
   @media screen and (min-width: 1025px) {
       .gs-banner .banner-overlay {
           padding: 4rem 2.4rem;
@@ -35,6 +46,12 @@
       .gs-banner-{{ section.id }} .banner-subheading{
           margin-bottom: .4rem;
       }
+      .gs-banner-{{ section.id }} .banner-heading {
+          font-size: {{ section.settings.heading_size_desktop }}px;
+      }
+      .gs-banner-{{ section.id }} .banner-paragraph {
+          font-size: {{ section.settings.paragraph_size_desktop }}px;
+      }
   }
 
   @media screen and (max-width: 1024px) {
@@ -50,6 +67,12 @@
           flex-direction: column;
           gap: 1.2rem;
           margin-top: 2rem;
+      }
+      .gs-banner-{{ section.id }} .banner-heading {
+          font-size: {{ section.settings.heading_size_mobile }}px;
+      }
+      .gs-banner-{{ section.id }} .banner-paragraph {
+          font-size: {{ section.settings.paragraph_size_mobile }}px;
       }
   }
 
@@ -367,10 +390,60 @@
       "label": "Heading"
     },
     {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size (Desktop)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
       "type": "richtext",
       "id": "paragraph",
       "label": "Paragraph",
       "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_desktop",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Paragraph color"
     },
     {
       "type": "text",

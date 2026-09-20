@@ -2587,11 +2587,12 @@ class ContentBlocks extends HTMLElement {
   }
   connectedCallback() {
     const blockCount = parseInt(this.dataset.blockCount || "4", 10);
+    const slidesMobile = parseFloat(this.dataset.slidesMobile) || "2.18";
     if (window.innerWidth < 1025) {
       this.slider.style.setProperty("--swiper-scrollbar-sides-offset", "16px");
     }
     this.swiper = new Swiper(this.slider, {
-      slidesPerView: 2.18,
+      slidesPerView: slidesMobile,
       spaceBetween: 12,
       freeMode: true,
       watchSlidesProgress: true,
