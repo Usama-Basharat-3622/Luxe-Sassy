@@ -131,35 +131,41 @@
         "slides_per_view_mobile": "1.2"
       }
     },
-    "global_text_module_bt9Wnq": {
-      "type": "global-text-module",
-      "name": "Text Container",
+    "global_image_video_banner_VmzApA": {
+      "type": "global-image-video-banner",
+      "name": "Editorial 100",
       "settings": {
-        "bg_color": "#ffffff",
-        "text_color": "#201f1e",
         "show_border_top": false,
         "show_border_bottom": false,
-        "title": "",
-        "title_size_desktop": 32,
-        "title_size_mobile": 32,
-        "title_color": "",
-        "title_paragraph_spacing": 20,
-        "title_paragraph_spacing_mob": 20,
+        "text_color": "#201F1E",
+        "media_type": "image",
+        "image": "shopify://shop_images/luxesassy-about-us.png",
+        "image_alter": "shopify://shop_images/luxesassy-about-us.png",
+        "overlay_opacity": 0,
+        "subheading": "",
+        "heading": "",
+        "heading_size_desktop": 32,
+        "heading_size_mobile": 32,
+        "heading_color": "",
         "paragraph": "",
         "paragraph_size_desktop": 16,
         "paragraph_size_mobile": 16,
         "paragraph_color": "",
         "cta_text": "",
         "cta_link": "",
-        "content_width": 432,
+        "cta_text2": "",
+        "cta_link2": "",
+        "text_max_width": 400,
         "text_placement_hor": "center",
+        "text_placement_vert": "center",
         "text_alignment": "center",
         "text_placement_hor_alter": "center",
+        "text_placement_vert_alter": "center",
         "text_alignment_alter": "center",
         "padding_top": 0,
         "padding_bottom": 0,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 0
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
       }
     }
   },
@@ -167,6 +173,6 @@
     "global_multi_column_text_LJhyDH",
     "global_editorial_50_50_eGmEGF",
     "global_content_blocks_c4yikw",
-    "global_text_module_bt9Wnq"
+    "global_image_video_banner_VmzApA"
   ]
 }
