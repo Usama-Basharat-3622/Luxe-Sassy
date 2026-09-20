@@ -134,12 +134,38 @@
         "padding_top_alter": 50,
         "padding_bottom_alter": 0
       }
+    },
+    "global_text_module_bt9Wnq": {
+      "type": "global-text-module",
+      "name": "Text Container",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "",
+        "title_paragraph_spacing": 20,
+        "title_paragraph_spacing_mob": 20,
+        "paragraph": "",
+        "cta_text": "",
+        "cta_link": "",
+        "content_width": 432,
+        "text_placement_hor": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
     }
   },
   "order": [
     "global_multi_column_text_LJhyDH",
     "global_editorial_50_50_eGmEGF",
     "global_image_video_banner_AxjMNR",
-    "global_content_blocks_c4yikw"
+    "global_content_blocks_c4yikw",
+    "global_text_module_bt9Wnq"
   ]
 }
