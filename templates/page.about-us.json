@@ -58,10 +58,88 @@
         "padding_top_alter": 0,
         "padding_bottom_alter": 0
       }
+    },
+    "global_image_video_banner_AxjMNR": {
+      "type": "global-image-video-banner",
+      "name": "Editorial 100",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "text_color": "#201F1E",
+        "media_type": "image",
+        "overlay_opacity": 0,
+        "subheading": "",
+        "heading": "",
+        "paragraph": "",
+        "cta_text": "",
+        "cta_link": "",
+        "cta_text2": "",
+        "cta_link2": "",
+        "text_max_width": 400,
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_placement_vert_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
+    "global_content_blocks_c4yikw": {
+      "type": "global-content-blocks",
+      "blocks": {
+        "content_blocks_tnCjRG": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/1f23f52f-e740-402f-8b8e-a5b35e8efc34-Max.webp",
+            "image_alter": "shopify://shop_images/1f23f52f-e740-402f-8b8e-a5b35e8efc34-Max.webp",
+            "title": "Made to Be Noticed",
+            "paragraph": "For moments that call for something extraordinary. Our high jewellery collection brings together bold forms, luminous details, and an unmistakable sense of occasion.\nSelected with presence in mind, each piece is a statement in its own right. Chosen to catch the light, command attention, and leave a lasting impression.",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        },
+        "content_blocks_YeWATP": {
+          "type": "content-blocks",
+          "settings": {
+            "image": "shopify://shop_images/a930581e-8271-4da4-a218-f8a1602f366e-Max-Origin.webp",
+            "image_alter": "shopify://shop_images/a930581e-8271-4da4-a218-f8a1602f366e-Max-Origin.webp",
+            "title": "Necklaces",
+            "paragraph": "",
+            "cta_text": "",
+            "cta_link": "",
+            "text_alignment": "start",
+            "text_alignment_alter": "start"
+          }
+        }
+      },
+      "block_order": [
+        "content_blocks_tnCjRG",
+        "content_blocks_YeWATP"
+      ],
+      "name": "Content Blocks",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#201F1E",
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "title": "HIGH END JEWELRY",
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "padding_top_alter": 50,
+        "padding_bottom_alter": 0
+      }
     }
   },
   "order": [
     "global_multi_column_text_LJhyDH",
-    "global_editorial_50_50_eGmEGF"
+    "global_editorial_50_50_eGmEGF",
+    "global_image_video_banner_AxjMNR",
+    "global_content_blocks_c4yikw"
   ]
 }
