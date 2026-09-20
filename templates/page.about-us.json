@@ -12,14 +12,15 @@
   "sections": {
     "global_multi_column_text_LJhyDH": {
       "type": "global-multi-column-text",
+      "disabled": true,
       "name": "Multicolumn Text Grid",
       "settings": {
         "bg_color": "#f5f5f5",
         "text_color": "#201f1e",
         "show_border_top": true,
         "show_border_bottom": true,
-        "title": "Giving Back",
-        "paragraph": "<h2>test</h2>",
+        "title": "About us",
+        "paragraph": "",
         "text_alignment": "center",
         "text_alignment_alter": "center",
         "padding_top": 80,
@@ -27,9 +28,40 @@
         "padding_top_mobile": 54,
         "padding_bottom_mobile": 54
       }
+    },
+    "global_editorial_50_50_eGmEGF": {
+      "type": "global-editorial-50-50",
+      "name": "Editorial 50-50",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "media_type": "image",
+        "image": "shopify://shop_images/2402eb1c-1093-4543-9312-e3cba7a24589-Max.webp",
+        "image_alter": "shopify://shop_images/2402eb1c-1093-4543-9312-e3cba7a24589-Max.webp",
+        "flex_direction": "row",
+        "flex_direction_alter": "column",
+        "title": "About us",
+        "paragraph": "<p>We believe exceptional jewellery lies in the balance between thoughtful design and enduring quality. Each piece is carefully considered, from its silhouette and detailing to the finish and feel, presenting designs that are both distinctive and effortlessly timeless.</p><p>Our collections are curated with a discerning eye for craftsmanship and quality, using carefully selected materials and refined details to ensure every piece feels as beautiful as it looks.</p><p>For us, jewellery is more than an accessory. it is a reflection of personal style, designed to be treasured, worn often, and cherished over time.</p>",
+        "paragraph_size": "regular",
+        "cta_text": "",
+        "cta_link": "",
+        "text_max_width": 500,
+        "text_color": "#201F1E",
+        "background_color": "#F8F8F8",
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "start",
+        "text_placement_hor_alter": "center",
+        "text_alignment_alter": "start",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
     }
   },
   "order": [
-    "global_multi_column_text_LJhyDH"
+    "global_multi_column_text_LJhyDH",
+    "global_editorial_50_50_eGmEGF"
   ]
 }
