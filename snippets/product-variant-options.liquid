@@ -45,6 +45,7 @@
 
     {%- if picker_type == 'swatch' -%}
 
+      {% if variant_image != blank %}
       <li class="product-option-value">
         <input
           type="radio"
@@ -76,6 +77,8 @@
           {{ label_unavailable }}
         </label>
       </li>
+      {% endif %}
+
     {%- elsif picker_type == 'button' -%}
 
       <li class="product-option-value">

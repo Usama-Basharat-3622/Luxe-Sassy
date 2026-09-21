@@ -21,7 +21,7 @@
           <details-utils class="footer-block__details-content" force-open="(min-width: 1181px)">
             <details>
               {%- if block.settings.heading != blank -%}
-                <summary class="footer-block__details-content-title typography--body-regular-bold" tabindex="-1">
+                <summary class="footer-block__details-content-title typography--heading-2" tabindex="-1">
                   {{ block.settings.heading | escape }}
                   <span aria-hidden="true">
                     {{- 'icon-plus.svg' | inline_asset_content -}}
@@ -48,7 +48,7 @@
           <details-utils class="footer-block__details-content footer-newsletter-container" aria-labelledby="newsletter-title" force-open="(min-width: 1181px)">
             <details>
               {%- if block.settings.heading != blank -%}
-                <summary class="footer-block__details-content-title typography--body-regular-bold" tabindex="-1">
+                <summary class="footer-block__details-content-title typography--heading-2" tabindex="-1">
                   {{ block.settings.heading | escape }}
                   <span aria-hidden="true">
                     {{- 'icon-plus.svg' | inline_asset_content -}}

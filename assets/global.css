@@ -812,7 +812,8 @@ button * {
 .button--primary {
   gap: 0.6rem;
 
-  padding: 0.9rem 1.6rem;
+  padding: 1.4rem 1.6rem;
+  line-height: 1rem;
   border: 0.1rem solid rgb(var(--color-grey));
   border-radius: 0.5rem;
 
@@ -1802,19 +1803,19 @@ details:not([open]) > .summary-with-overlay::before {
 ********************************/
 
 .price,
-.pryce {
+.price {
   display: flex;
   flex-flow: row wrap;
   gap: 0 1rem;
 }
 
 .price-item,
-.pryce-item {
+.price-item {
   white-space: nowrap;
 }
 
 .price-item--compare,
-.pryce-item--compare {
+.price-item--compare {
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   text-decoration-skip-ink: none;
@@ -1822,9 +1823,22 @@ details:not([open]) > .summary-with-overlay::before {
 }
 
 .price-item--sale,
-.pryce-item--sale {
+.price-item--sale {
   color: rgb(var(--color-black)); 
 }
+
+#pdp-info-inner .price-item span{
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+@media screen and (min-width: 768px) {
+  #pdp-info-inner .price-item span{
+    font-size: 2.2rem;
+    font-weight: 500;
+  }
+}
+
 
 /********************************
     Component
