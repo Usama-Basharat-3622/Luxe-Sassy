@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "layout": "theme",
   "wrapper": "div.product-template-sections-wrapper.template-sections-wrapper",
@@ -43,7 +52,7 @@
       "type": "pdp-desc",
       "name": "PDP Description",
       "settings": {
-        "section_anchor_id": "description",
+        "title": "Product Description",
         "padding_top": 40,
         "padding_bottom": 40,
         "padding_top_alter": 26,
@@ -92,9 +101,9 @@
         "block_Ahm3gm",
         "block_QEDMzj"
       ],
+      "disabled": true,
       "name": "PDP Specifications",
       "settings": {
-        "section_anchor_id": "specifications",
         "title": "Product Specifications",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -106,7 +115,6 @@
       "type": "pdp-recommendation",
       "name": "PDP Related Products",
       "settings": {
-        "section_anchor_id": "related-products",
         "title": "Related Products",
         "products_to_show": 12,
         "padding_top": 30,
