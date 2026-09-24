@@ -1,11 +1,11 @@
 {
   "current": {
     "logo_png": "shopify://shop_images/Luxe_Sassy_Logo_-_BigCommerce_Store_Logo_with_Transparent_Background.png",
-    "favicon": "shopify://shop_images/svs-favicon.png",
-    "social_facebook_link": "https://www.facebook.com/SVSVision",
-    "social_instagram_link": "https://www.instagram.com/svsvision/",
+    "favicon": "",
+    "social_facebook_link": "",
+    "social_instagram_link": "",
     "social_twitter_link": "",
-    "social_linkedin_link": "https://www.linkedin.com/company/svs-vision/about/",
+    "social_linkedin_link": "",
     "social_pinterest_link": "",
     "sections": {
       "cart-drawer": {

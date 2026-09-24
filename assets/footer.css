@@ -3,7 +3,7 @@
   padding: 6rem 2.5rem 2.5rem 2.5rem;
 }
 
-@media screen and (min-width: 1181px) {
+@media screen and (min-width: 992px) {
   .footer {
     padding: 0rem 0rem 2.5rem 0rem;
   }
@@ -18,7 +18,7 @@
 }
 
 
-@media screen and (min-width: 1181px) {
+@media screen and (min-width: 992px) {
   .footer-mobile-contact {
     display: none;
   }
@@ -129,7 +129,7 @@
   text-transform: uppercase;
 }
 
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 991px) {
   .footer {
     padding-left: 0;
     padding-right: 0;
@@ -235,7 +235,7 @@
   }
 }
 
-@media screen and (min-width: 756px) and (max-width: 1180px) {
+@media screen and (min-width: 756px) and (max-width: 991px) {
   .footer-inner {
     padding: 4.4rem 3.3rem 0;
   }
@@ -270,7 +270,7 @@
 }
 
 
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 991px) {
 
   .footer-tagline {
     display: none;
