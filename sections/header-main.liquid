@@ -10,7 +10,16 @@
       <div class="header-logo">
     {%- endif -%}
     <a href="{{ routes.root_url }}" class="header-logo-link link link--block">
-      {{- settings.logo_svg -}}
+      <img
+        srcset="{% render 'image-srcset', image: settings.logo_png %}"
+        sizes="50vw"
+        src="{{ settings.logo_png | image_url }}"
+        alt="{{ settings.logo_png.alt | escape }}"
+        width="{{ settings.logo_png.width }}"
+        height="{{ settings.logo_png.height }}"
+        class="media icon"
+        style="--focal-point-x: {{ settings.logo_png.presentation.focal_point.x }}%; --focal-point-y: {{ settings.logo_png.presentation.focal_point.y }}%"
+      >
       <span class="visually-hidden">{{ shop.name }}</span>
     </a>
     {%- if request.page_type == 'index' -%}
@@ -24,22 +33,18 @@
 
     <!-- Side Menu -->
     <ul class="header-side-menu" role="navigation">
-      <!-- Cta -->
-      <li class="header-side-menu-item hidden≤1024">
-        <a
-          href="{{ section.settings.cta_link }}"
-          class="header-side-menu-button link button button--small hidden≤1024"
-        >
-          {% render 'label_text_icon', label: section.settings.cta_text, style_class: 'typography--navigation' %}
-        </a>
-      </li>
       <!-- Search -->
       <li class="header-side-menu-item hidden-header-drawer-open">
         {% render 'header-search' %}
       </li>
-      <!-- Wishlist -->
-      <li class="header-side-menu-item hidden-header-drawer-open" data-wk-header-target>
-        {{- 'icon-heart.svg' | inline_asset_content -}}
+      <!-- Account -->
+      <li class="header-side-menu-item hidden-header-drawer-open">
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header-side-menu-link"
+        >
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
       </li>
       <!-- Cart -->
       <li class="header-side-menu-item hidden-header-drawer-open">
@@ -66,19 +71,6 @@
       </li>
     </ul>
   </div>
-  <!-- Mini Menu -->
-  <ul class="header-mini-menu scrollbar-hidden hidden≥1025" role="navigation">
-    {%- for link in section.settings.mini_menu_mobile.links -%}
-      <li class="header-mini-menu-item">
-        <a
-          href="{{ link.url }}"
-          class="header-mini-menu-link link link--block link--hover-color-change typography--navigation"
-        >
-          {{ link.title | escape }}
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
 </div>
 
 <script type="application/ld+json">
@@ -135,64 +127,17 @@
     },
     {
       "type": "header",
-      "content": "Side Menu"
-    },
-    {
-      "type": "link_list",
-      "id": "side_menu_top_mobile",
-      "label": "Side Menu Top Mobile"
-    },
-    {
-      "type": "link_list",
-      "id": "side_menu_bottom_mobile",
-      "label": "Side Menu Bottom Mobile"
-    },
-    {
-      "type": "header",
-      "content": "Mini Menu"
-    },
-    {
-      "type": "link_list",
-      "id": "mini_menu_mobile",
-      "label": "Mini Menu Mobile"
-    },
-    {
-      "type": "header",
-      "content": "CTA"
-    },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "CTA Text"
-    },
-    {
-      "type": "url",
-      "id": "cta_link",
-      "label": "CTA Link"
-    },
-    {
-      "type": "header",
       "content": "Search"
     },
     {
       "type": "text",
       "id": "menu_1_title",
-      "label": "Menu 1 Title"
+      "label": "Menu Title"
     },
     {
       "type": "link_list",
       "id": "menu_1",
-      "label": "Menu 1"
-    },
-    {
-      "type": "text",
-      "id": "menu_2_title",
-      "label": "Menu 2 Title"
-    },
-    {
-      "type": "link_list",
-      "id": "menu_2",
-      "label": "Menu 2"
+      "label": "Menu"
     },
     {
       "type": "richtext",
@@ -208,7 +153,7 @@
       "type": "product_list",
       "id": "product_list",
       "label": "Products",
-      "limit": 2
+      "limit": 3
     }
   ]
 }

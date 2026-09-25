@@ -51,7 +51,7 @@ body {
 }
 
 .header-logo .icon {
-  width: 5.5rem;
+  width: 15rem;
 }
 
 /* header side menu */
@@ -74,7 +74,7 @@ body {
 }
 
 .header-side-menu-link > .icon {
-  width: 2.4rem;
+  width: 2.7rem;
 }
 
 .cart-icon-bubble {
@@ -86,12 +86,12 @@ body {
   top: 0px;
   right: 0px;
   margin: 0;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   display: grid;
   place-content: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   line-height: 1;
   color: rgb(var(--color-text-badge));
   background-color: rgb(var(--color-background-badge));

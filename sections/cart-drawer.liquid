@@ -13,6 +13,7 @@
       <div class="cart-drawer-header">
         <h2 class="cart-drawer-title typography--heading-2">
           <span>{{ 'cart.cart_drawer_title' | t }}</span>
+          <span class="cart-count">({{ cart.item_count }})</span>
         </h2>
         <button
           id="CartDrawer-Close"
@@ -32,6 +33,9 @@
           <h3 class="cart-drawer-empty-title typography--heading-2">
             {{ 'cart.empty' | t }}
           </h3>
+          <a href="{{ 'cart.empty_btn_link' | t }}" class="link button button--primary typography--body-regular">
+            {{ 'cart.empty_btn_label' | t }}
+          </a>
         </div>
       {% endif %}
 
@@ -59,7 +63,7 @@
                 <!-- image -->
                 <div class="cart-drawer-item-media">
                   {% if item.image %}
-                    <div class="ratio ratio--3-2">
+                    <div class="ratio ratio--1-1">
                       <img
                         src="{{ item.image | image_url: width: 480 }}"
                         alt="{{ item.image.alt | escape }}"
@@ -261,7 +265,7 @@
                       <button
                         type="button"
                         id="CartDrawer-Remove-{{ item.index | plus: 1 }}"
-                        class="cart-drawer-item-remove icon-only-button typography--navigation"
+                        class="cart-drawer-item-remove icon-only-button link link--hover-color-change typography--navigation "
                         aria-label="{{ 'cart.remove_title' | t: title: item.title }}"
                       >
                         <span>{{ 'cart.remove_button_label' | t }}</span>

@@ -45,11 +45,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 0;
+  padding: 1.5rem 0;
 }
 
 .header-child-drawer-toggle > .icon {
-  width: 0.9rem;
+  width: 1.3rem;
 }
 
 .header-child-drawer {
@@ -84,7 +84,7 @@
 }
 
 .header-child-drawer-close > .icon {
-  width: 0.9rem;
+  width: 1.3rem;
 }
 
 .header-child-drawer-menu {

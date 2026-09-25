@@ -18,19 +18,12 @@
     "clp-main": {
       "type": "clp-main",
       "settings": {
-        "product_per_page": 45
-      }
-    },
-    "clp-faq": {
-      "type": "clp-faq",
-      "settings": {
-        "faq_title": "Frequently Asked Questions"
+        "product_per_page": 24
       }
     }
   },
   "order": [
     "clp-hero",
-    "clp-main",
-    "clp-faq"
+    "clp-main"
   ]
 }

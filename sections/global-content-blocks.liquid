@@ -12,9 +12,28 @@
       {% endif %}
       display: block;
   }
+
+  {%- comment -%} Section title / paragraph colors {%- endcomment -%}
+  {% if section.settings.title_color != blank %}
+    .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-title{
+        color: {{ section.settings.title_color }};
+    }
+  {% endif %}
+  {% if section.settings.paragraph_color != blank %}
+    .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-paragraph{
+        color: {{ section.settings.paragraph_color }};
+    }
+  {% endif %}
+
   @media screen and (min-width: 1025px) {
       .content-blocks-carousel-{{ section.id }}{
           padding: {{ section.settings.padding_top }}px 2.4rem {{ section.settings.padding_bottom }}px;
+      }
+      .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-title{
+          font-size: {{ section.settings.title_size_desktop }}px;
+      }
+      .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-paragraph{
+          font-size: {{ section.settings.paragraph_size_desktop }}px;
       }
   }
 
@@ -28,19 +47,49 @@
           transition: height 0.3s ease;
           cursor: pointer;
       }
+      .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-title{
+          font-size: {{ section.settings.title_size_mobile }}px;
+      }
+      .content-blocks-carousel-{{ section.id }} .content-blocks-carousel-paragraph{
+          font-size: {{ section.settings.paragraph_size_mobile }}px;
+      }
   }
 
   {% for block in section.blocks %}
+      {%- comment -%} Block title / paragraph colors {%- endcomment -%}
+      {% if block.settings.title_color != blank %}
+        .content-block-item-{{ block.id }} .content-block-title{
+            color: {{ block.settings.title_color }};
+        }
+      {% endif %}
+      {% if block.settings.paragraph_color != blank %}
+        .content-block-item-{{ block.id }} .content-block-excerpt{
+            color: {{ block.settings.paragraph_color }};
+        }
+      {% endif %}
+
       @media screen and (min-width: 768px){
           .content-block-item-{{ block.id }} .content-block-info{
               text-align: {{ block.settings.text_alignment }};
               align-items: {{ block.settings.text_alignment }};
+          }
+          .content-block-item-{{ block.id }} .content-block-title{
+              font-size: {{ block.settings.title_size_desktop }}px;
+          }
+          .content-block-item-{{ block.id }} .content-block-excerpt{
+              font-size: {{ block.settings.paragraph_size_desktop }}px;
           }
       }
       @media screen and (max-width: 767px){
           .content-block-item-{{ block.id }} .content-block-info{
               text-align: {{ block.settings.text_alignment_alter }};
               align-items: {{ block.settings.text_alignment_alter }};
+          }
+          .content-block-item-{{ block.id }} .content-block-title{
+              font-size: {{ block.settings.title_size_mobile }}px;
+          }
+          .content-block-item-{{ block.id }} .content-block-excerpt{
+              font-size: {{ block.settings.paragraph_size_mobile }}px;
           }
       }
   {% endfor %}
@@ -51,6 +100,7 @@
   class="content-blocks-carousel-{{ section.id }} content-blocks-carousel isolate"
   role="region"
   data-block-count="{{ section.blocks.size }}"
+  data-slides-mobile="{{ section.settings.slides_per_view_mobile }}"
 >
   {%- if section.settings.title != blank or section.settings.paragraph != blank -%}
     <div class="header-content">
@@ -61,13 +111,7 @@
       {%- endif -%}
       {%- if section.settings.paragraph != blank -%}
         <div class="content-blocks-carousel-paragraph typography--body-regular">
-          {{
-            section.settings.paragraph
-            | replace: '<h1', "<h1 class='h1 typography--heading-1'"
-            | replace: '<h2', "<h2 class='h2 typography--heading-2'"
-            | replace: '<strong', "<strong class='typography--body-regular-bold'"
-            | replace: '<a', "<a class='link link--inline-block link--hover-color-change'"
-          }}
+          {{ section.settings.paragraph }}
         </div>
       {%- endif -%}
     </div>
@@ -122,7 +166,7 @@
 
             <div class="content-block-info">
               {%- if block.settings.title != blank -%}
-                <div class="content-block-title typography--body-regular">
+                <div class="content-block-title typography--heading-2">
                   {{ block.settings.title }}
                 </div>
               {%- endif -%}
@@ -134,7 +178,7 @@
                   </div>
                   {%- if block.settings.cta_link == blank and block.settings.cta_text == blank -%}
                     <button
-                      class="view-more-button link link--underline link--hover-color-change typography--navigation"
+                      class="view-more-button link link--hover-color-change typography--navigation"
                       style="display: none;"
                     >
                       View more
@@ -164,25 +208,6 @@
   </div>
 </content-blocks>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.content-wrapper').forEach((wrapper) => {
-      const content = wrapper.querySelector('.content-block-excerpt');
-      const button = wrapper.querySelector('.view-more-button');
-
-      // Check if content overflows
-      if (content.scrollHeight > content.clientHeight + 1) {
-        button.style.display = 'inline-block';
-
-        button.addEventListener('click', function () {
-          content.classList.toggle('expanded');
-          button.textContent = content.classList.contains('expanded') ? 'View less' : 'View more';
-        });
-      }
-    });
-  });
-</script>
-
 {% schema %}
 {
   "name": "Content Blocks",
@@ -190,7 +215,10 @@
   "max_blocks": 4,
   "class": "section--article-related-grid",
   "enabled_on": {
-    "templates": ["page"]
+    "templates": [
+      "page",
+      "index"
+    ]
   },
   "settings": [
     {
@@ -225,12 +253,70 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "Career opportunities"
+      "default": "Content Blocks"
     },
     {
       "type": "richtext",
       "id": "paragraph",
       "label": "Paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Title Style"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size desktop",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size mobile",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color"
+    },
+    {
+      "type": "header",
+      "content": "Paragraph Style"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_desktop",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size desktop",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size mobile",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Paragraph color"
     },
     {
       "type": "header",
@@ -279,11 +365,31 @@
       "unit": "px",
       "label": "Padding bottom",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Carousel (Mobile)"
+    },
+    {
+      "type": "select",
+      "id": "slides_per_view_mobile",
+      "label": "Slides per view (Mobile)",
+      "info": "Decimal values show a peek of the next slide, which signals that the carousel scrolls.",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "1.2", "label": "1.2 (peek)" },
+        { "value": "1.5", "label": "1.5 (peek)" },
+        { "value": "2", "label": "2" },
+        { "value": "2.18", "label": "2.18 (peek, current default)" },
+        { "value": "2.5", "label": "2.5 (peek)" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "2.18"
     }
   ],
   "blocks": [
     {
-      "name": "Content Blocks",
+      "name": "Tab",
       "type": "content-blocks",
       "settings": [
         {
@@ -301,13 +407,17 @@
           "label": "Image (Mobile)"
         },
         {
+          "type": "header",
+          "content": "Content"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Retail"
+          "default": "Necklaces"
         },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "paragraph",
           "label": "Paragraph"
         },
@@ -320,6 +430,68 @@
           "type": "url",
           "id": "cta_link",
           "label": "CTA Link"
+        },
+        {
+          "type": "header",
+          "content": "Title Style"
+        },
+        {
+          "type": "range",
+          "id": "title_size_desktop",
+          "min": 10,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size desktop",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "title_size_mobile",
+          "min": 10,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size mobile",
+          "default": 16
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "header",
+          "content": "Paragraph Style"
+        },
+        {
+          "type": "range",
+          "id": "paragraph_size_desktop",
+          "min": 10,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Paragraph size desktop",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "paragraph_size_mobile",
+          "min": 10,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Paragraph size mobile",
+          "default": 13
+        },
+        {
+          "type": "color",
+          "id": "paragraph_color",
+          "label": "Paragraph color"
+        },
+        {
+          "type": "header",
+          "content": "Alignment"
         },
         {
           "type": "radio",

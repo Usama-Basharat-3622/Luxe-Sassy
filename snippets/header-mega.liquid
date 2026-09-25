@@ -56,75 +56,6 @@
                         </li>
                       {%- endfor -%}
                     </ul>
-                    {%- for grandchildlink in childlink.links -%}
-                      {%- if grandchildlink.title contains '(button)' -%}
-                        <a
-                          href="{{ grandchildlink.url }}"
-                          class="header-mega-block-cta link button button--tertiary typography--body-regular"
-                        >
-                          {{- grandchildlink.title | remove: '(button)' -}}
-                          {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
-                        </a>
-                        {%- break -%}
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </li>
-                {%- elsif childlink.title contains '(grid)' -%}
-                  <!-- Grid -->
-                  <li class="header-level2-menu-item header-dropdown-menu-item header-mega-block header-mega-block--grid">
-                    <h3 class="header-level2-menu-link header-mega-block-title typography--body-regular-bold">
-                      {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
-                        <a
-                          href="{{ childlink.url }}"
-                          class="link link--hover-color-change"
-                        >
-                      {%- endunless -%}
-                      {{ childlink.title | remove: '(grid)' | escape }}
-                      {%- unless childlink.url.size <= 5 and childlink.url contains '#' -%}
-                        </a>
-                      {%- endunless -%}
-                    </h3>
-                    <ul class="header-mega-brand-grid" role="navigation">
-                      {%- for grandchildlink in childlink.links -%}
-                        {%- if grandchildlink.title contains '(button)' -%}{%- continue -%}{%- endif -%}
-                        {%- assign brand_handle = grandchildlink.title | handle -%}
-                        {%- assign brand = metaobjects.brands[brand_handle] -%}
-                        <li class="header-mega-brand-grid-item">
-                          <div class="header-mega-brand-card">
-                            <div class="ratio ratio--inline">
-                              <img
-                                src="{{ brand.brand_logo_file.value | image_url }}"
-                                alt="{{ brand.brand_logo_file.value.alt | escape }}"
-                                width="{{ brand.brand_logo_file.value.width }}"
-                                height="{{ brand.brand_logo_file.value.height }}"
-                                loading="lazy"
-                                class="media"
-                              >
-                            </div>
-                            <a
-                              class="link link--covering"
-                              href="{{ grandchildlink.url }}"
-                            >
-                              <span class="visually-hidden">
-                                {{- 'accessibility.link_to_item' | t: item: grandchildlink.title -}}
-                              </span>
-                            </a>
-                          </div>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                    {%- for grandchildlink in childlink.links -%}
-                      {%- if grandchildlink.title contains '(button)' -%}
-                        <a
-                          href="{{ grandchildlink.url }}"
-                          class="header-mega-block-cta link button button--tertiary typography--body-regular"
-                        >
-                          {{- grandchildlink.title | remove: '(button)' -}}
-                          {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
-                        </a>
-                        {%- break -%}
-                      {%- endif -%}
-                    {%- endfor -%}
                   </li>
                 {%- elsif childlink.title contains '(card)' -%}
                   <!-- Card -->
@@ -170,16 +101,6 @@
                           {{ childlink.title | remove: '(card)' | escape }}
                         </a>
                       </h3>
-                    </div>
-                  </li>
-                {%- elsif childlink.title contains '(page)' -%}
-                  <!-- Page -->
-                  <li class="header-level2-menu-item header-dropdown-menu-item header-mega-block header-mega-block--page">
-                    <h3 class="header-level2-menu-link header-mega-block-title typography--body-regular-bold">
-                      {{ childlink.title | remove: '(page)' | escape }}
-                    </h3>
-                    <div class="header-mega-page-content">
-                      {{ childlink.object.content }}
                     </div>
                   </li>
                 {% else %}

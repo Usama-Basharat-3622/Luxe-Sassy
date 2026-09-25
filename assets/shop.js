@@ -1838,3 +1838,40 @@ function removeWarranty() {
 }
 
 removeWarranty();
+
+(function () {
+  const form = document.querySelector('form[action*="/cart/add"]');
+  if (!form) return;
+
+  const idInput = form.querySelector('[name="id"]'); // variant id input
+  const weightEl = document.querySelector('[data-variant-weight]'); // your target element
+
+  // grab the JSON for weights (dynamic product id instead of hardcoding)
+  const weightsEl = document.querySelector('[id^="VariantWeights-"]');
+  if (!weightsEl || !weightEl) return;
+
+  const weights = JSON.parse(weightsEl.textContent || "{}");
+
+  function render(variantId) {
+    const grams = weights[variantId];
+    if (grams) {
+      weightEl.textContent = `${grams} g`;
+      weightEl.setAttribute("data-variant-weight", grams);
+    } else {
+      weightEl.textContent = '';
+    }
+  }
+
+  // Initial render (page load)
+  render(idInput.value);
+
+  // Watch hidden variant id input changes
+  const observer = new MutationObserver(() => render(idInput.value));
+  observer.observe(idInput, { attributes: true, attributeFilter: ["value"] });
+
+  // Also catch Shopify's built-in event if theme triggers it
+  document.addEventListener("variant:change", (e) => {
+    const id = e.detail?.variant?.id;
+    if (id) render(String(id));
+  });
+})();
