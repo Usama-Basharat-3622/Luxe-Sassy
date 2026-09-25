@@ -3,7 +3,7 @@
   padding: 2rem 2.5rem 2.5rem 2.5rem;
 }
 
-@media screen and (min-width: 1181) {
+@media screen and (min-width: 1181px) {
   .footer {
     padding: 0rem 0rem 2.5rem 0rem;
   }
