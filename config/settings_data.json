@@ -1,7 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
-    "logo_png": "shopify://shop_images/Luxe_Sassy_Logo_-_BigCommerce_Store_Logo_with_Transparent_Background.png",
-    "favicon": "",
+    "logo_png": "shopify://shop_images/logo-luxesassy_44fa308b-3128-4707-afdd-1cef4a96885c.png",
+    "favicon": "shopify://shop_images/logo-luxesassy_8c9fddc0-fdf1-423b-92fd-befdb386d0b7.png",
     "social_facebook_link": "",
     "social_instagram_link": "",
     "social_twitter_link": "",
