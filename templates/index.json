@@ -11,6 +11,41 @@
   "layout": "theme",
   "wrapper": "div.index-template-sections-wrapper.template-sections-wrapper",
   "sections": {
+    "global_image_video_banner_FUPNab": {
+      "type": "global-image-video-banner",
+      "name": "Editorial 100",
+      "settings": {
+        "show_border_top": false,
+        "show_border_bottom": false,
+        "text_color": "#201F1E",
+        "media_type": "image",
+        "overlay_opacity": 0,
+        "subheading": "",
+        "heading": "",
+        "heading_size_desktop": 32,
+        "heading_size_mobile": 32,
+        "heading_color": "",
+        "paragraph": "",
+        "paragraph_size_desktop": 16,
+        "paragraph_size_mobile": 16,
+        "paragraph_color": "",
+        "cta_text": "",
+        "cta_link": "",
+        "cta_text2": "",
+        "cta_link2": "",
+        "text_max_width": 400,
+        "text_placement_hor": "center",
+        "text_placement_vert": "center",
+        "text_alignment": "center",
+        "text_placement_hor_alter": "center",
+        "text_placement_vert_alter": "center",
+        "text_alignment_alter": "center",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_alter": 0,
+        "padding_bottom_alter": 0
+      }
+    },
     "global_editorial_50_50_3RPCtY": {
       "type": "global-editorial-50-50",
       "name": "Editorial 50-50",
@@ -216,6 +251,7 @@
     }
   },
   "order": [
+    "global_image_video_banner_FUPNab",
     "global_editorial_50_50_3RPCtY",
     "hp_product_list_kjUqrh",
     "global_editorial_50_50_PqAizt",
