@@ -14,41 +14,35 @@
     "promo-bar": {
       "type": "promo-bar",
       "blocks": {
-        "promo_bar_slide_kzwX3X": {
-          "type": "promo-bar-slide",
+        "text_kGnhET": {
+          "type": "text",
           "settings": {
-            "text": "Shop Contact Lenses",
-            "link": "shopify://collections/all-contacts"
+            "text": "Free Shipping on Orders Above $50"
           }
         },
-        "promo_bar_slide_xKmfmx": {
-          "type": "promo-bar-slide",
+        "text_AWyT6j": {
+          "type": "text",
           "disabled": true,
           "settings": {
-            "text": "Shop the latest styles and elevate your look!",
-            "link": "shopify://collections/eyeglasses"
+            "text": "All rights reserved."
           }
         },
-        "promo_bar_slide_DrxnVk": {
-          "type": "promo-bar-slide",
+        "text_WwmF9k": {
+          "type": "text",
           "disabled": true,
           "settings": {
-            "text": "Enjoy free shipping and returns!",
-            "link": "shopify://collections/eyeglasses"
+            "text": "Google rating 9.7 ★★★★★"
           }
         }
       },
       "block_order": [
-        "promo_bar_slide_kzwX3X",
-        "promo_bar_slide_xKmfmx",
-        "promo_bar_slide_DrxnVk"
+        "text_kGnhET",
+        "text_AWyT6j",
+        "text_WwmF9k"
       ],
       "settings": {
-        "promo_bar_text_color": "#201f1e",
-        "promo_bar_background_color": "#f5f5f5",
-        "promo_bar_side_menu_left_desktop": "",
-        "promo_bar_side_menu_right_desktop": "side-menu-1-2-desktop",
-        "promo_bar_slider_interval": 5
+        "bg_color": "#f5f5f5",
+        "text_color": "#000000"
       }
     },
     "header-main": {
@@ -56,21 +50,11 @@
       "settings": {
         "main_menu_desktop": "main-menu",
         "main_menu_mobile": "main-menu-mobile",
-        "side_menu_top_mobile": "side-menu-1-mobile",
-        "side_menu_bottom_mobile": "side-menu-2-mobile",
-        "mini_menu_mobile": "mini-menu-mobile",
-        "cta_text": "Book an eye exam|icon-eye",
-        "cta_link": "https://pqzr17-zn.myshopify.com/a/store-locator/list",
-        "menu_1_title": "Popular searches",
-        "menu_1": "popular-searches",
-        "menu_2_title": "Useful pages",
-        "menu_2": "useful-pages-search",
-        "richtext": "<p>Explore our <a href=\"/pages/virtual-try-on-dev-placeholder\" title=\"Virtual Try On (Dev Placeholder)\">virtual try on</a> for more inspiration</p>",
-        "product_list_title": "Trending products",
-        "product_list": [
-          "20141si-stepper",
-          "30046sts-stepper"
-        ]
+        "menu_1_title": "Trending Now",
+        "menu_1": "",
+        "richtext": "<p>Shine like never before. Explore the pieces everyone’s loving right now.</p>",
+        "product_list_title": "Popular products",
+        "product_list": []
       }
     }
   },

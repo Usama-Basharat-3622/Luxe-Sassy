@@ -155,7 +155,6 @@
               {%- endif -%}
             >
               {{- block.settings.cta_text -}}
-              {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
             </a>
           </div>
         {% endif %}
@@ -170,7 +169,7 @@
   "tag": "section",
   "class": "section--gs-text-grid-details",
   "enabled_on": {
-    "templates": ["page"]
+    "templates": ["page", "index"]
   },
   "settings": [
     {
@@ -384,11 +383,6 @@
           "default": "start"
         }
       ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Multicolumn Text Grid"
     }
   ]
 }

@@ -1,4 +1,11 @@
 {{ 'pdp-specs.css' | asset_url | stylesheet_tag }}
+<script type="application/json" id="VariantWeights-{{ product.id }}">
+{
+{% for v in product.variants %}
+  "{{ v.id }}": {{ v.weight | default: 0 }}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+}
+</script>
 
 {% if section.settings.title != blank and section.blocks.size > 0 %}
   <div
@@ -7,12 +14,9 @@
   >
     <div id="AnchorTarget-{{ section.settings.section_anchor_id }}" class="anchor-target" aria-hidden="true"></div>
 
-    <details-utils force-close="(max-width: 991px)" force-open="(min-width: 992px)">
-      <details class="accordion">
-        <summary class="accordion-title" aria-controls="AccordionContent-{{ section.id }}" role="button">
+        <div class="accordion-title" aria-controls="AccordionContent-{{ section.id }}" role="button">
           <h2 class="pdp-specs-title typography--heading-2">{{ section.settings.title }}</h2>
-          {{- 'icon-plus.svg' | inline_asset_content -}}
-        </summary>
+        </div>
         <ul id="AccordionContent-{{ section.id }}" class="pdp-specs-list accordion-content" role="list">
           {%- for block in section.blocks -%}
             {%- assign field_handle = block.settings.handle -%}
@@ -31,19 +35,27 @@
                 {%- assign field_value = product.selected_or_first_available_variant.metafields[field_handle_part_1][field_handle_part_2].value -%}
             {%- endcase -%}
 
-            <li class="pdp-spec-item-{{ block.id }} pdp-spec-item" {{ block.shopify_attributes }}>
-              <div class="pdp-spec-title typography--body-regular">{{ block.settings.title }}</div>
-              {%- if field_value != blank -%}
-                <div class="pdp-spec-value typography--body-regular">{{ field_value }}</div>
-              {%- endif -%}
-            </li>
+            {%- if block.settings.title != blank and field_value != blank -%}
+              <li class="pdp-spec-item-{{ block.id }} pdp-spec-item" {{ block.shopify_attributes }}>
+                <div class="pdp-spec-title typography--body-regular">{{ block.settings.title }}</div>
+                {%- if field_value != blank -%}
+                  {% if block.settings.handle == "weight" %}
+                    <div class="pdp-spec-value typography--body-regular" data-variant-weight>
+                      {{ product.selected_or_first_available_variant.weight }} g
+                    </div>
+                  {% else %}
+                    <div class="pdp-spec-value typography--body-regular">
+                      {{ field_value }}
+                    </div>
+                  {% endif %}
+                {%- endif -%}
+              </li>
+            {% endif %}
+          
           {%- endfor -%}
         </ul>
-      </details>
-    </details-utils>
   </div>
 {% endif %}
-
 {% style %}
   @media screen and (min-width: 992px) {
     .pdp-specs-{{ section.id }}{
@@ -69,12 +81,6 @@
     "templates": ["product"]
   },
   "settings": [
-    {
-      "type": "text",
-      "id": "section_anchor_id",
-      "label": "Section Anchor ID",
-      "default": "specs"
-    },
     {
       "type": "text",
       "id": "title",
@@ -137,7 +143,7 @@
           "label": "Title"
         },
         {
-          "type": "radio",
+          "type": "select",
           "id": "object",
           "label": "Object",
           "options": [
