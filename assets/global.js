@@ -2227,6 +2227,15 @@ class ProductGallery extends HTMLElement {
 
     this.firstLoad = true;
     this._onThumbClick = null;
+    this.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+          event.stopPropagation();
+        }
+      },
+      { capture: true, passive: true }
+    );
   }
 
   connectedCallback() {
@@ -2400,8 +2409,73 @@ class ProductZoom extends ModalDialog {
   constructor() {
     super();
 
+    this.prevButton = this.querySelector(".product-zoom-prev");
+    this.nextButton = this.querySelector(".product-zoom-next");
+    this.mainContainer = this.querySelector(".dialog-modal-main");
+    this.wheelLocked = false;
+    this.touchStartX = 0;
+    this.touchStartY = 0;
+
     this.addEventListener("click", (event) => {
+      // arrows should not close the modal
+      if (event.target.closest(".product-zoom-arrow")) return;
       this.hide();
+    });
+
+    // Arrows
+    this.prevButton?.addEventListener("click", () => this.step(-1));
+    this.nextButton?.addEventListener("click", () => this.step(1));
+
+    // Trackpad / mouse horizontal scroll
+    this.mainContainer?.addEventListener(
+      "wheel",
+      (event) => {
+        // only react to horizontal gestures; vertical scroll keeps working as before
+        if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+        if (Math.abs(event.deltaX) < 4) return;
+
+        const dir = event.deltaX > 0 ? 1 : -1;
+
+        // if a zoomed image can still pan in that direction, let it pan
+        if (!this.atHorizontalEdge(dir)) return;
+
+        event.preventDefault();
+        if (this.wheelLocked) return;
+        this.wheelLocked = true;
+        this.step(dir);
+        setTimeout(() => (this.wheelLocked = false), 450);
+      },
+      { passive: false }
+    );
+
+    // Touch swipe
+    this.mainContainer?.addEventListener(
+      "touchstart",
+      (event) => {
+        this.touchStartX = event.changedTouches[0].clientX;
+        this.touchStartY = event.changedTouches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    this.mainContainer?.addEventListener(
+      "touchend",
+      (event) => {
+        const dx = event.changedTouches[0].clientX - this.touchStartX;
+        const dy = event.changedTouches[0].clientY - this.touchStartY;
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+
+        const dir = dx < 0 ? 1 : -1;
+        if (!this.atHorizontalEdge(dir)) return;
+        this.step(dir);
+      },
+      { passive: true }
+    );
+
+    // Keyboard arrows
+    this.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") this.step(1);
+      if (event.key === "ArrowLeft") this.step(-1);
     });
   }
 
@@ -2414,17 +2488,43 @@ class ProductZoom extends ModalDialog {
     this.showActiveMedia();
   }
 
-  showActiveMedia() {
-    this.querySelectorAll(
-      `[data-media-id]:not([data-media-id="${this.openedBy.getAttribute(
-        "data-media-id"
-      )}"])`
-    ).forEach((element) => {
-      element.classList.remove("active");
-    });
-    const activeMedia = this.querySelector(
-      `[data-media-id="${this.openedBy.getAttribute("data-media-id")}"]`
+  getMediaItems() {
+    return Array.from(
+      this.querySelectorAll(".product-zoom-media-list [data-media-id]")
     );
+  }
+
+  atHorizontalEdge(dir) {
+    const c = this.mainContainer;
+    if (!c || c.scrollWidth <= c.clientWidth + 1) return true;
+    return dir > 0
+      ? c.scrollLeft + c.clientWidth >= c.scrollWidth - 1
+      : c.scrollLeft <= 1;
+  }
+
+  step(dir) {
+    const items = this.getMediaItems();
+    const current = items.findIndex((el) => el.classList.contains("active"));
+    const next = current + dir;
+    if (current < 0 || next < 0 || next >= items.length) return;
+    this.showActiveMedia(items[next].getAttribute("data-media-id"));
+  }
+
+  updateArrows() {
+    const items = this.getMediaItems();
+    const current = items.findIndex((el) => el.classList.contains("active"));
+    if (this.prevButton) this.prevButton.disabled = current <= 0;
+    if (this.nextButton)
+      this.nextButton.disabled = current < 0 || current >= items.length - 1;
+  }
+
+  showActiveMedia(mediaId = this.openedBy.getAttribute("data-media-id")) {
+    this.querySelectorAll(`[data-media-id]:not([data-media-id="${mediaId}"])`).forEach(
+      (element) => {
+        element.classList.remove("active");
+      }
+    );
+    const activeMedia = this.querySelector(`[data-media-id="${mediaId}"]`);
 
     activeMedia.classList.add("active");
     activeMedia.scrollIntoView();
@@ -2440,6 +2540,8 @@ class ProductZoom extends ModalDialog {
       container.scrollTop =
         (activeMedia.clientHeight - container.clientHeight) / 2;
     }
+
+    this.updateArrows();
   }
 }
 customElements.define("product-zoom", ProductZoom);

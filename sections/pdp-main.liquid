@@ -197,6 +197,22 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </button>
 
+      <button
+        type="button"
+        class="product-zoom-arrow product-zoom-prev"
+        aria-label="Previous image"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <button
+        type="button"
+        class="product-zoom-arrow product-zoom-next"
+        aria-label="Next image"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
+
       <div class="dialog-modal-main cursor--zoom-out">
         <div class="product-zoom-media-list">
           {%- for product_image in product.images -%}

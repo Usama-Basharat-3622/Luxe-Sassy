@@ -114,7 +114,7 @@
 }
 
 .cart-drawer-item-title{
-  line-height: normal;
+  line-height: 1.2;
 }
 .cart-drawer-item-option-list, .cart-drawer-item-price, .cart-drawer-item-quantity-wrapper{
   margin-top: .5rem;
