@@ -7,7 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "layout": "theme",
   "sections": {
@@ -16,13 +15,19 @@
       "name": "Text Container",
       "settings": {
         "bg_color": "#ffffff",
-        "text_color": "#201F1E",
+        "text_color": "#201f1e",
         "show_border_top": false,
         "show_border_bottom": false,
-        "title": "Shipping & Returns",
+        "title": "Shipping Policy",
+        "title_size_desktop": 32,
+        "title_size_mobile": 32,
+        "title_color": "",
         "title_paragraph_spacing": 20,
         "title_paragraph_spacing_mob": 20,
-        "paragraph": "",
+        "paragraph": "<p>Luxe Sassy will ship your order as it becomes available and after payment has been received. Generally, an order will ship the same day if ordered by 2:00PM (Central Time), or by the next 1-2 business day if your order is received after this time and for orders received on Saturday, Sunday or any major holiday. Luxe Sassy cannot guarantee when an order will arrive. Any delivery dates or times shown as part of the checkout process are estimates only and are not guaranteed. We encourage you to order in a timely fashion to avoid delays caused by shipping or product availability. There may be times when an item you have ordered is out-of-stock or cannot be immediately shipped, which will delay fulfilling your order. Delivery of these products varies and depends on individual production timelines. Luxe Sassy will keep you informed of any products that you have ordered that are out-of-stock or unavailable for immediate shipment and provide an estimate of these delivery timeframes. Luxe Sassy will determine its ability to ship internationally on a case-by-case basis. You agree to pay any applicable shipping and handling charges shown at the time you make a purchase. We reserve the right to increase, decrease, add or eliminate shipping and handling charges from time to time; however, we will provide notice of any applicable changes before you make any purchase. Unless we expressly state otherwise, risk of loss or damage to an item passes to you upon delivery of the item to your specified delivery location.</p>",
+        "paragraph_size_desktop": 16,
+        "paragraph_size_mobile": 16,
+        "paragraph_color": "",
         "cta_text": "",
         "cta_link": "",
         "content_width": 700,
