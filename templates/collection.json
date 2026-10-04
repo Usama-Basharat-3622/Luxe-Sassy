@@ -18,7 +18,7 @@
     "clp-main": {
       "type": "clp-main",
       "settings": {
-        "product_per_page": 24
+        "product_per_page": 48
       }
     }
   },
