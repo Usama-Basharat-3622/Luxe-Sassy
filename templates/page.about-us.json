@@ -133,15 +133,17 @@
     },
     "global_image_video_banner_VmzApA": {
       "type": "global-image-video-banner",
+      "disabled": true,
       "name": "Editorial 100",
       "settings": {
         "show_border_top": false,
         "show_border_bottom": false,
-        "text_color": "#201F1E",
+        "text_color": "#201f1e",
         "media_type": "image",
         "image": "shopify://shop_images/luxesassy-about-us.png",
         "image_alter": "shopify://shop_images/luxesassy-about-us1.png",
         "overlay_opacity": 0,
+        "overlay_opacity_mobile": 0,
         "subheading": "",
         "heading": "",
         "heading_size_desktop": 32,
