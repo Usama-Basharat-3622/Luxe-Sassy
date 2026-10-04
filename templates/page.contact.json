@@ -37,7 +37,7 @@
         "show_border_top": false,
         "show_border_bottom": false,
         "title": "Contact Us",
-        "paragraph": "<p><strong>Trade name:</strong> Luxe Sassy</p><p><strong>Phone number:</strong> <a href=\"tel:+1 (773) 289-7433\" title=\"tel:+1 (773) 289-7433\">+1 (773) 289-7433</a></p><p><strong>Email:</strong> <a href=\"mailto:info@luxesassy.com\" title=\"mailto:info@luxesassy.com\">info@luxesassy.com</a></p><p><strong>Physical address:</strong> 1627 S Michigan Ave, Villa Park IL 60181, United States</p>",
+        "paragraph": "<p><strong>Email:</strong> <a href=\"mailto:info@luxesassy.com\" title=\"mailto:info@luxesassy.com\">info@luxesassy.com</a></p>",
         "content_width": 432,
         "text_alignment": "start",
         "text_alignment_alter": "center",
