@@ -4,11 +4,11 @@
   role="status"
   {{ block.shopify_attributes }}
 >
-  <div class="pryce typography--heading-2">
+  <div class="price typography--body-regular">
     {%- if product.selected_or_first_available_variant.price
         < product.selected_or_first_available_variant.compare_at_price
     -%}
-      <div class="pryce-item--compare pryce-item">
+      <div class="price-item--compare price-item">
         <span class="visually-hidden visually-hidden--inline">
           {{- 'product.price.compare_at_price' | t -}}
         </span>
@@ -17,7 +17,7 @@
         </s>
       </div>
 
-      <div class="pryce-item--sale pryce-item">
+      <div class="price-item--sale price-item">
         <span class="visually-hidden visually-hidden--inline">{{ 'product.price.sale_price' | t }}</span>
         <span>
           {{- product.selected_or_first_available_variant.price | money -}}
@@ -25,7 +25,7 @@
       </div>
 
     {%- else -%}
-      <div class="pryce-item--regular pryce-item">
+      <div class="price-item--regular price-item">
         <span class="visually-hidden visually-hidden--inline">
           {{- 'product.price.regular_price' | t -}}
         </span>

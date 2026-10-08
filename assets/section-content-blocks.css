@@ -3,7 +3,7 @@
     .header-content {
         display: flex;
         gap: 1.6rem;
-        margin-bottom: 4.8rem;
+        margin-bottom: 3.4rem;
     }
     .content-blocks-carousel-title {
         width: 100%;
@@ -54,21 +54,6 @@
   }
   .content-block-wrapper .content-wrapper button{
     max-width: fit-content;
-  }
-  .content-block-wrapper .content-block-excerpt {
-    display: -webkit-box;
-    line-clamp: 4;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-  
-  .content-block-wrapper .content-block-excerpt.expanded {
-    line-clamp: unset;
-    -webkit-line-clamp: unset;
-    overflow: visible;
   }
   
   @media screen and (min-width: 768px) {

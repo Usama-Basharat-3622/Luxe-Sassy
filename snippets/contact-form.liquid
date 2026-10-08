@@ -1,0 +1,56 @@
+{% form 'contact', id: 'ContactForm', class: contact_form_class %}
+
+{{ form.errors | default_errors }}
+
+<div class="filed-50-50">
+    <div class="field field--input typography--body-regular">
+        <div class="field-line">
+            <input type="text" name="contact[first_name]" id="first-name" class="typography--body-regular" placeholder="First Name" required />
+            <label For="first-name">First name</label>
+        </div>
+    </div>
+
+    <div class="field field--input typography--body-regular">
+        <div class="field-line">
+            <input type="text" name="contact[last_name]" id="last-name" class="typography--body-regular" placeholder="Last Name" required />
+            <label For="last-name">Last name</label>
+        </div>
+    </div>
+</div>
+
+  <div class="field field--input typography--body-regular">
+    <div class="field-line">
+        <input type="email" name="contact[email]" id="email" class="typography--body-regular" placeholder="Email" required />
+        <label For="email">Email</label>
+    </div>
+  </div>
+
+  <div class="field field--input typography--body-regular">
+    <div class="field-line">
+        <input type="tel" inputmode="numeric" oninput="replace(...)" name="contact[phone]" id="phone" class="typography--body-regular" placeholder="Phone" pattern="[0-9\-]*" />
+        <label For="phone">Phone</label>
+    </div>
+  </div>
+
+  <div class="field field--textarea typography--body-regular">
+    <div class="field-line">
+        <textarea name="contact[body]" id="body" class="typography--body-regular" placeholder="Message"></textarea>
+        <label For="body">Message</label>
+    </div>
+  </div>
+
+  <button class="contact-form__button button button--primary typography--body-regular" type="submit">Submit</button>
+  {%- if form.posted_successfully? -%}
+    <style>
+        button.contact-form__button {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+    <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+        {{- 'icon-successs.svg' | inline_asset_content -}}
+        Thanks for contacting us. We'll get back to you ASAP.
+    </h2>
+  {%- endif -%}
+{% endform %}
