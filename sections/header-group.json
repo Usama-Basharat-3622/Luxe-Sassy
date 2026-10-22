@@ -16,13 +16,13 @@
       "blocks": {
         "text_kGnhET": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "Free Shipping on Orders Above $150"
           }
         },
         "text_AWyT6j": {
           "type": "text",
-          "disabled": true,
           "settings": {
             "text": "All rights reserved."
           }
