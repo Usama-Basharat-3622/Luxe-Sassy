@@ -18,7 +18,17 @@
                 aria-selected="false"
               >
                 <span data-predictive-search-search-for-text>
-                  {{- 'search.search_for' | t: terms: predictive_search.terms -}}
+                  {% liquid
+      assign total_results = predictive_search.resources.products.size
+      if total_results == 0
+        echo 'search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'search.results_with_count' | t: count: total_results | append: ': '
+        if predictive_search.resources.products.size > 0
+          echo 'search.results_products_with_count' | t: count: predictive_search.resources.products.size
+        endif
+      endif
+    %}
                 </span>
               </button>
             </div>
@@ -52,7 +62,17 @@
             aria-selected="false"
           >
             <span data-predictive-search-search-for-text>
-              {{- 'search.search_for' | t: terms: predictive_search.terms -}}
+              {% liquid
+      assign total_results = predictive_search.resources.products.size
+      if total_results == 0
+        echo 'search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'search.results_with_count' | t: count: total_results | append: ': '
+        if predictive_search.resources.products.size > 0
+          echo 'search.results_products_with_count' | t: count: predictive_search.resources.products.size
+        endif
+      endif
+    %}
             </span>
           </button>
         </div>

@@ -19,7 +19,7 @@
       {%- assign product_list = section.settings.collection.products -%}
   {%- endcase -%}
 
-  <hp-product-carousel class="cart-product-carousel" role="region">
+  <product-carousel class="cart-product-carousel" role="region">
     <div class="swiper isolate">
       <div class="swiper-wrapper">
         {%- for product in product_list -%}
@@ -34,7 +34,7 @@
       </div>
       <div class="swiper-scrollbar"></div>
     </div>
-  </hp-product-carousel>
+  </product-carousel>
 </div>
 
 {% style %}

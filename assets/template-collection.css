@@ -77,7 +77,7 @@ ul.breadcrumbs a {
   #product-grid {
     row-gap: 4.4rem;
     column-gap: 1.9rem;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .product-grid-container {
     padding-bottom: 5rem;
@@ -209,17 +209,25 @@ ul.breadcrumbs a {
   overflow: auto;
 }
 .pagination-list > li:last-child {
-  margin-left: 2.5rem;
+  margin-left: 0.5rem;
+  height: 2rem;
 }
 .pagination-list > li:first-child {
-  margin-right: 2.5rem;
+  margin-right: 0.5rem;
+  height: 2rem;
 }
 .pagination-item--disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   pointer-events: none;
   cursor: default;
 }
 
 .pagination-wrapper .opacity-6 {
   color: rgb(var(--color-grey-dark));
+}
+
+@media screen and (max-width: 768px){
+  #product-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

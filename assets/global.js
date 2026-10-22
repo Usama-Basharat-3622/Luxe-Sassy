@@ -1666,14 +1666,13 @@ class PromoBarSlider extends HTMLElement {
         disableOnInteraction: false,
       },
       navigation: {
-        prevEl: this.swiper.querySelector(".swiper-nav-button--prev"),
-        nextEl: this.swiper.querySelector(".swiper-nav-button--next"),
-        disabledClass: "hidden",
+        prevEl: this.swiper.querySelector(".swiper-button-prev"),
+        nextEl: this.swiper.querySelector(".swiper-button-next"),
       },
     });
   }
 }
-customElements.define("promo-bar-slider", PromoBarSlider);
+customElements.define("announcement-bar-slider", PromoBarSlider);
 
 class HpColorCarousel extends HTMLElement {
   constructor() {
@@ -1819,7 +1818,7 @@ class HpProductCarousel extends HTMLElement {
     });
   }
 }
-customElements.define("hp-product-carousel", HpProductCarousel);
+customElements.define("product-carousel", HpProductCarousel);
 
 class HeaderMega extends HTMLElement {
   constructor() {
@@ -2214,86 +2213,9 @@ class HeaderDrawer extends HTMLElement {
 }
 customElements.define("header-drawer", HeaderDrawer);
 
+
+
 class ProductGallery extends HTMLElement {
-  constructor() {
-    super();
-    this.slider = this.querySelector(".swiper");
-    this.script = this.querySelector('[type="application/json"]');
-    this.variantDefaultData = this.getDefaultVariantData();
-  }
-
-  connectedCallback() {
-    this.init();
-  }
-
-  init() {
-    this.loadContent(this.variantDefaultData, this.slider);
-    this.initSlider();
-  }
-
-  refresh(variantData) {
-    if (this.sliderSwiper) {
-      this.destroySlider(this.sliderSwiper);
-    }
-    this.loadContent(variantData, this.slider);
-    this.initSlider();
-  }
-
-  getDefaultVariantData() {
-    return JSON.parse(this.script.textContent);
-  }
-
-  loadContent(variantData, slider) {
-    this.template = slider.querySelector("template");
-    const variantID = variantData.id;
-    const templateContent = this.template.content.cloneNode(true);
-    const target = slider.querySelector(".swiper-wrapper");
-    target.innerHTML = "";
-    target.append(templateContent);
-    Array.from(target.children).forEach(function (item) {
-      if (item.dataset.variantId != variantID) {
-        item.remove();
-      }
-    });
-  }
-
-  initSlider() {
-    this.sliderSwiper = new Swiper(this.slider, {
-      observer: true,
-      observeParents: true,
-      slidesPerView: "auto",
-      spaceBetween: 12,
-      loop: true,
-      speed: 400,
-      grabCursor: true,
-      mousewheel: {
-        forceToAxis: true,
-      },
-      focusableElements: ".focusDisableSwiper",
-      navigation: {
-        prevEl: this.slider.querySelector(".swiper-button-prev"),
-        nextEl: this.slider.querySelector(".swiper-button-next"),
-        disabledClass: "hidden",
-      },
-      keyboard: {
-        enabled: true,
-        onlyInViewport: true,
-        pageUpDown: true,
-      },
-      pagination: {
-        el: this.slider.querySelector(".swiper-pagination"),
-        type: "bullets",
-      },
-    });
-  }
-
-  destroySlider(swiper) {
-    swiper.destroy(true, true);
-  }
-}
-customElements.define("product-gallery", ProductGallery);
-
-class ProductZoomGallery extends ModalDialog {
   constructor() {
     super();
     this.slider = this.querySelector(".pdp-product-zoom-slider");
@@ -2302,65 +2224,60 @@ class ProductZoomGallery extends ModalDialog {
     this.thumbSliderTemplate = this.querySelector(".template--thumbSlider");
     this.script = this.querySelector('[type="application/json"]');
     this.variantDefaultData = this.getDefaultVariantData();
+
+    this.firstLoad = true;
+    this._onThumbClick = null;
+    this.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+          event.stopPropagation();
+        }
+      },
+      { capture: true, passive: true }
+    );
   }
 
   connectedCallback() {
     this.init();
   }
 
-  hide() {
-    super.hide();
-  }
-
-  show(opener) {
-    super.show(opener);
-    this.showActiveMedia();
-  }
-
-  showActiveMedia() {
-    const activeMediaIndex = this.openedBy.dataset.mediaIndex;
-    this.sliderSwiper.slideTo(activeMediaIndex, 0);
-  }
-
-  init() {
-    this.loadContent(
-      this.variantDefaultData,
-      this.thumbSlider,
-      this.thumbSliderTemplate
-    );
-    this.loadContent(this.variantDefaultData, this.slider, this.sliderTemplate);
-    this.initThumbSlider();
-    this.initSlider();
-  }
-
-  refresh(variantData) {
-    if (this.thumbSwiper) {
-      this.destroySlider(this.thumbSwiper);
-    }
-    if (this.sliderSwiper) {
-      this.destroySlider(this.sliderSwiper);
-    }
-    this.loadContent(variantData, this.thumbSlider, this.thumbSliderTemplate);
-    this.loadContent(variantData, this.slider, this.sliderTemplate);
-    this.initThumbSlider();
-    this.initSlider();
-  }
-
   getDefaultVariantData() {
     return JSON.parse(this.script.textContent);
   }
 
-  loadContent(variantData, slider, template) {
-    const variantID = variantData.id;
-    const templateContent = template.content.cloneNode(true);
-    const target = slider.querySelector(".swiper-wrapper");
-    target.innerHTML = "";
-    target.append(templateContent);
-    Array.from(target.children).forEach(function (item) {
-      if (item.dataset.variantId != variantID) {
-        item.remove();
-      }
-    });
+  init() {
+    this.renderGallery();
+    this.initThumbSlider();
+    this.initSlider();
+    this.firstLoad = false;
+
+    // set correct thumb active on first load
+    const firstMain = this.slider.querySelector(".swiper-slide");
+    if (firstMain) this.updateThumbActiveByMediaId(firstMain.dataset.mediaId);
+  }
+
+  refresh(variantData) {
+    this.renderGallery();
+    this.destroySlider(this.sliderSwiper);
+    this.detachThumbEvents();
+    this.destroySlider(this.thumbSwiper);
+
+    this.initThumbSlider();
+    this.initSlider();
+    this.goToVariantImage(variantData);
+  }
+
+  renderGallery() {
+    const mainTarget = this.slider.querySelector(".swiper-wrapper");
+    const thumbTarget = this.thumbSlider.querySelector(".swiper-wrapper");
+
+    mainTarget.innerHTML = "";
+    thumbTarget.innerHTML = "";
+
+    // load templates (backend/original order, always)
+    mainTarget.append(this.sliderTemplate.content.cloneNode(true));
+    thumbTarget.append(this.thumbSliderTemplate.content.cloneNode(true));
   }
 
   initThumbSlider() {
@@ -2368,53 +2285,197 @@ class ProductZoomGallery extends ModalDialog {
       observer: true,
       observeParents: true,
       slidesPerView: "auto",
-      spaceBetween: 0,
       freeMode: true,
       watchSlidesProgress: true,
+      mousewheel: {
+        enabled: true,
+        forceToAxis: false,   // allows natural horizontal trackpad swipe
+        releaseOnEdges: true,
+        sensitivity: 1,
+      },
+
+      simulateTouch: true,
+      grabCursor: true,
     });
+
+    // Click a thumb -> go to the corresponding MAIN slide by mediaId
+    this._onThumbClick = (e) => {
+      const slide = e.target.closest(".swiper-slide");
+      if (!slide) return;
+      const mediaId = slide.dataset.mediaId;
+      const mainIndex = this.getMainIndexByMediaId(mediaId);
+      if (mainIndex >= 0 && this.sliderSwiper) {
+        this.sliderSwiper.slideTo(mainIndex);
+        this.updateThumbActiveByMediaId(mediaId);
+      }
+    };
+    this.thumbSlider.addEventListener("click", this._onThumbClick);
+  }
+
+  detachThumbEvents() {
+    if (this._onThumbClick) {
+      this.thumbSlider.removeEventListener("click", this._onThumbClick);
+      this._onThumbClick = null;
+    }
   }
 
   initSlider() {
     this.sliderSwiper = new Swiper(this.slider, {
       observer: true,
       observeParents: true,
-      slidesPerView: 1,
+      slidesPerView: 1.32,
       spaceBetween: 12,
-      loop: true,
+      loop: false,
       speed: 400,
       grabCursor: true,
-      mousewheel: {
-        forceToAxis: true,
-      },
-      focusableElements: ".focusDisableSwiper",
       navigation: {
         prevEl: this.slider.querySelector(".swiper-button-prev"),
         nextEl: this.slider.querySelector(".swiper-button-next"),
         disabledClass: "hidden",
       },
-      keyboard: {
-        enabled: true,
-        onlyInViewport: true,
-        pageUpDown: true,
+      keyboard: { enabled: true, onlyInViewport: true, pageUpDown: true },
+      mousewheel: {
+        forceToAxis: true,   // allows horizontal swipe on trackpad/mousewheel
+        releaseOnEdges: true // natural feel, doesn’t lock
       },
-      thumbs: {
-        swiper: this.thumbSwiper,
-      },
+      simulateTouch: true,    // makes desktop swiping work with mouse drag
+      touchEventsTarget: "container",
+      breakpoints: {
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          pagination: {
+            el: this.slider.querySelector(".swiper-pagination"),
+            clickable: true,
+          },
+          navigation: false, // hide arrows
+        },
+        992: { // tablet/desktop
+          slidesPerView: 1.32,
+          spaceBetween: 12,
+          pagination: false, // no dots
+          navigation: {
+            prevEl: this.slider.querySelector(".swiper-button-prev"),
+            nextEl: this.slider.querySelector(".swiper-button-next"),
+            disabledClass: "hidden",
+          },
+        }
+      }
+    });
+
+    // When main slide changes (swipe/arrows), sync active thumb
+    this.sliderSwiper.on("slideChangeTransitionEnd", () => {
+      const active = this.slider.querySelector(".swiper-slide-active");
+      if (active?.dataset.mediaId) {
+        this.updateThumbActiveByMediaId(active.dataset.mediaId);
+      }
     });
   }
 
   destroySlider(swiper) {
-    swiper.destroy(true, true);
+    if (swiper) swiper.destroy(true, true);
+  }
+
+  getMainIndexByMediaId(mediaId) {
+    const slides = Array.from(this.slider.querySelectorAll(".swiper-slide"));
+    return slides.findIndex((s) => s.dataset.mediaId === mediaId);
+  }
+
+  updateThumbActiveByMediaId(mediaId) {
+    const thumbs = Array.from(this.thumbSlider.querySelectorAll(".swiper-slide"));
+    thumbs.forEach((t) => t.classList.remove("swiper-slide-thumb-active"));
+    const idx = thumbs.findIndex((t) => t.dataset.mediaId === mediaId);
+    if (idx >= 0) {
+      thumbs[idx].classList.add("swiper-slide-thumb-active");
+      if (this.thumbSwiper) this.thumbSwiper.slideTo(idx, 0); // bring into view
+    }
+  }
+
+  goToVariantImage(variantData) {
+    if (!variantData?.featured_image) return;
+    const mediaId = variantData.featured_image.id.toString();
+    const index = this.getMainIndexByMediaId(mediaId);
+    if (index >= 0 && this.sliderSwiper) {
+      this.sliderSwiper.slideTo(index, 0); // just go to it, keep order
+    }
+    this.updateThumbActiveByMediaId(mediaId);
   }
 }
-customElements.define("product-zoom-gallery", ProductZoomGallery);
+
+customElements.define("product-gallery", ProductGallery);
+
 
 class ProductZoom extends ModalDialog {
   constructor() {
     super();
 
+    this.prevButton = this.querySelector(".product-zoom-prev");
+    this.nextButton = this.querySelector(".product-zoom-next");
+    this.mainContainer = this.querySelector(".dialog-modal-main");
+    this.wheelLocked = false;
+    this.touchStartX = 0;
+    this.touchStartY = 0;
+
     this.addEventListener("click", (event) => {
+      // arrows should not close the modal
+      if (event.target.closest(".product-zoom-arrow")) return;
       this.hide();
+    });
+
+    // Arrows
+    this.prevButton?.addEventListener("click", () => this.step(-1));
+    this.nextButton?.addEventListener("click", () => this.step(1));
+
+    // Trackpad / mouse horizontal scroll
+    this.mainContainer?.addEventListener(
+      "wheel",
+      (event) => {
+        // only react to horizontal gestures; vertical scroll keeps working as before
+        if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+        if (Math.abs(event.deltaX) < 4) return;
+
+        const dir = event.deltaX > 0 ? 1 : -1;
+
+        // if a zoomed image can still pan in that direction, let it pan
+        if (!this.atHorizontalEdge(dir)) return;
+
+        event.preventDefault();
+        if (this.wheelLocked) return;
+        this.wheelLocked = true;
+        this.step(dir);
+        setTimeout(() => (this.wheelLocked = false), 450);
+      },
+      { passive: false }
+    );
+
+    // Touch swipe
+    this.mainContainer?.addEventListener(
+      "touchstart",
+      (event) => {
+        this.touchStartX = event.changedTouches[0].clientX;
+        this.touchStartY = event.changedTouches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    this.mainContainer?.addEventListener(
+      "touchend",
+      (event) => {
+        const dx = event.changedTouches[0].clientX - this.touchStartX;
+        const dy = event.changedTouches[0].clientY - this.touchStartY;
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+
+        const dir = dx < 0 ? 1 : -1;
+        if (!this.atHorizontalEdge(dir)) return;
+        this.step(dir);
+      },
+      { passive: true }
+    );
+
+    // Keyboard arrows
+    this.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") this.step(1);
+      if (event.key === "ArrowLeft") this.step(-1);
     });
   }
 
@@ -2427,17 +2488,43 @@ class ProductZoom extends ModalDialog {
     this.showActiveMedia();
   }
 
-  showActiveMedia() {
-    this.querySelectorAll(
-      `[data-media-id]:not([data-media-id="${this.openedBy.getAttribute(
-        "data-media-id"
-      )}"])`
-    ).forEach((element) => {
-      element.classList.remove("active");
-    });
-    const activeMedia = this.querySelector(
-      `[data-media-id="${this.openedBy.getAttribute("data-media-id")}"]`
+  getMediaItems() {
+    return Array.from(
+      this.querySelectorAll(".product-zoom-media-list [data-media-id]")
     );
+  }
+
+  atHorizontalEdge(dir) {
+    const c = this.mainContainer;
+    if (!c || c.scrollWidth <= c.clientWidth + 1) return true;
+    return dir > 0
+      ? c.scrollLeft + c.clientWidth >= c.scrollWidth - 1
+      : c.scrollLeft <= 1;
+  }
+
+  step(dir) {
+    const items = this.getMediaItems();
+    const current = items.findIndex((el) => el.classList.contains("active"));
+    const next = current + dir;
+    if (current < 0 || next < 0 || next >= items.length) return;
+    this.showActiveMedia(items[next].getAttribute("data-media-id"));
+  }
+
+  updateArrows() {
+    const items = this.getMediaItems();
+    const current = items.findIndex((el) => el.classList.contains("active"));
+    if (this.prevButton) this.prevButton.disabled = current <= 0;
+    if (this.nextButton)
+      this.nextButton.disabled = current < 0 || current >= items.length - 1;
+  }
+
+  showActiveMedia(mediaId = this.openedBy.getAttribute("data-media-id")) {
+    this.querySelectorAll(`[data-media-id]:not([data-media-id="${mediaId}"])`).forEach(
+      (element) => {
+        element.classList.remove("active");
+      }
+    );
+    const activeMedia = this.querySelector(`[data-media-id="${mediaId}"]`);
 
     activeMedia.classList.add("active");
     activeMedia.scrollIntoView();
@@ -2453,6 +2540,8 @@ class ProductZoom extends ModalDialog {
       container.scrollTop =
         (activeMedia.clientHeight - container.clientHeight) / 2;
     }
+
+    this.updateArrows();
   }
 }
 customElements.define("product-zoom", ProductZoom);
@@ -2600,11 +2689,12 @@ class ContentBlocks extends HTMLElement {
   }
   connectedCallback() {
     const blockCount = parseInt(this.dataset.blockCount || "4", 10);
+    const slidesMobile = parseFloat(this.dataset.slidesMobile) || "2.18";
     if (window.innerWidth < 1025) {
       this.slider.style.setProperty("--swiper-scrollbar-sides-offset", "16px");
     }
     this.swiper = new Swiper(this.slider, {
-      slidesPerView: 2.18,
+      slidesPerView: slidesMobile,
       spaceBetween: 12,
       freeMode: true,
       watchSlidesProgress: true,

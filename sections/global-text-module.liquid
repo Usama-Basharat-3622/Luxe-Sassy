@@ -37,9 +37,25 @@
   .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ol li, .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph ul li{
       padding-left: 0.2rem;
   }
+
+  {% if section.settings.title_color != blank %}
+    .gs-content-main-{{ section.id }} .gs-content .gs-content-title {
+        color: {{ section.settings.title_color }};
+    }
+  {% endif %}
+  {% if section.settings.paragraph_color != blank %}
+    .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph {
+        color: {{ section.settings.paragraph_color }};
+    }
+  {% endif %}
+
   @media screen and (min-width: 768px){
       .gs-content-main-{{ section.id }} .gs-content .gs-content-title {
           margin-bottom: {{ section.settings.title_paragraph_spacing }}px;
+          font-size: {{ section.settings.title_size_desktop }}px;
+      }
+      .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph {
+          font-size: {{ section.settings.paragraph_size_desktop }}px;
       }
       .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph p > strong{
           padding-top: .2rem;
@@ -56,6 +72,10 @@
       }
       .gs-content-main-{{ section.id }} .gs-content .gs-content-title {
           margin-bottom: {{ section.settings.title_paragraph_spacing_mob }}px;
+          font-size: {{ section.settings.title_size_mobile }}px;
+      }
+      .gs-content-main-{{ section.id }} .gs-content .gs-content-paragraph {
+          font-size: {{ section.settings.paragraph_size_mobile }}px;
       }
   }
 {% endstyle %}
@@ -88,7 +108,6 @@
             {%- endif -%}
           >
             {{- section.settings.cta_text -}}
-            {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
           </a>
         </div>
       {% endif %}
@@ -102,7 +121,7 @@
   "tag": "section",
   "class": "section--gs-content-details",
   "enabled_on": {
-    "templates": ["page"]
+    "templates": ["page", "index"]
   },
   "settings": [
     {
@@ -140,6 +159,31 @@
     },
     {
       "type": "range",
+      "id": "title_size_desktop",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size (Desktop)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color"
+    },
+    {
+      "type": "range",
       "id": "title_paragraph_spacing",
       "min": 20,
       "max": 100,
@@ -165,6 +209,31 @@
       "id": "paragraph",
       "label": "Paragraph",
       "info": "Use CMD+U or CTRL+U to underline"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_desktop",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Paragraph color"
     },
     {
       "type": "text",

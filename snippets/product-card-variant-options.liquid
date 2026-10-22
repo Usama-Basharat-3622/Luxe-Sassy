@@ -40,18 +40,7 @@
     {%- endcapture -%}
 
       <li class="product-option-value">
-        {%
-          render 'swatch-input',
-          id: input_id,
-          name: input_name,
-          value: value | escape,
-          swatch: value.swatch,
-          product_form_id: product_form_id,
-          checked: value.selected,
-          visually_disabled: option_disabled,
-          help_text: help_text,
-          additional_props: input_dataset
-        %}
+        {% render 'swatch-input', id: input_id, name: input_name, value: value, swatch: value.swatch, product_form_id: product_form_id, checked: value.selected, visually_disabled: option_disabled, help_text: help_text, additional_props: input_dataset %}
       </li>
     {%- elsif picker_type == 'button' -%}
       <li class="product-option-value">
@@ -77,3 +66,27 @@
     {%- endif -%}
   {%- endfor -%}
 </ul>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%
+              render 'swatch-input',
+              id: input_id,
+              name: input_name,
+              value: value | escape,
+              swatch: value.swatch,
+              product_form_id: product_form_id,
+              checked: value.selected,
+              visually_disabled: option_disabled,
+              help_text: help_text,
+              additional_props: input_dataset
+            %}
+  to: "{% render 'swatch-input', id: input_id, name: input_name, value: value, swatch:
+    value.swatch, product_form_id: product_form_id, checked: value.selected, visually_disabled:
+    option_disabled, help_text: help_text, additional_props: input_dataset %}"
+  position: 1167..1412
+{% endcomment %}

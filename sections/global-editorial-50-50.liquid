@@ -134,7 +134,6 @@
           {%- endif -%}
         >
           {{- section.settings.cta_text -}}
-          {{ 'icon-arrow-full_upright.svg' | inline_asset_content }}
         </a>
       {%- endif -%}
     </div>
@@ -164,6 +163,17 @@
     color: {{ section.settings.text_color }}
   }
 
+  {% if section.settings.title_color != blank %}
+    .editorial-50-50-{{ section.id }} .banner-title{
+      color: {{ section.settings.title_color }};
+    }
+  {% endif %}
+  {% if section.settings.paragraph_color != blank %}
+    .editorial-50-50-{{ section.id }} .banner-paragraph{
+      color: {{ section.settings.paragraph_color }};
+    }
+  {% endif %}
+
   @media screen and (min-width: 992px) {
     .editorial-50-50-{{ section.id }}{
       padding-top: {{ section.settings.padding_top }}px;
@@ -178,6 +188,12 @@
       align-content: {{ section.settings.text_placement_vert }};
       justify-items: {{ section.settings.text_alignment }};
       text-align: {{ section.settings.text_alignment }};
+    }
+    .editorial-50-50-{{ section.id }} .banner-title{
+      font-size: {{ section.settings.title_size_desktop }}px;
+    }
+    .editorial-50-50-{{ section.id }} .banner-paragraph{
+      font-size: {{ section.settings.paragraph_size_desktop }}px;
     }
   }
 
@@ -198,6 +214,12 @@
     .editorial-50-50-{{ section.id }} .banner-content > * {
       max-width: 100%;
     }
+    .editorial-50-50-{{ section.id }} .banner-title{
+      font-size: {{ section.settings.title_size_mobile }}px;
+    }
+    .editorial-50-50-{{ section.id }} .banner-paragraph{
+      font-size: {{ section.settings.paragraph_size_mobile }}px;
+    }
   }
 {% endstyle %}
 
@@ -207,7 +229,7 @@
   "tag": "section",
   "class": "section--editorial-50-50",
   "enabled_on": {
-    "templates": ["page"]
+    "templates": ["page", "index"]
   },
   "settings": [
     {
@@ -314,22 +336,6 @@
       "type": "richtext",
       "id": "paragraph",
       "label": "Paragraph"
-    },
-    {
-      "type": "select",
-      "id": "paragraph_size",
-      "label": "Paragraph Size",
-      "options": [
-        {
-          "value": "regular",
-          "label": "Regular"
-        },
-        {
-          "value": "small",
-          "label": "Small"
-        }
-      ],
-      "default": "regular"
     },
     {
       "type": "text",
@@ -462,6 +468,64 @@
         }
       ],
       "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Title Style"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size desktop",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size mobile",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color"
+    },
+    {
+      "type": "header",
+      "content": "Paragraph Style"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_desktop",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size desktop",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Paragraph size mobile",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Paragraph color"
     },
     {
       "type": "header",

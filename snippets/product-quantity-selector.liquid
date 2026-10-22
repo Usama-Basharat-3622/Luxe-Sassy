@@ -7,9 +7,9 @@
   {% # theme-check-disable %}
   {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
   {% # theme-check-enable %}
-  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
+  <label class="quantity__label form__label typography--heading-2" for="Quantity-{{ section.id }}">
     {{ 'product.quantity.label' | t }}
-    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
+    <span class="quantity__rules-cart typography--body-regular{% if cart_qty == 0 %} hidden{% endif %}">
       {%- render 'loading-spinner' -%}
       <span
         >(
@@ -19,7 +19,7 @@
     </span>
   </label>
 
-  <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+  <quantity-input class="quantity quantity-picker quantity-picker-pdp" data-url="{{ product.url }}" data-section="{{ section.id }}">
     <button class="quantity__button" name="minus" type="button">
       <span class="visually-hidden">
         {{- 'product.quantity.decrease' | t: product: product.title | escape -}}
@@ -42,7 +42,7 @@
       {% endif %}
       step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
       value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-      form="{{ product_form_id }}"
+      form="product-form-{{ section.id }}"
     >
     <button class="quantity__button" name="plus" type="button">
       <span class="visually-hidden">

@@ -1,0 +1,445 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+@media screen and (max-width: 768px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+}
+{%- endstyle -%}
+<div class="page-width">
+<div class="customer register section-{{ section.id }}-padding">
+
+    <div class="account-nav typography--body-regular">
+      <div
+        id="login"
+        class="customer-login"
+        tabindex="-1"
+      >
+        <a
+          href="{{ routes.account_login_url }}"
+          class="link button button--tertiary {% if request.path == routes.account_login_url %}active{% endif %}"
+          aria-label="{{ 'customer.login_page.title' | t }}"
+        >
+          {{ 'customer.login_page.title' | t }}
+        </a>
+      </div>
+      <div
+        id="Register"
+        class="customer-create-account"
+        tabindex="-1"
+      >
+        <a
+          href="{{ routes.account_register_url }}"
+          class="link button button--tertiary {% if request.path == routes.account_register_url %}active{% endif %}"
+          aria-label="{{ 'customer.register.title' | t }}"
+        >
+          {{ 'customer.register.title' | t }}
+        </a>
+      </div>
+    </div>
+
+  {%- form 'create_customer', return_to: routes.account_url -%}
+    <div class="fields-columns-wrapper">
+        <div class="field field--input typography--body-regular">
+          <div class="field-line">
+            <input
+              type="text"
+              name="customer[first_name]"
+              id="RegisterForm-FirstName"
+              {% if form.first_name %}
+                value="{{ form.first_name }}"
+              {% endif %}
+              autocomplete="given-name"
+              placeholder="{{ 'customer.register.first_name' | t }}"
+              required
+            >
+            <div class="form-error-message" id="email-error" tabindex="-1" autofocus role="alert">
+              <small class="input-error typography--body-small" >
+                {{ 'warning-icon.svg' | inline_asset_content }}
+                <span>{{ 'customer.register.first_name_error' | t }}</span>
+              </small>
+            </div>
+            <label for="RegisterForm-FirstName">
+              {{ 'customer.register.first_name' | t }}
+            </label>
+          </div>
+        </div>
+
+        <div class="field field--input typography--body-regular">
+          <div class="field-line">
+            <input
+              type="text"
+              name="customer[last_name]"
+              id="RegisterForm-LastName"
+              {% if form.last_name %}
+                value="{{ form.last_name }}"
+              {% endif %}
+              autocomplete="family-name"
+              placeholder="{{ 'customer.register.last_name' | t }}"
+              required
+            >
+            <div class="form-error-message" id="email-error" tabindex="-1" autofocus role="alert">
+              <small class="input-error typography--body-small">
+                {{ 'warning-icon.svg' | inline_asset_content }}
+                <span>{{ 'customer.register.last_name_error' | t }}</span>
+              </small>
+            </div>
+            <label for="RegisterForm-LastName">
+              {{ 'customer.register.last_name' | t }}
+            </label>
+          </div>
+        </div>
+    </div>
+    <div class="field field--input typography--body-regular">
+      <div class="field-line">
+        <input
+          type="email"
+          name="customer[email]"
+          id="RegisterForm-email"
+          {% if form.email %}
+            value="{{ form.email }}"
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+          aria-required="true"
+          {% if form.errors contains 'email' %}
+            aria-invalid="true"
+            aria-describedby="RegisterForm-email-error"
+          {% endif %}
+          placeholder="{{ 'customer.register.email' | t }}"
+          required
+          pattern="^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$"
+          title="{{ 'customer.register.error_messages.invalid_emailpattern' | t }}"
+        >
+        <div class="form-error-message" id="email-error" tabindex="-1" autofocus role="alert">
+          <small class="input-error typography--body-small">
+            {{ 'warning-icon.svg' | inline_asset_content }}
+            <span>Invalid Email Address</span>
+          </small>
+        </div>
+        <label for="RegisterForm-email">
+          {{ 'customer.register.email' | t }}
+        </label>
+      </div>
+    </div>
+
+    <div class="field field--input typography--body-regular">
+      <div class="field-line">
+        <input
+          type="password"
+          name="customer[password]"
+          id="RegisterForm-password"
+          aria-required="true"
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="RegisterForm-password-error"
+          {% endif %}
+          placeholder="{{ 'customer.register.password' | t }}"
+          minlength="5"
+          required
+        >
+        <label for="RegisterForm-password">
+          {{ 'customer.register.password' | t }}
+        </label>
+      </div>
+    </div>
+    <div class="field field--input typography--body-regular">
+      <div class="field-line">
+        <input
+          type="password"
+          name="customer[password_confirmation]"
+          id="RegisterForm-password_confirmation"
+          aria-required="true"
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="RegisterForm-password-error"
+          {% endif %}
+          placeholder= "{{ 'customer.register.confirm_password' | t }}"
+          required
+        >
+        <div class="form-error-message" id="password-match-error" tabindex="-1" autofocus role="alert">
+          <small class="input-error typography--body-small">
+            {{ 'warning-icon.svg' | inline_asset_content }}
+            <span>{{ 'customer.register.password_match_error' | t }}</span>
+          </small>
+        </div>
+        <div class="form-error-message" id="password-empty-error" tabindex="-1" autofocus role="alert">
+          <small class="input-error typography--body-small">
+            {{ 'warning-icon.svg' | inline_asset_content }}
+            <span>{{ 'customer.register.password_empty_error' | t }}</span>
+          </small>
+        </div>
+        <label for="RegisterForm-password_confirmation">
+          {{ 'customer.register.confirm_password' | t }}
+        </label>
+      </div>
+    </div>
+
+    <div class="field field--checkbox typography--body-regular">
+      <input
+        type="checkbox"
+        name="customer[accepts_marketing]"
+        id="acceptsMarketing"
+        aria-describedby="marketing-description"
+        class="visually-hidden-checkbox"
+      >
+      <label for="acceptsMarketing" class="">
+        <span class="checkbox-icon">
+          <svg viewBox="0 0 12 10" height="10px" width="12px" aria-hidden="true">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg>
+        </span>
+        <span class="light typography--body-small" id="marketing-description">
+          {{ 'customer.register.accepts_marketing' | t }}
+        </span>
+      </label>
+    </div>
+    
+    {%- if form.errors -%}
+          <div class="form-error-message" tabindex="-1" autofocus role="alert">
+            <span>
+              {{ 'warning-icon.svg' | inline_asset_content }}
+            </span>
+            <h3>{{ 'templates.contact.form.error_heading' | t }}</h3>
+          </div>
+        <ul class="form-error-message" role="alert">
+          {%- for field in form.errors -%}
+            <li>
+              {%- if field == 'form' -%}
+                {{ form.errors.messages[field] }}
+              {%- else -%}
+                <a href="#RegisterForm-{{ field }}" class="link--underline">
+                  {{ form.errors.translated_fields[field] | capitalize }}
+                  {{ form.errors.messages[field] }}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+    {%- endif -%}
+
+    <div class="field submit-button-wrapper">
+        <button class="button button--primary typography--body-regular" is="custom-button" aria-label="{{ 'customer.register.submit' | t }}"> {{ 'customer.register.submit' | t }} </button>
+    </div>
+
+    <div class="privacy-content light typography--body-small">
+      {%- assign privacy_policy_link = "customer.register.privacy_policy_link" | t -%}
+      {{ 'customer.register.privacy_html' | t: link: privacy_policy_link, class: 'link link--underline link--hover-color-change light typography--body-small' }}
+    </div>
+
+  {%- endform -%}
+</div>
+</div>
+<script>
+const rgxCtx = {
+  formEl: document.getElementById('create_customer'),
+  firstNameField: document.getElementById('RegisterForm-FirstName'),
+  lastNameField: document.getElementById('RegisterForm-LastName'),
+  emailField: document.getElementById('RegisterForm-email'),
+  passField: document.getElementById('RegisterForm-password'),
+  confirmPassField: document.getElementById('RegisterForm-password_confirmation'),
+  emailAlert: document.getElementById('email-error'),
+  passEmptyAlert: document.getElementById('password-empty-error'),
+  passMatchAlert: document.getElementById('password-match-error'),
+  submitTrigger: document.querySelector('#create_customer button')
+};
+console.log('Password field:', rgxCtx.passField);
+console.log('Confirm field:', rgxCtx.confirmPassField);
+console.log('Pass empty alert:', rgxCtx.passEmptyAlert);
+console.log('Pass match alert:', rgxCtx.passMatchAlert);
+
+
+const rgxValidators = {
+  emailCheck: (input) => {
+    const isValid = input.checkValidity();
+    if (!isValid) {
+      input.classList.add('invalid-input');
+      setTimeout(() => {
+        input.setCustomValidity('');
+        if (input.checkValidity()) input.classList.remove('invalid-input');
+      }, 500);
+    } else {
+      input.classList.remove('invalid-input');
+    }
+    return isValid;
+  },
+  passMatchCheck: () => {
+    const passValue = rgxCtx.passField.value;
+    const confirmValue = rgxCtx.confirmPassField.value;
+    const isBothEmpty = passValue === '' && confirmValue === '';
+    const isMatch = passValue === confirmValue && passValue !== '' && confirmValue !== '';
+    const isMinLength = passValue.length >= 5 || passValue === '';
+    let errorMessage = '';
+    if (passValue !== '' && confirmValue !== '') {
+      if (!isMatch && !isMinLength) {
+        errorMessage = `${window.formValidation.passwordsDoNotMatchAndMinLength}`;
+      } else if (!isMatch) {
+        errorMessage = `${window.formValidation.passwordsDoNotMatch}`;
+      } else if (!isMinLength) {
+        errorMessage = `${window.formValidation.passwordMinLength}`;
+      }
+      rgxCtx.passMatchAlert.querySelector('span').textContent = errorMessage;
+      rgxCtx.passMatchAlert.style.display = errorMessage ? 'block' : 'none';
+    } else {
+      rgxCtx.passMatchAlert.style.display = 'none';
+    }
+
+    if (!isMinLength) {
+      rgxCtx.passField.classList.add('invalid-input');
+    } else {
+      rgxCtx.passField.classList.remove('invalid-input');
+    }
+
+    if (!isMatch && passValue !== '' && confirmValue !== '') {
+      rgxCtx.confirmPassField.classList.add('invalid-input');
+    } else {
+      rgxCtx.confirmPassField.classList.remove('invalid-input');
+    }
+
+    if (isBothEmpty == false && isMinLength && rgxValidators.passEmptyCheck()) {
+      rgxCtx.passEmptyAlert.style.display = 'none';
+    }
+
+    return isBothEmpty || (isMatch && isMinLength);
+  },
+  nameCheck: () => {
+    const isFirstNameValid = rgxCtx.firstNameField.value.trim() !== '';
+    const isLastNameValid = rgxCtx.lastNameField.value.trim() !== '';
+
+    if (!isFirstNameValid) {
+      rgxCtx.firstNameField.classList.add('invalid-input');
+    } else {
+      rgxCtx.firstNameField.classList.remove('invalid-input');
+    }
+
+    if (!isLastNameValid) {
+      rgxCtx.lastNameField.classList.add('invalid-input');
+    } else {
+      rgxCtx.lastNameField.classList.remove('invalid-input');
+    }
+    return isFirstNameValid && isLastNameValid;
+  },
+  passEmptyCheck: () => {
+    const passValue = rgxCtx.passField.value;
+    const confirmValue = rgxCtx.confirmPassField.value;
+    const isEitherEmpty = passValue === '' || confirmValue === '';
+
+    if (isEitherEmpty) {
+      rgxCtx.passField.classList.toggle('invalid-input', passValue === '');
+      rgxCtx.confirmPassField.classList.toggle('invalid-input', confirmValue === '');
+      rgxCtx.passEmptyAlert.style.display = 'block';
+    } else {
+      rgxCtx.passEmptyAlert.style.display = 'none';
+    }
+
+    return !isEitherEmpty;
+  }
+};
+
+ if (rgxCtx.formEl && rgxCtx.submitTrigger) {
+  rgxCtx.submitTrigger.addEventListener('click', (e) => {
+    const isEmailValid = rgxValidators.emailCheck(rgxCtx.emailField);
+    const isPassValid = rgxValidators.passMatchCheck();
+    const isNamesValid = rgxValidators.nameCheck();
+     let isPassEmptyValid = true;
+     
+    if (isPassValid) {
+      isPassEmptyValid = rgxValidators.passEmptyCheck();
+      if (!isPassEmptyValid) {
+
+        rgxCtx.passEmptyAlert.style.display = 'block';
+      }
+    } else {
+      rgxCtx.passMatchAlert.style.display = 'block';
+      rgxCtx.passEmptyAlert.style.display = 'none'; 
+    }
+
+    if (!isEmailValid || !isPassValid || !rgxCtx.formEl.checkValidity()) {
+      e.preventDefault();
+    }
+  });
+
+  // rgxCtx.firstNameField?.addEventListener('input', () => rgxValidators.nameCheck());
+  rgxCtx.firstNameField?.addEventListener('change', () => rgxValidators.nameCheck());
+  // rgxCtx.lastNameField?.addEventListener('input', () => rgxValidators.nameCheck());
+  rgxCtx.lastNameField?.addEventListener('change', () => rgxValidators.nameCheck());
+  rgxCtx.emailField?.addEventListener('input', () => rgxValidators.emailCheck(rgxCtx.emailField));
+  rgxCtx.emailField?.addEventListener('change', () => rgxValidators.emailCheck(rgxCtx.emailField));
+  rgxCtx.confirmPassField?.addEventListener('input', rgxValidators.passMatchCheck);
+  rgxCtx.confirmPassField?.addEventListener('change', rgxValidators.passMatchCheck);
+  rgxCtx.passField?.addEventListener('input', rgxValidators.passMatchCheck);
+  rgxCtx.passField?.addEventListener('change', rgxValidators.passMatchCheck);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (rgxCtx.formEl) {
+    // rgxCtx.formEl.noValidate = true;
+  }
+});
+
+window.formValidation = {
+  passwordsDoNotMatchAndMinLength: `{{"customer.register.error_messages.passwordsDoNotMatchAndMinLength" | t }}`,
+  passwordsDoNotMatch: `{{"customer.register.error_messages.passwordsDoNotMatch" | t }}`,
+  passwordMinLength: `{{"customer.register.error_messages.passwordMinLength" | t }}`
+};
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-register.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

@@ -205,9 +205,6 @@ class FacetFiltersForm extends HTMLElement {
     }
 
     updateFilterCountAndClearAllBtn();
-    document.querySelectorAll('facet-view-more').forEach((element) => {
-      element.updateViewMore();
-    })
 
   }
 
@@ -497,54 +494,3 @@ function updateFilterCountAndClearAllBtn() {
     });
   }
 }
-
-
-
-
-class FacetViewMore extends HTMLElement {
-  constructor() {
-    super();
-  }
-
-  connectedCallback() {
-    const handleToggle = (event) => {
-      event.preventDefault();
-
-      this.previousElementSibling.querySelectorAll('li').forEach((li) => {
-        if (li.classList.contains('show-more-item')) {
-          li.classList.toggle('hidden');
-        }
-      });
-
-      this.classList.toggle('active');
-      this.innerText = this.classList.contains('active') ? 'View Less' : 'View More';
-      this.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest',
-      });
-    };
-
-    this.addEventListener('click', handleToggle);
-    this.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        handleToggle(event);
-      }
-    });
-
-    // Make the element focusable with keyboard
-    this.setAttribute('tabindex', '0');
-  }
-
-  updateViewMore() {
-    if (this.classList.contains('active')) {
-      this.previousElementSibling.querySelectorAll('li').forEach((li) => {
-        if (li.classList.contains('show-more-item')) {
-          li.classList.toggle('hidden');
-        }
-      });
-    }
-  }
-}
-
-customElements.define('facet-view-more', FacetViewMore);
