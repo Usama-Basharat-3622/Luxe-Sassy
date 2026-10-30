@@ -16,7 +16,8 @@
       "specs info"
       "content content"
       "recommend recommend"
-      "recent recent";
+      "recent recent"
+      "extra extra";
   }
 
   .pdp-product-gallery {
@@ -46,6 +47,10 @@
   .pdp-recently-viewed {
     grid-area: recent;
   }
+  .product-template-sections-wrapper > .shopify-section > *:not(.pdp-main):not(.pdp-product-gallery):not(.pdp-info):not(.pdp-nav):not(.pdp-desc):not(.pdp-measure):not(.pdp-specs):not(.pdp-content-block-list):not(.pdp-recommendations):not(.pdp-recently-viewed) {
+    grid-area: extra;
+    padding: 0px 20px;
+  }
 
   .pdp-info-inner {
     position: sticky;
@@ -54,6 +59,28 @@
     margin: auto;
     padding: 2rem 0 4rem;
   }
+}
+.product-template-sections-wrapper > .shopify-section > *:not(.pdp-main):not(.pdp-product-gallery):not(.pdp-info):not(.pdp-nav):not(.pdp-desc):not(.pdp-measure):not(.pdp-specs):not(.pdp-content-block-list):not(.pdp-recommendations):not(.pdp-recently-viewed) {
+    padding: 0px 1.6rem;
+}
+
+div#judgeme_product_reviews {
+    max-width: 100% !important;
+}
+p.jm-text.jm-review-widget-sidebar-header__title {
+    font-family: var(--font-family-heading-1);
+    font-weight: var(--font-weight-heading-1);
+    font-style: var(--font-style-heading-1);
+    font-size: var(--font-size-heading-1-desktop);
+    line-height: var(--line-height-heading-1-desktop);
+    letter-spacing: var(--letter-spacing-heading-1-desktop);
+}
+button.jm-button.jm-button--primary.jm-action-buttons__button {
+    height: 100%;
+    padding: 13px;
+}
+.jdgm-write-review-modal__stars .jdgm-star {
+    color: #000000;
 }
 
 @media only screen and (max-width: 991px) {
